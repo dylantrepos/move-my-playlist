@@ -1,32 +1,24 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
-import { AccessToken, AccessTokenResponse } from '../types/Login';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import UserProfil from '../components/UserProfil/UserProfil';
+import { RootState } from '../store/store';
+
 
 export default function Home() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const code = queryParams.get('code');
-  const [accessToken, setAccessToken] = useState<AccessToken>();
+  const userDeezerData = useSelector((state: RootState) => state.userDeezer);
+  const navigate = useNavigate();
   
   useEffect(() => {
-    (async () => {
-      const accessTokenURL = `${import.meta.env.VITE_DEEZER_AUTH_URL}&code=${code}`
-      const accessTokenRequest = await axios.get(accessTokenURL);
-      const accessTokenResponse: AccessTokenResponse = await accessTokenRequest.data;
-      const {access_token: accessToken, expires} = accessTokenResponse;
+    console.log('userDeezerData ! ', userDeezerData);
+    if (Object.keys(userDeezerData).length === 0) navigate('/');
+  }, [userDeezerData]);
 
-      setAccessToken({accessToken, expires});
-    })()
-  }, [code]);
-
-  return (<>
+  return (
+    <>
       <div>Home</div>
       <Link to={'/'}>go back to connection</Link>
-      <p><b>Key :</b> {code}</p>
-      <p><b>Token :</b> {accessToken?.accessToken ?? 'Loading...'}</p>
-      <p><b>Expires (in seconds) :</b> {accessToken?.expires ?? 'Loading...'}</p>
+      <UserProfil />
     </>
   )
 }
