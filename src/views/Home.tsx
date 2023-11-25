@@ -1,38 +1,32 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-
+import { AccessToken, AccessTokenResponse } from '../types/Login';
 
 export default function Home() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get('code');
+  const [accessToken, setAccessToken] = useState<AccessToken>();
   
   useEffect(() => {
     (async () => {
-      const accessTokenRequest = await axios.get(`${import.meta.env.VITE_DEEZER_AUTH_URL}&code=${code}`);
-      const regex = /access_token=([^&]+)&expires=([^&]+)/;
-      const matches = accessTokenRequest.data.match(regex);
+      const accessTokenURL = `${import.meta.env.VITE_DEEZER_AUTH_URL}&code=${code}`
+      const accessTokenRequest = await axios.get(accessTokenURL);
+      const accessTokenResponse: AccessTokenResponse = await accessTokenRequest.data;
+      const {access_token: accessToken, expires} = accessTokenResponse;
 
-      if (matches) {
-        const accessToken = matches[1];
-        const expires = matches[2];
-        console.log({accessToken, expires});
-      }
+      setAccessToken({accessToken, expires});
     })()
-  }, [code])
-
-  const connect = async () => {
-    window.open(`${import.meta.env.VITE_DEEZER_AUTH_URL}&code=${code}`, "_self");
-    
-  }
+  }, [code]);
 
   return (<>
       <div>Home</div>
       <Link to={'/'}>go back to connection</Link>
-      <h1>Key : {code}</h1>
-      <button onClick={connect}>Auth button</button>
+      <p><b>Key :</b> {code}</p>
+      <p><b>Token :</b> {accessToken?.accessToken ?? 'Loading...'}</p>
+      <p><b>Expires (in seconds) :</b> {accessToken?.expires ?? 'Loading...'}</p>
     </>
   )
 }
