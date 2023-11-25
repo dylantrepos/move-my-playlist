@@ -9,6 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_DEEZER_SECRET_KEY: string
   readonly VITE_DEEZER_REDIRECT_URL: string
   readonly VITE_DEEZER_URL: string
+  readonly VITE_DEEZER_AUTH_URL: string
 }
 
 interface ImportMeta {
