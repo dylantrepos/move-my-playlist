@@ -2,48 +2,59 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import { AccessToken, AccessTokenResponse } from '../types/Login';
+import { AccessToken } from '../types/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserDeezerData } from '../reducers/userDeezerReducer';
+import { setPlaylistDeezerData, setUserDeezerData, setUserTokenDeezerData } from '../reducers/userDeezerReducer';
 import { RootState } from '../store/store';
 import { useNavigate } from "react-router-dom";
+import { useGenerateAccessToken } from '../hooks/useGetAccessToken';
 
 export default function DeezerRedirection() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const code = queryParams.get('code');
-  const [accessToken, setAccessToken] = useState<AccessToken>();
+  const code = queryParams.get('code') ?? '';
   const userDeezerData = useSelector((state: RootState) => state.userDeezer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [accessToken, isLoading] = useGenerateAccessToken(code);
   
-  useEffect(() => {
-    (async () => {
-      const accessTokenURL = `${import.meta.env.VITE_DEEZER_AUTH_URL}&code=${code}`
-      const accessTokenRequest = await axios.get(accessTokenURL);
-      const accessTokenResponse: AccessTokenResponse = await accessTokenRequest.data;
-      const {access_token: accessToken, expires} = accessTokenResponse;
-      const checkUserDataRequest = await axios.get(`https://api.deezer.com/user/me?access_token=${accessToken}`);
-      const checkUserDataResponse = await checkUserDataRequest.data;
+  console.log('change ! ', isLoading);
 
-      // User added in store
-      if (checkUserDataResponse 
-          && !Object.keys(checkUserDataResponse).includes('error')) {
-        dispatch(setUserDeezerData(checkUserDataResponse));
+  useEffect(() => {
+    if (!isLoading) {
+      (async () => {
+          // Get Deezer user data
+          const checkUserDataRequest = await axios.get(`https://api.deezer.com/user/me?access_token=${accessToken.access_token}`);
+          const checkUserDataResponse = await checkUserDataRequest.data;
+          
+          // Get Deezer user playlists
+          const checkUserPlaylistsRequest = await axios.get(`https://api.deezer.com/user/me/playlists?access_token=${accessToken.access_token}`);
+          const checkUserPlaylistsResponse = await checkUserPlaylistsRequest.data;
   
-        setAccessToken({accessToken, expires});
-        console.log('checked ! ', userDeezerData);
-        setTimeout(() => navigate('/home'), 2000);
-      }
-    })()
-  }, [code]);
+          // User added in store
+          if (checkUserDataResponse 
+              && !Object.keys(checkUserDataResponse).includes('error')) {
+            dispatch(setUserTokenDeezerData(accessToken));
+            dispatch(setUserDeezerData(checkUserDataResponse));
+            dispatch(setPlaylistDeezerData(checkUserPlaylistsResponse.data));
+      
+            console.log('data user ! ', userDeezerData);
+            console.log('playlist ! ', checkUserPlaylistsResponse);
+            setTimeout(() => navigate('/home'), 500);
+          }
+        })()
+    }
+  }, [isLoading])
 
   return (<>
       <div>Redirection...</div>
       <Link to={'/'}>go back to connection</Link>
       <p><b>Key :</b> {code}</p>
-      <p><b>Token :</b> {accessToken?.accessToken ?? 'Loading...'}</p>
-      <p><b>Expires (in seconds) :</b> {accessToken?.expires ?? 'Loading...'}</p>
+      {
+        !isLoading 
+          ? <p><b>Key :</b> {JSON.stringify(accessToken)}</p> 
+          : ''
+      }
     </>
   )
 }
