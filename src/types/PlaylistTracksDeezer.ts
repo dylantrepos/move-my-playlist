@@ -2,6 +2,7 @@ export type PlaylistTracksDeezer = {
   checksum: string;
   data: TrackDeezer[];
   next?: string;
+  prev?: string;
   total: number;
 }
 

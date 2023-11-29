@@ -1,9 +1,5 @@
-import axios, { AxiosError } from "axios";
-import { DEEZER_API_BASE, DEEZER_PLAYLIST, DEEZER_TRACKS } from "../env";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
-import { AccessTokenResponse } from "../types/Login";
-import { RootState } from "../store/store";
 import { PlaylistTracksDeezer } from "../types/PlaylistTracksDeezer";
 
 const initialState: PlaylistTracksDeezer = {
@@ -12,59 +8,35 @@ const initialState: PlaylistTracksDeezer = {
   total: 0
 }
 
-export const useGetTracks = (playlistId?: string): [PlaylistTracksDeezer, boolean?, string?] => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [trackListData, setTrackListData] = useState<PlaylistTracksDeezer>(initialState);
-  const [error, setError] = useState<string | null>(null);
-  const userDeezerToken: AccessTokenResponse | undefined = useSelector((state: RootState) => state.userDeezer.token);
+export const useGetTracks = (url: string): [PlaylistTracksDeezer, boolean?, string?] => {
+  const [playlistTracks, setPlaylistTracks] = useState(initialState);
+  
+  const fetchData = async (url: string): Promise<void> => {
+    try {
+      const fetchPlaylistTracksRequest: AxiosResponse = await axios.get(url);
+      const playlistTracks: PlaylistTracksDeezer = fetchPlaylistTracksRequest.data;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (userDeezerToken?.access_token && playlistId !== '0') {
-          const deezerAuthURL = new URL(`${DEEZER_PLAYLIST}/${playlistId}${DEEZER_TRACKS}`, DEEZER_API_BASE);
-          deezerAuthURL.searchParams.append('access_token', userDeezerToken?.access_token);
-
-
-          const checkPlaylistsTracksRequest = await axios.get(deezerAuthURL.toString());
-          const checkUserPlaylistsResponse: PlaylistTracksDeezer = await checkPlaylistsTracksRequest.data;
-          setTrackListData(checkUserPlaylistsResponse);
-          console.log('checkUserPlaylistsResponse', checkUserPlaylistsResponse);
-
-          const fetchPlaylistTracks = async (url: string) => {
-            try {
-              const response = await axios.get<PlaylistTracksDeezer>(url);
-              const { data, next } = response.data;
-        
-              setTrackListData((prev) => ({
-                ...prev,
-                data: [...prev.data, ...data]
-              }));
-        
-              if (next) {
-                await fetchPlaylistTracks(next);
-              }
-            } catch (error) {
-              console.error('Error fetching playlist tracks:', error);
-            }
-          };
-          
-          if (checkUserPlaylistsResponse.next) {
-            fetchPlaylistTracks(checkUserPlaylistsResponse.next);
-          }
-
-          setIsLoading(false);
-        }
-      } catch (error: unknown) {
-        if (error instanceof AxiosError) {
-          setError(error.message);
-          setIsLoading(false);
-        }
+      if (playlistTracks.data) {
+        setPlaylistTracks((oldPlaylistTrack) => ({
+            ...oldPlaylistTrack,
+            ...playlistTracks,
+            data: [...oldPlaylistTrack.data, ...playlistTracks.data]
+        }))
+  
+        if (playlistTracks.next) await fetchData(playlistTracks.next);
       }
-    };
 
-    fetchData();
-  }, [playlistId, userDeezerToken]);
+    } catch (error) {
+      throw new Error('Error fetching data: ' + (error as AxiosError).message);
+    }
+  }
+  
+  useEffect(() => {
+    setPlaylistTracks(initialState);
+    const fetchAllPlaylistTracks = async () => await fetchData(url);
 
-  return [trackListData, isLoading, error ?? ''];
+    fetchAllPlaylistTracks();
+  }, [url]);
+
+  return [playlistTracks];
 }

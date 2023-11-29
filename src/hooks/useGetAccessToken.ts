@@ -34,7 +34,6 @@ export const useGenerateAccessToken = (code: string) => {
   for (const [key, value] of Object.entries(urlParams)) {
     if (value) deezerAuthURL.searchParams.append(key, value);
   }
-  console.log('ho');
   
 
   useEffect(() => {
@@ -55,7 +54,7 @@ export const useGenerateAccessToken = (code: string) => {
     };
 
     fetchData();
-  }, [code]);
+  }, []);
 
   return [token, isLoading, error];
 }

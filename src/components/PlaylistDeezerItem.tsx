@@ -24,7 +24,7 @@ export default function PlaylistDeezer() {
     <>
       <div>PlaylistDeezer</div>
       <select onChange={handleChange}>
-        <option value="" selected disabled hidden>Choose a playlist here</option>
+        <option defaultValue="" disabled>Choose here</option>
         {userDeezerPlaylist?.map((playlist) => (
           <option key={playlist.id} value={playlist.id}>
             {playlist.title}
