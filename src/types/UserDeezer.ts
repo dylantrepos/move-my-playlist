@@ -27,6 +27,11 @@ export type UserDeezer = {
   type: string
 }
 
+export type PlaylistsDeezer = {
+  data: PlaylistDeezer[];
+  total: number;
+}
+
 export type PlaylistDeezer = {
     id: string,
     title: string,

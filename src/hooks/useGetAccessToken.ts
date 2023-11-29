@@ -22,8 +22,6 @@ const URL_PARAMS: Record<string, string | null> = {
 
 export const useGenerateAccessToken = (code: string) => {
   const [token, setToken] = useState(initialToken);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const urlParams: Record<string, string | null> = {
     ...URL_PARAMS,
@@ -44,11 +42,9 @@ export const useGenerateAccessToken = (code: string) => {
 
         dispatch(setUserTokenDeezerData(tokenData));
         setToken(tokenData);
-        setIsLoading(false);
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
-          setError(error.message);
-          setIsLoading(false);
+          console.error(error.message);
         }
       }
     };
@@ -56,5 +52,5 @@ export const useGenerateAccessToken = (code: string) => {
     fetchData();
   }, []);
 
-  return [token, isLoading, error];
+  return [token];
 }

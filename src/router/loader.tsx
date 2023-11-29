@@ -17,29 +17,20 @@ const fetchUserDeezerData = async (tokenDeezerCookie: AccessTokenResponse) => {
 const fetchUserPlaylistDeezerData = async (tokenDeezerCookie: AccessTokenResponse) => {
   const userPlaylistsRequest = await axios.get(`https://api.deezer.com/user/me/playlists?access_token=${tokenDeezerCookie.access_token}`);
 
-  store.dispatch(setPlaylistDeezerData(userPlaylistsRequest.data));
+  store.dispatch(setPlaylistDeezerData(userPlaylistsRequest.data.data));
 }
 
 export const homeLoader = () => {
   const tokenDeezerCookie = getCookieDeezerToken();
-  const userDeezerToken = store.getState().userDeezer.token;
-  const userDeezerData = store.getState().userDeezer.user;
-  const userPlaylistDeezerData = store.getState().userDeezer.playlist;
+  const {token, user, playlist} = store.getState().userDeezer;
 
   if (Object.keys(tokenDeezerCookie?.access_token ?? {}).length === 0) {
     return redirect('/');
   } else {
-    if (!userDeezerToken) {
-      store.dispatch(setUserTokenDeezerData(tokenDeezerCookie));
-    }
+    if (!token) store.dispatch(setUserTokenDeezerData(tokenDeezerCookie));
+    if (!user) fetchUserDeezerData(tokenDeezerCookie);
+    if (!playlist) fetchUserPlaylistDeezerData(tokenDeezerCookie);
     
-    if (!userDeezerData) {
-      fetchUserDeezerData(tokenDeezerCookie);
-    }
-
-    if (!userPlaylistDeezerData) {
-      fetchUserPlaylistDeezerData(tokenDeezerCookie);
-    }
     return null
   }
 

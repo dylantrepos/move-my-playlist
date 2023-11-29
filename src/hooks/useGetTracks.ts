@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { PlaylistTracksDeezer } from "../types/PlaylistTracksDeezer";
+import { DEEZER_API_BASE } from "../env";
+import { AccessTokenResponse } from "../types/Login";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const initialState: PlaylistTracksDeezer = {
   checksum: '',
@@ -8,8 +12,12 @@ const initialState: PlaylistTracksDeezer = {
   total: 0
 }
 
-export const useGetTracks = (url: string): [PlaylistTracksDeezer, boolean?, string?] => {
+export const useGetTracks = (playlistId: string): [PlaylistTracksDeezer, boolean?, string?] => {
   const [playlistTracks, setPlaylistTracks] = useState(initialState);
+  const userDeezerToken: AccessTokenResponse | undefined = useSelector((state: RootState) => state.userDeezer.token);
+
+  const deezerAuthURL = new URL(`playlist/${playlistId}/tracks`, DEEZER_API_BASE);
+  deezerAuthURL.searchParams.append('access_token', userDeezerToken?.access_token ?? '');
   
   const fetchData = async (url: string): Promise<void> => {
     try {
@@ -33,10 +41,10 @@ export const useGetTracks = (url: string): [PlaylistTracksDeezer, boolean?, stri
   
   useEffect(() => {
     setPlaylistTracks(initialState);
-    const fetchAllPlaylistTracks = async () => await fetchData(url);
+    const fetchAllPlaylistTracks = async () => await fetchData(deezerAuthURL.toString());
 
     fetchAllPlaylistTracks();
-  }, [url]);
+  }, [playlistId]);
 
   return [playlistTracks];
 }

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { RootState } from '../store/store';
 
-export default function UserProfil() {
+export default function UserProfilItem() {
   const userDeezerData = useSelector((state: RootState) => state.userDeezer.user);
 
   return (

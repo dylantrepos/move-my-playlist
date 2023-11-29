@@ -1,31 +1,23 @@
-import { useSelector } from "react-redux"
-import { RootState } from "../store/store"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TrackDeezerItem from "./TrackDeezerItem";
+import { useGetPlaylist } from "../hooks/useGetPlaylists";
+import { PlaylistDeezer } from "../types/UserDeezer";
 
-export default function PlaylistDeezer() {
-  const userDeezerPlaylist = useSelector((state: RootState) => state.userDeezer.playlist);
+export default function PlaylistDeezerItem() {
   const [selectPlaylistId, setSelectPlaylistId] = useState('0');
-
-  useEffect(() => {
-    console.log('userDeezerData : ', userDeezerPlaylist);
-    if (userDeezerPlaylist && Object.keys(userDeezerPlaylist).length === 0){
-      console.log('nnope');
-    }
-  }, [userDeezerPlaylist]);
+  const [userDeezerPlaylist] = useGetPlaylist();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const playlistId = e.target.value;
     setSelectPlaylistId(playlistId)
   };
-  
 
-  return (
+  return userDeezerPlaylist.data ? 
     <>
       <div>PlaylistDeezer</div>
-      <select onChange={handleChange}>
-        <option defaultValue="" disabled>Choose here</option>
-        {userDeezerPlaylist?.map((playlist) => (
+      <select defaultValue={"placeholder"} onChange={handleChange}>
+        <option value="placeholder" disabled>Choose here</option>
+        {userDeezerPlaylist.data?.map((playlist: PlaylistDeezer) => (
           <option key={playlist.id} value={playlist.id}>
             {playlist.title}
           </option>
@@ -35,5 +27,5 @@ export default function PlaylistDeezer() {
           <TrackDeezerItem playlistId={selectPlaylistId} />
       </div>
     </>
-  )
+  : ''
 }
