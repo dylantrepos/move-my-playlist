@@ -1,18 +1,20 @@
 import { useState } from "react";
-import TrackDeezerItem from "./TrackDeezerItem";
+import { PlaylistTracksDeezerItem } from "./PlaylistsTracksDeezerItem";
 import { useGetPlaylist } from "../hooks/useGetPlaylists";
 import { PlaylistDeezer } from "../types/UserDeezer";
 
-export default function PlaylistDeezerItem() {
+export const PlaylistDeezerItem: React.FC = () => {
   const [selectPlaylistId, setSelectPlaylistId] = useState('0');
   const [userDeezerPlaylist] = useGetPlaylist();
+
+  console.log('PlaylistDeezerItem: ', userDeezerPlaylist);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const playlistId = e.target.value;
     setSelectPlaylistId(playlistId)
   };
 
-  return userDeezerPlaylist.data ? 
+  return userDeezerPlaylist.data.length > 0 ? 
     <>
       <div>PlaylistDeezer</div>
       <select defaultValue={"placeholder"} onChange={handleChange}>
@@ -24,7 +26,7 @@ export default function PlaylistDeezerItem() {
         ))}
       </select>
       <div>
-          <TrackDeezerItem playlistId={selectPlaylistId} />
+          <PlaylistTracksDeezerItem playlistId={selectPlaylistId} />
       </div>
     </>
   : ''

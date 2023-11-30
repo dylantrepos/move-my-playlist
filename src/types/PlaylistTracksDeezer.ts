@@ -4,6 +4,7 @@ export type PlaylistTracksDeezer = {
   next?: string;
   prev?: string;
   total: number;
+  loaded: boolean;
 }
 
 export type TrackDeezer = {

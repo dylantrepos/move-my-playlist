@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { DEEZER_AUTH_BASE, DEEZER_TOKEN } from "../env";
+import { DEEZER_AUTH_BASE } from "../env";
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setUserTokenDeezerData } from "../reducers/userDeezerReducer";
@@ -27,7 +27,7 @@ export const useGenerateAccessToken = (code: string) => {
     ...URL_PARAMS,
     code
   }
-  const deezerAuthURL = new URL(DEEZER_TOKEN, DEEZER_AUTH_BASE);
+  const deezerAuthURL = new URL('/oauth/access_token.php', DEEZER_AUTH_BASE);
 
   for (const [key, value] of Object.entries(urlParams)) {
     if (value) deezerAuthURL.searchParams.append(key, value);
@@ -35,6 +35,7 @@ export const useGenerateAccessToken = (code: string) => {
   
 
   useEffect(() => {
+    console.log('useGetAccessToken');
     const fetchData = async () => {
       try {
         const accessTokenRequest = await axios.get(deezerAuthURL.toString());

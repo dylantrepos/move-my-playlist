@@ -1,11 +1,12 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { PlaylistsDeezer } from "../types/UserDeezer";
 import { setPlaylistDeezerData } from "../reducers/userDeezerReducer";
 import { DEEZER_API_BASE } from "../env";
 import { useDispatch, useSelector } from "react-redux";
-import { AccessTokenResponse } from "../types/Login";
 import { RootState } from "../store/store";
+import { useQuery } from "@tanstack/react-query";
+import { AccessToken } from "../types/Login";
+import axios from "axios";
 
 const initialState: PlaylistsDeezer = {
   data: [],
@@ -16,28 +17,24 @@ const initialState: PlaylistsDeezer = {
 export const useGetPlaylist = (): [PlaylistsDeezer] => {
   const [playlists, setPlaylists] = useState(initialState);
   const dispatch = useDispatch();
-  const userDeezerToken: AccessTokenResponse | undefined = useSelector((state: RootState) => state.userDeezer.token);
+  const userDeezerToken: AccessToken | undefined = useSelector((state: RootState) => state.userDeezer.token);
 
   const deezerAuthURL = new URL('/user/me/playlists', DEEZER_API_BASE);
-  deezerAuthURL.searchParams.append("access_token", userDeezerToken?.access_token ?? '');
+  deezerAuthURL.searchParams.append("access_token", userDeezerToken?.accessToken ?? '');
 
-  console.log('url : ', deezerAuthURL.toString());
-  
+  const { isPending, data } = useQuery({ queryKey: ['deezer-playlist'], queryFn: async () => {
+    const req = await axios(deezerAuthURL.toString());
+
+    return req.data;
+  }})
+
   useEffect(() => {
-    const fetchAllPlaylists = async (): Promise<void> => {
-      try {
-        const { data }: AxiosResponse = await axios.get(deezerAuthURL.toString());
-        console.log({data});
-
-        dispatch(setPlaylistDeezerData(data.data));
-        setPlaylists(data);
-      } catch (error) {
-        throw new Error('Error fetching data: ' + (error as AxiosError).message);
-      }
+    
+    if (!isPending && data?.data) {
+      dispatch(setPlaylistDeezerData(data.data));
+      setPlaylists(data);
     }
-
-  fetchAllPlaylists();
-  }, []);
+  }, [isPending]);
 
   return [playlists];
 }

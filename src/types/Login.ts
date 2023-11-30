@@ -4,9 +4,3 @@ export type AccessToken = {
   expires: number;
 }
 
-// Request
-export type AccessTokenResponse = {
-  access_token: string;
-  expires: number;
-}
-

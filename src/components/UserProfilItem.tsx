@@ -1,14 +1,15 @@
-import { useSelector } from "react-redux"
-import { RootState } from '../store/store';
+import { UserDeezer } from "../types/UserDeezer";
 
-export default function UserProfilItem() {
-  const userDeezerData = useSelector((state: RootState) => state.userDeezer.user);
+type UserProfilProps = {
+  user: UserDeezer
+}  
 
+export const UserProfilItem: React.FC<UserProfilProps> = ({ user }) => {
   return (
     <>
       <div>userProfil</div>
-      <p>Id: {userDeezerData?.id ?? 'error'}</p>
-      <p>Name: {userDeezerData?.name ?? 'error'}</p>
+      <p>Id: {user?.id ?? 'error'}</p>
+      <p>Name: {user?.name ?? 'error'}</p>
     </>
   )
 }
