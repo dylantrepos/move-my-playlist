@@ -1,30 +1,21 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { DEEZER_AUTH_BASE } from "../env";
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { setUserTokenDeezerData } from "../reducers/userDeezerReducer";
+import { AccessToken } from "../types/Login";
+import { useQuery } from "@tanstack/react-query";
 
-type Token = {
-  "access_token": string;
-  "expires": number;
-}
+const fetchToken = async (url: string) => (await axios(url)).data;
 
-const initialToken = {
-  "access_token": '',
-  "expires": 0,
-}
-
-const URL_PARAMS: Record<string, string | null> = {
-  "app_id": import.meta.env?.VITE_DEEZER_APP_ID ?? null,
-  "secret": import.meta.env?.VITE_DEEZER_SECRET_KEY ?? null,
-  "output": "json",
-}
-
-export const useGenerateAccessToken = (code: string) => {
-  const [token, setToken] = useState(initialToken);
+export const useGenerateAccessToken = (code: string): [AccessToken | undefined, boolean, Error | null] => {
+  const [token, setToken] = useState<AccessToken>();
   const dispatch = useDispatch();
+
   const urlParams: Record<string, string | null> = {
-    ...URL_PARAMS,
+    "app_id": import.meta.env?.VITE_DEEZER_APP_ID ?? null,
+    "secret": import.meta.env?.VITE_DEEZER_SECRET_KEY ?? null,
+    "output": "json",
     code
   }
   const deezerAuthURL = new URL('/oauth/access_token.php', DEEZER_AUTH_BASE);
@@ -33,25 +24,23 @@ export const useGenerateAccessToken = (code: string) => {
     if (value) deezerAuthURL.searchParams.append(key, value);
   }
   
+  // Refetch after 30 minutes (in milliseconds)
+  const { isPending, data, error } = useQuery({ 
+    queryKey: ['deezer-token'], 
+    queryFn: () => fetchToken(deezerAuthURL.toString()),
+    staleTime: 18000000,
+  })
 
   useEffect(() => {
-    console.log('useGetAccessToken');
-    const fetchData = async () => {
-      try {
-        const accessTokenRequest = await axios.get(deezerAuthURL.toString());
-        const tokenData: Token = accessTokenRequest.data;
-
-        dispatch(setUserTokenDeezerData(tokenData));
-        setToken(tokenData);
-      } catch (error: unknown) {
-        if (error instanceof AxiosError) {
-          console.error(error.message);
-        }
+    if (!isPending && data) {
+      const newToken = {
+        accessToken: data['access_token'],
+        expires: data.expires
       }
-    };
+      dispatch(setUserTokenDeezerData(newToken));
+      setToken(newToken);
+    }
+  }, [isPending]);
 
-    fetchData();
-  }, []);
-
-  return [token];
+  return [token, isPending, error];
 }

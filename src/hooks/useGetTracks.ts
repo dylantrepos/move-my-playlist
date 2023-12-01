@@ -26,7 +26,8 @@ export const useGetTracks = (playlistId: string): [PlaylistTracksDeezer | undefi
     queryKey: ['deezer-playlist-tracks', playlistId], 
     queryFn: fetchTracksData,
     initialPageParam: getURL(playlistId, userDeezerToken?.accessToken),
-    getNextPageParam: (lastPage) => lastPage.next
+    getNextPageParam: (lastPage) => lastPage.next,
+    refetchOnWindowFocus: false
   })
 
   useEffect(() => {

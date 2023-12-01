@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { AccessToken } from '../types/Login';
 import axios from "axios";
 
+const fetchUserData = async (url: string) => (await axios(url)).data;
+
 export const useGetUserData = (): [UserDeezer?] => {
   const [userData, setUserData] = useState();
   const dispatch = useDispatch();
@@ -16,11 +18,11 @@ export const useGetUserData = (): [UserDeezer?] => {
   const deezerAuthURL = new URL('/user/me', DEEZER_API_BASE);
   deezerAuthURL.searchParams.append("access_token", userDeezerToken?.accessToken ?? '');
   
-  const { isPending, data } = useQuery({ queryKey: ['deezer-user'], queryFn: async () => {
-    const req = await axios(deezerAuthURL.toString());
-
-    return req.data;
-  }})
+  const { isPending, data } = useQuery({ 
+    queryKey: ['deezer-user'], 
+    queryFn: () => fetchUserData(deezerAuthURL.toString()),
+    refetchOnWindowFocus: false
+  })
 
   useEffect(() => {
     if (!isPending && data) {
