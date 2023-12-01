@@ -1,12 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { PlaylistDeezer, UserDeezer } from "../types/UserDeezer";
+import { UserDeezer } from "../types/UserDeezer";
 import { AccessToken } from "../types/Login";
 import { AxiosError } from "axios";
+import { TrackDeezer } from "../types/PlaylistTracksDeezer";
 
 type State = {
   token?: AccessToken; 
   user?: UserDeezer;
-  playlist?: PlaylistDeezer[];
+  playlist?: TrackDeezer[];
   error?: AxiosError;
 }
 
@@ -22,7 +23,7 @@ const userDeezerSlice = createSlice({
     setUserDeezerData: (state, action: PayloadAction<UserDeezer>) => {
       state.user = action.payload;
     },
-    setPlaylistDeezerData: (state, action: PayloadAction<PlaylistDeezer[]>) => {
+    setPlaylistDeezerData: (state, action: PayloadAction<TrackDeezer[]>) => {
       state.playlist = action.payload;
     },
     setErrorDeezerData: (state, action: PayloadAction<AxiosError>) => {

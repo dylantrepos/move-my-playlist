@@ -9,8 +9,6 @@ export const homeLoader = () => {
 
   // No valid deezer token in cookie
   if (!tokenDeezerCookie || Object.values(tokenDeezerCookie).length === 0) return redirect('/');
-
-  console.log({tokenDeezerCookie});
   
   // Save deezer token in store
   if (!token) store.dispatch(setUserTokenDeezerData(tokenDeezerCookie));

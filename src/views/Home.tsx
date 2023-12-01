@@ -8,11 +8,8 @@ import { ErrorItem } from '../components/ErrorItem';
 export default function Home() {
   const userDeezerToken = useSelector((state: RootState) => state.userDeezer.token);
   const userDeezerData = useSelector((state: RootState) => state.userDeezer.user);
-  // const userDeezerPlaylist = useSelector((state: RootState) => state.userDeezer.playlist);
   const userDeezerError = useSelector((state: RootState) => state.userDeezer.error);
 
-  // console.log(userDeezerToken);
-  // console.log(userDeezerToken?.access_token);
 
   return <>
       <div>Home</div>
