@@ -1,63 +1,50 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { PlaylistTracksDeezer } from "../types/PlaylistTracksDeezer";
 import { DEEZER_API_BASE } from "../env";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { AccessToken } from "../types/Login";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-const initialState: PlaylistTracksDeezer = {
-  checksum: '',
-  data: [],
-  total: 0,
-  loaded: false,
-}
+type FetchTracksData = { pageParam: string }
 
-let tracks = { ...initialState };
+const fetchTracksData = async ({ pageParam }: FetchTracksData) => (await axios(pageParam)).data;
 
-const fetchData = async (url: string): Promise<PlaylistTracksDeezer> => {
-  try {
-    const fetchPlaylistTracksRequest: AxiosResponse = await axios.get(url);
-    const playlistTracks: PlaylistTracksDeezer = fetchPlaylistTracksRequest.data;
-
-    if (playlistTracks.data) {
-      tracks = { 
-        ...playlistTracks, 
-        data: [...tracks.data, ...playlistTracks.data]
-      }
-
-      if (playlistTracks.next) await fetchData(playlistTracks.next);
-      else tracks.loaded = true
-    }
-
-    return tracks;
-
-  } catch (error) {
-    throw new Error('Error fetching data: ' + (error as AxiosError).message);
-  }
-}
-
-export const useGetTracks = (playlistId: string): [PlaylistTracksDeezer, boolean?, string?] => {
-  const [playlistTracks, setPlaylistTracks] = useState(initialState);
-  const userDeezerToken: AccessToken | undefined = useSelector((state: RootState) => state.userDeezer.token);
-
+const getURL = (playlistId: string, token: string = '') => {
   const deezerAuthURL = new URL(`playlist/${playlistId}/tracks`, DEEZER_API_BASE);
-  deezerAuthURL.searchParams.append('access_token', userDeezerToken?.accessToken ?? '');
+  deezerAuthURL.searchParams.append('access_token', token);
+
+  return deezerAuthURL.toString();
+}
+
+export const useGetTracks = (playlistId: string): [PlaylistTracksDeezer | undefined, boolean] => {
+  const [playlistTracks, setPlaylistTracks] = useState<PlaylistTracksDeezer | undefined>();
+  const userDeezerToken: AccessToken | undefined = useSelector((state: RootState) => state.userDeezer.token);
   
-  
+  const { isPending, data, refetch, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({ 
+    queryKey: ['deezer-playlist-tracks', playlistId], 
+    queryFn: fetchTracksData,
+    initialPageParam: getURL(playlistId, userDeezerToken?.accessToken),
+    getNextPageParam: (lastPage) => lastPage.next
+  })
+
   useEffect(() => {
-    setPlaylistTracks(initialState);
-    tracks = { ...initialState };
-
-    const fetchAllPlaylistTracks = async () => { 
-      const tracksData = await fetchData(deezerAuthURL.toString());
-
-      setPlaylistTracks(tracksData);
+    if (!isFetching && data) {
+      if (hasNextPage) fetchNextPage();
+      else if(!isPending) {
+        setPlaylistTracks({
+          total: data.pages[0].total,
+          data: data.pages.reduce((acc, curr) => [...acc, ...curr.data], [])
+        } as PlaylistTracksDeezer)
+      }
     }
+  }, [isFetching, isPending])
 
-    fetchAllPlaylistTracks();
+  useEffect(() => {
+    setPlaylistTracks(undefined);
+    refetch();
+  }, [playlistId])
 
-  }, [playlistId]);
-
-  return [playlistTracks];
+  return [playlistTracks, (!isPending && !isFetching)];
 }

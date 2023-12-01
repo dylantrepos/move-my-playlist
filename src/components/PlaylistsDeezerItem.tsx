@@ -24,7 +24,7 @@ export const PlaylistDeezerItem: React.FC = () => {
         ))}
       </select>
       <div>
-          <PlaylistTracksDeezerItem playlistId={selectPlaylistId} />
+          {selectPlaylistId !== '0' ? <PlaylistTracksDeezerItem playlistId={selectPlaylistId} /> : ''}
       </div>
     </>
   : ''
