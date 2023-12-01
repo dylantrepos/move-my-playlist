@@ -8,8 +8,6 @@ type PlaylistTrackDeezerItemProps = {
 export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = ({ playlistId }) => {
   const [trackListData] = useGetTracks(playlistId);
 
-  console.log({trackListData});
-
   return trackListData.loaded 
     ? <>
         <div>TrackDeezerItem</div>
@@ -23,7 +21,7 @@ export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = 
           }
         </ul>
       </>
-      : 'Loading...'
+      : 'Loading tracks ...'
 }
 
 type TrackDeezerItemProps = {

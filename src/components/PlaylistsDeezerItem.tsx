@@ -7,14 +7,12 @@ export const PlaylistDeezerItem: React.FC = () => {
   const [selectPlaylistId, setSelectPlaylistId] = useState('0');
   const [userDeezerPlaylist] = useGetPlaylist();
 
-  console.log('PlaylistDeezerItem: ', userDeezerPlaylist);
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const playlistId = e.target.value;
     setSelectPlaylistId(playlistId)
   };
 
-  return userDeezerPlaylist.data.length > 0 ? 
+  return userDeezerPlaylist ? 
     <>
       <div>PlaylistDeezer</div>
       <select defaultValue={"placeholder"} onChange={handleChange}>
