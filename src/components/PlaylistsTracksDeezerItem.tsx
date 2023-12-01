@@ -1,6 +1,6 @@
 import { TrackDeezer } from "../types/PlaylistTracksDeezer";
 import { useGetTracks } from "../hooks/useGetTracks";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { setPlaylistDeezerData } from "../reducers/userDeezerReducer";
 
@@ -13,10 +13,20 @@ type TrackDeezerItemProps = {
 const TrackItem = ({track, isChecked, handleCheckboxChange}: TrackDeezerItemProps) => {
 
   return (
-    <label style={{display: "flex", border: '1px solid #c8c8c8', borderRadius: '5px', padding: '5px 0', cursor: "pointer"}}>
+    <label style={{
+            display: "flex", 
+            border: `1px solid ${isChecked ? 'rgb(113 141 255)' : '#c8c8c8'}`, 
+            borderRadius: '5px', 
+            padding: '5px 0', 
+            cursor: "pointer",
+            background: isChecked ? '#e7f4ff' : 'transparent',
+            transition: 'all .2s ease'
+          }}>
         <input 
           type="checkbox" 
-          style={{margin: '0 15px'}} 
+          style={{
+            margin: '0 15px'
+          }} 
           value={track.id}
           checked={isChecked}
           onChange={handleCheckboxChange}
@@ -71,17 +81,20 @@ export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = 
     dispatch(setPlaylistDeezerData(playlist));
 
     console.log('Final records : ', playlist);
-
   }
+
+  useEffect(() => {
+    setTrackIdList([]);
+    setIsAllTracksChecked(false);
+  }, [playlistId])
 
   return !hasLoaded || !trackListData
     ? <p>Loading tracks ...</p>
     : trackListData?.total === 0 
       ? <p>No tracks in this playlist.</p> 
       : <>
-          <div>TrackDeezerItem</div>
-          <h4>Total song : {trackListData?.total}</h4>
-          <h3>Songs : </h3>
+          <h4>Total tracks : {trackListData?.total}</h4>
+          <h3>Tracks : </h3>
           <form 
             style={{display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '50px', maxWidth: '500px'}}
             onSubmit={handleSubmitPlaylist}

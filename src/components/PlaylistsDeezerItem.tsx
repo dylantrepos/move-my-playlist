@@ -14,9 +14,13 @@ export const PlaylistDeezerItem: React.FC = () => {
 
   return userDeezerPlaylist ? 
     <>
-      <div>PlaylistDeezer</div>
-      <select defaultValue={"placeholder"} onChange={handleChange}>
-        <option value="placeholder" disabled>Choose here</option>
+      <div style={{margin: ' 20px 0 10px'}}>To begin, choose the playlist you want to move</div>
+      <select 
+        defaultValue={"placeholder"} 
+        onChange={handleChange}
+        style={{background: '#e1e1e1', borderRadius: '5px', padding: '10px'}}
+      >
+        <option value="placeholder" disabled>Choose a playlist here</option>
         {userDeezerPlaylist.data?.map((playlist: PlaylistDeezer) => (
           <option key={playlist.id} value={playlist.id}>
             {playlist.title}
