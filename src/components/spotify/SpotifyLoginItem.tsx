@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { generateCodeChallenge, generateCodeVerifier, openPopup, setSpotifyCookieToken } from "../../utils/utils";
 import { SPOTIFY_AUTH_BASE } from "../../env";
 import { setSpotifyToken } from "../../reducers/spotifyReducer";
-import { SpotifyAccessToken } from "../../types/spotify/LoginSpotify";
+import { SpotifyAccessToken } from "../../types/spotify/SpotifyLogin";
 import { useDispatch } from "react-redux";
 
 type SpotifyMessageEvent = {
@@ -11,7 +11,11 @@ type SpotifyMessageEvent = {
 }
 
 
-export const SpotifyLoginItem = () => {
+type Props = {
+  updateSpotifyConnection: () => void;
+}
+
+export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
   const [isLoggedInSpotify, setIsLoggedInSpotify] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const dispatch = useDispatch();
@@ -27,6 +31,8 @@ export const SpotifyLoginItem = () => {
         dispatch(setSpotifyToken(data));
         setSpotifyCookieToken(JSON.stringify(data), data.expires);
         setIsLoggedInSpotify(true);
+        
+        updateSpotifyConnection();
       } 
     }
   }, [])

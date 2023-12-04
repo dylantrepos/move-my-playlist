@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { SpotifyAccessToken } from "../types/spotify/LoginSpotify";
+import { SpotifyAccessToken } from "../types/spotify/SpotifyLogin";
 
 type State = {
   token?: SpotifyAccessToken; 

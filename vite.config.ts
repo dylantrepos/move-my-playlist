@@ -22,6 +22,18 @@ export default ({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
+        '/deezer-api': {
+          target: 'https://api.deezer.com/',
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/deezer-api/, ''),
+        },
+        '/spotify-api': {
+          target: 'https://api.spotify.com/v1/',
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/spotify-api/, ''),
+        },
       },
     },
   })

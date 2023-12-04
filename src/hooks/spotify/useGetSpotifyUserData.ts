@@ -1,30 +1,30 @@
 import { useEffect, useState } from "react";
-import { DeezerUser } from "../../types/deezer/DeezerUser";
 import { setDeezerUser } from "../../reducers/deezerReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useQuery } from "@tanstack/react-query";
-import { DeezerAccessToken } from '../../types/deezer/DeezerLogin';
 import axios from "axios";
+import { SpotifyAccessToken } from "../../types/spotify/SpotifyLogin";
+import { SpotifyUser } from "../../types/spotify/SpotifyUser";
 
 const fetchUserData = async (token: string) => {
-  const params: Record<string, string | null> = {
-    "access_token": token,
+  const headers: Record<string, string | null> = {
+    "Authorization": `Bearer ${token}`,
   }
 
-  const data = await axios.get('/deezer-api/user/me', { params })
+  const data = await axios.get('/spotify-api/me', { headers });
   
   return data.data
 }
 
-export const useGetDeezerUserData = (): [DeezerUser?] => {
+export const useGetSpotifyUserData = (): [SpotifyUser?] => {
   const [userData, setUserData] = useState();
   const dispatch = useDispatch();
-  const userDeezerToken: DeezerAccessToken | undefined = useSelector((state: RootState) => state.deezer.token);
+  const userSpotifyToken: SpotifyAccessToken | undefined = useSelector((state: RootState) => state.spotify.token);
 
   const { isPending, data } = useQuery({ 
-    queryKey: ['deezer-user'], 
-    queryFn: () => fetchUserData(userDeezerToken?.accessToken ?? ''),
+    queryKey: ['spotify-user'], 
+    queryFn: () => fetchUserData(userSpotifyToken?.accessToken ?? ''),
     refetchOnWindowFocus: false
   })
 

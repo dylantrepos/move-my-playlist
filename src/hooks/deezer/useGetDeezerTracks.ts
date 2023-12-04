@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DeezerPlaylistTracks } from "../../types/deezer/DeezerPlaylistTracks";
-import { DEEZER_API_BASE } from "../../env";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { DeezerAccessToken } from "../../types/deezer/DeezerLogin";
@@ -9,13 +8,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 type FetchTracksData = { pageParam: string }
 
-const fetchTracksData = async ({ pageParam }: FetchTracksData) => (await axios(pageParam)).data;
+const fetchTracksData = async ({ pageParam }: FetchTracksData ) => {
 
-const getURL = (playlistId: string, token: string = '') => {
-  const deezerAuthURL = new URL(`playlist/${playlistId}/tracks`, DEEZER_API_BASE);
-  deezerAuthURL.searchParams.append('access_token', token);
-
-  return deezerAuthURL.toString();
+  const data = await axios.get(pageParam)
+  
+  return data.data
 }
 
 export const useGetDeezerTracks = (playlistId: string): [DeezerPlaylistTracks | undefined, boolean] => {
@@ -25,8 +22,8 @@ export const useGetDeezerTracks = (playlistId: string): [DeezerPlaylistTracks | 
   const { isPending, data, refetch, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({ 
     queryKey: ['deezer-playlist-tracks', playlistId], 
     queryFn: fetchTracksData,
-    initialPageParam: getURL(playlistId, userDeezerToken?.accessToken),
-    getNextPageParam: (lastPage) => lastPage.next,
+    initialPageParam: `/deezer-api/playlist/${playlistId}/tracks?access_token=${userDeezerToken?.accessToken}`,
+    getNextPageParam: (lastPage) => lastPage.next?.replace('https://api.deezer.com', '/deezer-api'),
     refetchOnWindowFocus: false
   })
 

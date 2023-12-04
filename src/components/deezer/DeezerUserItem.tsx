@@ -1,15 +1,11 @@
 import { useGetDeezerUserData } from "../../hooks/deezer/useGetDeezerUserData";
-import { DeezerUser } from "../../types/deezer/DeezerUser";
 
-type UserProfilProps = {
-  user: DeezerUser
-}  
-
-export const DeezerUserItem: React.FC<UserProfilProps> = () => {
+export const DeezerUserItem = () => {
   const [user] = useGetDeezerUserData();  
 
   return user ?
     <>
+      <h4>Deezer</h4>
       <div style={{
             display: 'flex', 
             alignItems: "center", 

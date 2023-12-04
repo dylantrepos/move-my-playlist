@@ -10,8 +10,12 @@ type DeezerMessageEvent = {
   data: DeezerAccessToken | null;
 }
 
+type Props = {
+  updateDeezerConnection: () => void;
+}
 
-export const DeezerLoginItem = () => {
+
+export const DeezerLoginItem = ({ updateDeezerConnection }: Props) => {
   const [isLoggedInDeezer, setIsLoggedInDeezer] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const dispatch = useDispatch();
@@ -27,6 +31,8 @@ export const DeezerLoginItem = () => {
         dispatch(setDeezerToken(data));
         setDeezerCookieToken(JSON.stringify(data), data.expires);
         setIsLoggedInDeezer(true);
+
+        updateDeezerConnection();
       } 
     }
   }, [])

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
-import { SpotifyAccessToken, SpotifyAccessTokenResponse } from '../../types/spotify/LoginSpotify';
+import { SpotifyAccessToken, SpotifyAccessTokenResponse } from '../../types/spotify/SpotifyLogin';
 import { setSpotifyToken } from '../../reducers/spotifyReducer';
 import { setSpotifyCookieToken } from '../../utils/utils';
 

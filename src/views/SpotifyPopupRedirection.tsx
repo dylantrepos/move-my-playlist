@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { SpotifyAccessToken } from '../types/spotify/LoginSpotify';
+import { SpotifyAccessToken } from '../types/spotify/SpotifyLogin';
 
 const fetchToken = async (url: string, body: URLSearchParams) => {
   console.log('fetching a');
