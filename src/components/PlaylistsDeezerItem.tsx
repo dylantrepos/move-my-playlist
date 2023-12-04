@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { PlaylistTracksDeezerItem } from "./PlaylistsTracksDeezerItem";
-import { useGetPlaylist } from "../hooks/useGetPlaylists";
-import { PlaylistDeezer } from "../types/UserDeezer";
+import { useGetDeezerPlaylist } from "../hooks/deezer/useGetDeezerPlaylists";
+import { DeezerPlaylist } from "../types/deezer/DeezerPlaylist";
 
 export const PlaylistDeezerItem: React.FC = () => {
   const [selectPlaylistId, setSelectPlaylistId] = useState('0');
-  const [userDeezerPlaylist] = useGetPlaylist();
+  const [userDeezerPlaylist] = useGetDeezerPlaylist();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const playlistId = e.target.value;
@@ -21,7 +21,7 @@ export const PlaylistDeezerItem: React.FC = () => {
         style={{background: '#e1e1e1', borderRadius: '5px', padding: '10px'}}
       >
         <option value="placeholder" disabled>Choose a playlist here</option>
-        {userDeezerPlaylist.data?.map((playlist: PlaylistDeezer) => (
+        {userDeezerPlaylist.data?.map((playlist: DeezerPlaylist) => (
           <option key={playlist.id} value={playlist.id}>
             {playlist.title}
           </option>

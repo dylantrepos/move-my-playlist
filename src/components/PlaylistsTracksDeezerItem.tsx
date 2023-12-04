@@ -1,11 +1,11 @@
-import { TrackDeezer } from "../types/PlaylistTracksDeezer";
-import { useGetTracks } from "../hooks/useGetTracks";
+import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
+import { useGetDeezerTracks } from "../hooks/deezer/useGetDeezerTracks";
 import { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
-import { setPlaylistDeezerData } from "../reducers/userDeezerReducer";
+import { setDeezerPlaylist } from "../reducers/deezerReducer";
 
 type TrackDeezerItemProps = {
-  track: TrackDeezer;
+  track: DeezerTrack;
   isChecked: boolean;
   handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -45,7 +45,7 @@ type PlaylistTrackDeezerItemProps = {
 };
 
 export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = ({ playlistId }) => {
-  const [trackListData, hasLoaded] = useGetTracks(playlistId);
+  const [trackListData, hasLoaded] = useGetDeezerTracks(playlistId);
   const [trackIdList, setTrackIdList] = useState<string[]>([]);
   const [IsAllTrackChecked, setIsAllTracksChecked] = useState(false);
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = 
         setTrackIdList([]);
         setIsAllTracksChecked(false)
       } else {
-        setTrackIdList(trackListData.data.map((track: TrackDeezer) => track.id.toString()));
+        setTrackIdList(trackListData.data.map((track: DeezerTrack) => track.id.toString()));
         setIsAllTracksChecked(true)
       }
     }
@@ -76,9 +76,9 @@ export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = 
     console.log({trackIdList});
 
     const playlist = trackIdList.map((track) => 
-      trackListData?.data.find((trackData: TrackDeezer) => trackData.id === +track)) as TrackDeezer[];
+      trackListData?.data.find((trackData: DeezerTrack) => trackData.id === +track)) as DeezerTrack[];
     
-    dispatch(setPlaylistDeezerData(playlist));
+    dispatch(setDeezerPlaylist(playlist));
 
     console.log('Final records : ', playlist);
   }
@@ -101,7 +101,7 @@ export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = 
           >
             <button type="submit">Submit</button>
             <button type="button" onClick={handleCheckAllTracks}>{IsAllTrackChecked ? 'Uncheck' : 'Check'} All Records</button>
-            { trackListData?.data?.map((track: TrackDeezer) => 
+            { trackListData?.data?.map((track: DeezerTrack) => 
                 <TrackItem 
                   track={track} 
                   key={`${track.id}`} 

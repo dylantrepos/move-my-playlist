@@ -1,12 +1,12 @@
-import { useGetUserData } from "../hooks/useGetUserData";
-import { UserDeezer } from "../types/UserDeezer";
+import { useGetDeezerUserData } from "../hooks/deezer/useGetDeezerUserData";
+import { UserDeezer } from "../types/deezer/DeezerUser";
 
 type UserProfilProps = {
   user: UserDeezer
 }  
 
 export const UserProfilItem: React.FC<UserProfilProps> = () => {
-  const [user] = useGetUserData();  
+  const [user] = useGetDeezerUserData();  
 
   return user ?
     <>

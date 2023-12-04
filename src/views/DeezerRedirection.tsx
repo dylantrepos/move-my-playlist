@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router';
 import { useNavigate } from "react-router-dom";
-import { setCookieDeezerToken } from '../utils/utils';
+import { setDeezerCookieToken } from '../utils/utils';
 import { useDispatch } from 'react-redux';
-import { setUserTokenDeezerData } from '../reducers/userDeezerReducer';
+import { setDeezerToken } from '../reducers/deezerReducer';
 import { useEffect } from 'react';
-import { useGenerateAccessToken } from '../hooks/useGetAccessToken';
+import { useGetDeezerAccessToken } from '../hooks/deezer/useGetDeezerAccessToken';
 
 export default function DeezerRedirection() {
   const navigate = useNavigate();
@@ -14,13 +14,13 @@ export default function DeezerRedirection() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get('code') ?? '';  
-  const [token, isPending, error] = useGenerateAccessToken(code);
+  const [token, isPending, error] = useGetDeezerAccessToken(code);
 
   
   useEffect(() => {
       if (!isPending && token?.accessToken) {
-        setCookieDeezerToken(JSON.stringify(token), token.expires);
-        dispatch(setUserTokenDeezerData(token));
+        setDeezerCookieToken(JSON.stringify(token), token.expires);
+        dispatch(setDeezerToken(token));
 
         navigate('/home');
       }

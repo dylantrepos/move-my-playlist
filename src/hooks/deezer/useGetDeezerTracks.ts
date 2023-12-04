@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { PlaylistTracksDeezer } from "../types/PlaylistTracksDeezer";
-import { DEEZER_API_BASE } from "../env";
+import { DeezerPlaylistTracks } from "../../types/deezer/DeezerPlaylistTracks";
+import { DEEZER_API_BASE } from "../../env";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { AccessToken } from "../types/Login";
+import { RootState } from "../../store/store";
+import { DeezerAccessToken } from "../../types/deezer/DeezerLogin";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 type FetchTracksData = { pageParam: string }
@@ -18,9 +18,9 @@ const getURL = (playlistId: string, token: string = '') => {
   return deezerAuthURL.toString();
 }
 
-export const useGetTracks = (playlistId: string): [PlaylistTracksDeezer | undefined, boolean] => {
-  const [playlistTracks, setPlaylistTracks] = useState<PlaylistTracksDeezer | undefined>();
-  const userDeezerToken: AccessToken | undefined = useSelector((state: RootState) => state.userDeezer.token);
+export const useGetDeezerTracks = (playlistId: string): [DeezerPlaylistTracks | undefined, boolean] => {
+  const [playlistTracks, setPlaylistTracks] = useState<DeezerPlaylistTracks | undefined>();
+  const userDeezerToken: DeezerAccessToken | undefined = useSelector((state: RootState) => state.deezer.token);
   
   const { isPending, data, refetch, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({ 
     queryKey: ['deezer-playlist-tracks', playlistId], 
@@ -37,7 +37,7 @@ export const useGetTracks = (playlistId: string): [PlaylistTracksDeezer | undefi
         setPlaylistTracks({
           total: data.pages[0].total,
           data: data.pages.reduce((acc, curr) => [...acc, ...curr.data], [])
-        } as PlaylistTracksDeezer)
+        } as DeezerPlaylistTracks)
       }
     }
   }, [isFetching, isPending])

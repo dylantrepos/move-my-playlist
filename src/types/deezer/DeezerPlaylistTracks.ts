@@ -1,13 +1,13 @@
-export type PlaylistTracksDeezer = {
+export type DeezerPlaylistTracks = {
   checksum: string;
-  data: TrackDeezer[];
+  data: DeezerTrack[];
   next?: string;
   prev?: string;
   total: number;
   loaded: boolean;
 }
 
-export type TrackDeezer = {
+export type DeezerTrack = {
   id: number;
   readable: boolean;
   title: string;
@@ -23,12 +23,12 @@ export type TrackDeezer = {
   preview: "";
   md5_image: "3f44e701b308c46fe63c116f1063cae1";
   time_add: number;
-  artist: TrackDeezerArtist;
-  album: TrackDeezerAlbum;
+  artist: DeezerTrackArtist;
+  album: DeezerTrackAlbum;
   type: "track"
 }
 
-export type TrackDeezerArtist = {
+export type DeezerTrackArtist = {
   id: number;
   name: string;
   link: string;
@@ -41,7 +41,7 @@ export type TrackDeezerArtist = {
   type: string;
 } 
 
-export type TrackDeezerAlbum = {
+export type DeezerTrackAlbum = {
   id: number,
   title: string;
   cover: string;

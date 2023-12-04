@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userDeezerReducer from "../reducers/userDeezerReducer";
+import deezer from "../reducers/deezerReducer";
+import spotify from "../reducers/spotifyReducer";
 
 export const store = configureStore({
   reducer: {
-    userDeezer: userDeezerReducer,
+    deezer,
+    spotify
   },
 })
 

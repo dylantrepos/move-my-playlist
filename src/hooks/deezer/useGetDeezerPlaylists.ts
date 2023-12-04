@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { PlaylistsDeezer } from "../types/UserDeezer";
-import { DEEZER_API_BASE } from "../env";
+import { DeezerPlaylists } from "../../types/deezer/DeezerPlaylist";
+import { DEEZER_API_BASE } from "../../env";
 import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { RootState } from "../../store/store";
 import { useQuery } from "@tanstack/react-query";
-import { AccessToken } from "../types/Login";
+import { DeezerAccessToken } from "../../types/deezer/DeezerLogin";
 import axios from "axios";
 
 const fetchPlaylists = async (url: string) => (await axios(url)).data;
 
-export const useGetPlaylist = (): [PlaylistsDeezer?] => {
+export const useGetDeezerPlaylist = (): [DeezerPlaylists?] => {
   const [playlists, setPlaylists] = useState();
-  const userDeezerToken: AccessToken | undefined = useSelector((state: RootState) => state.userDeezer.token);
+  const userDeezerToken: DeezerAccessToken | undefined = useSelector((state: RootState) => state.deezer.token);
 
   const deezerAuthURL = new URL('/user/me/playlists', DEEZER_API_BASE);
   deezerAuthURL.searchParams.append("access_token", userDeezerToken?.accessToken ?? '');

@@ -11,15 +11,42 @@ export const getCookieString = (cname: string): string | null =>
   .find((row) => row.startsWith(`${cname}=`))
   ?.split("=")[1] ?? null;
 
-export const setCookieDeezerToken = (token: string, expiration: number) => {
+export const setDeezerCookieToken = (token: string, expiration: number) => {
   const date = new Date();
   date.setTime(date.getTime() + (expiration * 1000));
   const expires = `expires=${date.toUTCString()}`;
   document.cookie = `deezer-token=${token};${expires};path=/`;
 };
 
-export const getCookieDeezerToken = () => JSON.parse(getCookieString('deezer-token') || '{}');
+export const setSpotifyCookieToken = (token: string, expiration: number) => {
+  const date = new Date();
+  date.setTime(date.getTime() + (expiration * 1000));
+  const expires = `expires=${date.toUTCString()}`;
+  document.cookie = `spotify-token=${token};${expires};path=/`;
+};
+
+export const getDeezerCookieToken = () => JSON.parse(getCookieString('deezer-token') || '{}');
+export const getSpotifyCookieToken = () => JSON.parse(getCookieString('spotify-token') || '{}');
 
 export const removeCookie = (cname: string) => {
 document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
 };
+
+export const generateCodeChallenge = async (codeVerifier: string) => {
+  const data = new TextEncoder().encode(codeVerifier);
+  const digest = await window.crypto.subtle.digest('SHA-256', data);
+  return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+}
+
+export const generateCodeVerifier = (length: number) => {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}

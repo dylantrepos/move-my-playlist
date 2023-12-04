@@ -1,5 +1,5 @@
 // General
-export type AccessToken = {
+export type DeezerAccessToken = {
   accessToken: string;
   expires: number;
 }

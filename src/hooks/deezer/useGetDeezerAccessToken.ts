@@ -1,15 +1,15 @@
 import axios from "axios";
-import { DEEZER_AUTH_BASE } from "../env";
+import { DEEZER_AUTH_BASE } from "../../env";
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
-import { setUserTokenDeezerData } from "../reducers/userDeezerReducer";
-import { AccessToken } from "../types/Login";
+import { setDeezerToken } from "../../reducers/deezerReducer";
+import { DeezerAccessToken } from "../../types/deezer/DeezerLogin";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchToken = async (url: string) => (await axios(url)).data;
 
-export const useGenerateAccessToken = (code: string): [AccessToken | undefined, boolean, Error | null] => {
-  const [token, setToken] = useState<AccessToken>();
+export const useGetDeezerAccessToken = (code: string): [DeezerAccessToken | undefined, boolean, Error | null] => {
+  const [token, setToken] = useState<DeezerAccessToken>();
   const dispatch = useDispatch();
 
   const urlParams: Record<string, string | null> = {
@@ -37,7 +37,7 @@ export const useGenerateAccessToken = (code: string): [AccessToken | undefined, 
         accessToken: data['access_token'],
         expires: data.expires
       }
-      dispatch(setUserTokenDeezerData(newToken));
+      dispatch(setDeezerToken(newToken));
       setToken(newToken);
     }
   }, [isPending]);

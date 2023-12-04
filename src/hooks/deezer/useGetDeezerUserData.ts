@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { UserDeezer } from "../types/UserDeezer";
-import { setUserDeezerData } from "../reducers/userDeezerReducer";
-import { DEEZER_API_BASE } from "../env";
+import { DeezerUser } from "../../types/deezer/DeezerUser";
+import { setDeezerUser } from "../../reducers/deezerReducer";
+import { DEEZER_API_BASE } from "../../env";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { RootState } from "../../store/store";
 import { useQuery } from "@tanstack/react-query";
-import { AccessToken } from '../types/Login';
+import { DeezerAccessToken } from '../../types/deezer/DeezerLogin';
 import axios from "axios";
 
 const fetchUserData = async (url: string) => (await axios(url)).data;
 
-export const useGetUserData = (): [UserDeezer?] => {
+export const useGetDeezerUserData = (): [DeezerUser?] => {
   const [userData, setUserData] = useState();
   const dispatch = useDispatch();
-  const userDeezerToken: AccessToken | undefined = useSelector((state: RootState) => state.userDeezer.token);
+  const userDeezerToken: DeezerAccessToken | undefined = useSelector((state: RootState) => state.deezer.token);
   
   const deezerAuthURL = new URL('/user/me', DEEZER_API_BASE);
   deezerAuthURL.searchParams.append("access_token", userDeezerToken?.accessToken ?? '');
@@ -26,7 +26,7 @@ export const useGetUserData = (): [UserDeezer?] => {
 
   useEffect(() => {
     if (!isPending && data) {
-      dispatch(setUserDeezerData(data));
+      dispatch(setDeezerUser(data));
       setUserData(data);
     }
   }, [isPending]);
