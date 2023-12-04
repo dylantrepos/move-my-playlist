@@ -1,8 +1,8 @@
-import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
-import { useGetDeezerTracks } from "../hooks/deezer/useGetDeezerTracks";
+import { DeezerTrack } from "../../types/deezer/DeezerPlaylistTracks";
+import { useGetDeezerTracks } from "../../hooks/deezer/useGetDeezerTracks";
 import { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
-import { setDeezerPlaylist } from "../reducers/deezerReducer";
+import { setDeezerPlaylist } from "../../reducers/deezerReducer";
 
 type TrackDeezerItemProps = {
   track: DeezerTrack;
@@ -44,7 +44,7 @@ type PlaylistTrackDeezerItemProps = {
   playlistId: string;
 };
 
-export const PlaylistTracksDeezerItem: React.FC<PlaylistTrackDeezerItemProps> = ({ playlistId }) => {
+export const DeezerPlaylistTracksItem: React.FC<PlaylistTrackDeezerItemProps> = ({ playlistId }) => {
   const [trackListData, hasLoaded] = useGetDeezerTracks(playlistId);
   const [trackIdList, setTrackIdList] = useState<string[]>([]);
   const [IsAllTrackChecked, setIsAllTracksChecked] = useState(false);

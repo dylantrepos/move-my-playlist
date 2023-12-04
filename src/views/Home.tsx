@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { UserProfilItem } from '../components/UserProfilItem';
-import { PlaylistDeezerItem } from '../components/PlaylistsDeezerItem';
+import { DeezerUserItem } from '../components/deezer/DeezerUserItem';
+import { DeezerPlaylistsItem } from '../components/deezer/DeezerPlaylistsItem';
 import { ErrorItem } from '../components/ErrorItem';
 
 export default function Home() {
@@ -19,8 +19,8 @@ export default function Home() {
         userDeezerError 
         ? <ErrorItem error={userDeezerError} type={'Deezer'} />
         : <>
-            <UserProfilItem user={userDeezerData!} />
-            <PlaylistDeezerItem />
+            <DeezerUserItem user={userDeezerData!} />
+            <DeezerPlaylistsItem />
           </>
       } 
     </> 

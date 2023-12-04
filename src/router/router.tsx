@@ -1,30 +1,26 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../views/Login";
-import DeezerRedirection from "../views/DeezerRedirection";
+import DeezerPopupRedirection from "../views/DeezerPopupRedirection";
 import Home from "../views/Home";
 import { homeLoader } from './loader';
-import SpotifyRedirection from "../views/SpotifyRedirection";
+import SpotifyPopupRedirection from "../views/SpotifyPopupRedirection";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Login />,
-    // loader: rootLoader,
   },
   {
     path: "deezer-redirection",
-    element: <DeezerRedirection />,
-    // loader: teamLoader,
+    element: <DeezerPopupRedirection />,
   },
   {
     path: "spotify-redirection",
-    element: <SpotifyRedirection />,
-    // loader: teamLoader,
+    element: <SpotifyPopupRedirection />,
   },
   {
     path: "home",
     element: <Home />,
     loader: homeLoader,
-    // loader: teamLoader,
   },
 ]);

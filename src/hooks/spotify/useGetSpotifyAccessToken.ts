@@ -1,26 +1,25 @@
 import axios from 'axios';
-import { DEEZER_AUTH_BASE, SPOTIFY_AUTH_BASE, SPOYIFY_AUTH_BASE } from '../../env';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setDeezerToken } from '../../reducers/deezerReducer';
-import { AccessToken } from '../../types/deezer/DeezerLogin';
 import { useQuery } from '@tanstack/react-query';
 import { SpotifyAccessToken, SpotifyAccessTokenResponse } from '../../types/spotify/LoginSpotify';
 import { setSpotifyToken } from '../../reducers/spotifyReducer';
 import { setSpotifyCookieToken } from '../../utils/utils';
 
 // const fetchToken = async (url: string) => (await axios(url)).data;
-const fetchToken = async (url: string) => {
+const fetchToken = async () => {
+  const params: Record<string, string | null> = {
+    'client_id': import.meta.env?.VITE_SPOTIFY_APP_ID ?? null,
+    'client_secret': import.meta.env?.VITE_SPOTIFY_SECRET_KEY ?? null,
+    'grant_type': 'client_credentials'
+  };
+
+  const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+
   const data = await axios.post(
-    url, 
-    {
-      'client_id': import.meta.env?.VITE_SPOTIFY_APP_ID ?? null,
-      'client_secret': import.meta.env?.VITE_SPOTIFY_SECRET_KEY ?? null,
-      'grant_type': 'client_credentials'
-    },
-    {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }
+    'spotify-token', 
+    params,
+    { headers }
   )
 
   const token: SpotifyAccessTokenResponse = data.data
@@ -38,22 +37,17 @@ const fetchToken = async (url: string) => {
 
 };
 
-export const useGetSpotifyAccessToken = (): [AccessToken | undefined, boolean, Error | null] => {
-  const [token, setToken] = useState<AccessToken>();
+export const useGetSpotifyAccessToken = (): [SpotifyAccessToken | undefined, boolean, Error | null] => {
+  const [token, setToken] = useState<SpotifyAccessToken>();
   const dispatch = useDispatch();
-
-  const spotifyAuthURL = new URL('/api/token', SPOTIFY_AUTH_BASE);
   
-  // Refetch after 30 minutes (in milliseconds)
   const { isPending, data, error } = useQuery({ 
     queryKey: ['spotify-token'], 
-    queryFn: () => fetchToken(spotifyAuthURL.toString()),
-    staleTime: 18000000,
+    queryFn: () => fetchToken(),
   })
 
   useEffect(() => {
     if (!isPending && data) {
-      // dispatch(setDeezerToken(newToken));
       dispatch(setSpotifyToken(data));
       setSpotifyCookieToken(JSON.stringify(data), data.expires);
       setToken(data);

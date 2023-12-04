@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { PlaylistTracksDeezerItem } from "./PlaylistsTracksDeezerItem";
-import { useGetDeezerPlaylist } from "../hooks/deezer/useGetDeezerPlaylists";
-import { DeezerPlaylist } from "../types/deezer/DeezerPlaylist";
+import { DeezerPlaylistTracksItem } from "./DeezerPlaylistTracksItem";
+import { useGetDeezerPlaylist } from "../../hooks/deezer/useGetDeezerPlaylists";
+import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
 
-export const PlaylistDeezerItem: React.FC = () => {
+export const DeezerPlaylistsItem: React.FC = () => {
   const [selectPlaylistId, setSelectPlaylistId] = useState('0');
   const [userDeezerPlaylist] = useGetDeezerPlaylist();
 
@@ -28,7 +28,7 @@ export const PlaylistDeezerItem: React.FC = () => {
         ))}
       </select>
       <div>
-          {selectPlaylistId !== '0' ? <PlaylistTracksDeezerItem playlistId={selectPlaylistId} /> : ''}
+          {selectPlaylistId !== '0' ? <DeezerPlaylistTracksItem playlistId={selectPlaylistId} /> : ''}
       </div>
     </>
   : ''

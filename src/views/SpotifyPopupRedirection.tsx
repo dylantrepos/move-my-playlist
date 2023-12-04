@@ -30,8 +30,15 @@ export default function SpotifyRedirection() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get('code') ?? '';  
+  const codeError = queryParams.get('error');  
 
-  if (!code) close();
+  if (codeError) {
+    window.opener.postMessage({
+      title: 'spotify-popup',
+      data: null,
+    }, '*');
+    close();
+  }
 
   const verifier = localStorage.getItem("verifier");
 
@@ -55,7 +62,13 @@ export default function SpotifyRedirection() {
           title: 'spotify-popup',
           data: data,
         }, '*');
-        window.close()
+        window.close();
+      } else {
+        window.opener.postMessage({
+          title: 'spotify-popup',
+          data: error
+        }, '*');
+        window.close();
       }
     }
   }, [isPending])
