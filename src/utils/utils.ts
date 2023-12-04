@@ -50,3 +50,13 @@ export const generateCodeVerifier = (length: number) => {
   }
   return text;
 }
+
+export const openPopup = (url: string) => {
+  const currHeight = window.innerHeight
+  const currWidth = window.innerWidth
+
+  console.log({url});
+  const windowOpener = open(url, '_blank', `width=${currWidth},height=${currHeight},left=0,top=0`);
+
+  return windowOpener;
+}
