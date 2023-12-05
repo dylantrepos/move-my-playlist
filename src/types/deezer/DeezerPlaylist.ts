@@ -4,7 +4,7 @@ export type DeezerPlaylists = {
 }
 
 export type DeezerPlaylist = {
-    id: string,
+    id: number,
     title: string,
     duration: number,
     public: true,

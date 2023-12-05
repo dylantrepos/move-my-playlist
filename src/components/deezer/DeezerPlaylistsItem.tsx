@@ -2,14 +2,19 @@ import { useState } from "react";
 import { DeezerPlaylistTracksItem } from "./DeezerPlaylistTracksItem";
 import { useGetDeezerPlaylist } from "../../hooks/deezer/useGetDeezerPlaylists";
 import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
+import { useDispatch } from "react-redux";
+import { setDeezerPlaylistTitle } from "../../reducers/deezerReducer";
 
 export const DeezerPlaylistsItem: React.FC = () => {
   const [selectPlaylistId, setSelectPlaylistId] = useState('0');
   const [userDeezerPlaylist] = useGetDeezerPlaylist();
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const playlistId = e.target.value;
+    const playlistTitle = userDeezerPlaylist?.data.find(playlist => playlist.id === +playlistId)?.title ?? '';
     setSelectPlaylistId(playlistId)
+    dispatch(setDeezerPlaylistTitle(playlistTitle))
   };
 
   return userDeezerPlaylist ? 

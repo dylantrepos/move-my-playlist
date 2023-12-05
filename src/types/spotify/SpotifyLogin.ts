@@ -10,4 +10,5 @@ export type SpotifyAccessToken = {
   accessToken: string;
   expires: number
   tokenType: string;
+  scope: string;
 }

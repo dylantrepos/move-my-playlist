@@ -12,7 +12,7 @@ const fetchUserData = async (token: string) => {
     "Authorization": `Bearer ${token}`,
   }
 
-  const data = await axios.get('/spotify-api/me', { headers });
+  const data = await axios.get('/spotify-api', { headers });
   
   return data.data
 }

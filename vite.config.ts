@@ -29,7 +29,7 @@ export default ({ mode }) => {
           rewrite: (path) => path.replace(/^\/deezer-api/, ''),
         },
         '/spotify-api': {
-          target: 'https://api.spotify.com/v1/',
+          target: 'https://api.spotify.com/v1/me/',
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/spotify-api/, ''),

@@ -11,7 +11,8 @@ const fetchToken = async () => {
   const params: Record<string, string | null> = {
     'client_id': import.meta.env?.VITE_SPOTIFY_APP_ID ?? null,
     'client_secret': import.meta.env?.VITE_SPOTIFY_SECRET_KEY ?? null,
-    'grant_type': 'client_credentials'
+    'grant_type': 'client_credentials',
+    'scope': 'playlist-read-private'
   };
 
   const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -24,11 +25,14 @@ const fetchToken = async () => {
 
   const token: SpotifyAccessTokenResponse = data.data
 
+  console.log({token});
+
   if (token) {
     const newToken: SpotifyAccessToken = {
       accessToken: token['access_token'],
       expires: token['expires_in'],
-      tokenType: token['token_type']
+      tokenType: token['token_type'],
+      scope: token['scope'],
     }
 
     return newToken;

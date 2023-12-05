@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { SpotifyAccessToken } from '../types/spotify/SpotifyLogin';
 
 const fetchToken = async (url: string, body: URLSearchParams) => {
-  console.log('fetching a');
   const data = await axios.post(
     url, 
     body,
@@ -19,7 +18,8 @@ const fetchToken = async (url: string, body: URLSearchParams) => {
   const newToken: SpotifyAccessToken = {
     accessToken: token['access_token'],
     expires: token['expires_in'],
-    tokenType: token['token_type']
+    tokenType: token['token_type'],
+    scope: token['scope']
   }
 
   return newToken;
