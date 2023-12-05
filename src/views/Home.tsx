@@ -25,8 +25,8 @@ export default function Home() {
         }</div>
         <div style={{width: '50%', padding: '0 20px', border: '#49d761 1px solid'}}>
           <SpotifyUserItem />
+          {/* <SpotifyPlaylistsItem /> */}
           <SpotifyCreatePlaylist />
-          <SpotifyPlaylistsItem />
         </div>
       </div>
     </> 

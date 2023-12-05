@@ -25,7 +25,9 @@ export type DeezerTrack = {
   time_add: number;
   artist: DeezerTrackArtist;
   album: DeezerTrackAlbum;
-  type: "track"
+  type: "track";
+  spotifyUrl?: string;
+  spotifyId?: string;
 }
 
 export type DeezerTrackArtist = {

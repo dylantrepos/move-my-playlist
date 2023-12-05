@@ -45,12 +45,19 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
       setIsPopupOpen(true);
   
       localStorage.setItem("verifier", verifier);
+      const scope = [
+        'playlist-read-private',
+        'user-read-private',
+        'user-read-email',
+        'playlist-modify-public',
+        'playlist-modify-private',
+      ]
   
       const spotifyUserURL = new URL('/authorize', SPOTIFY_AUTH_BASE);
       spotifyUserURL.searchParams.append("client_id", import.meta.env.VITE_SPOTIFY_APP_ID);
       spotifyUserURL.searchParams.append("response_type", "code");
       spotifyUserURL.searchParams.append("redirect_uri", import.meta.env.VITE_SPOTIFY_REDIRECT_URL);
-      spotifyUserURL.searchParams.append("scope", "playlist-read-private user-read-private user-read-email");
+      spotifyUserURL.searchParams.append("scope", scope.join(' '));
       spotifyUserURL.searchParams.append("code_challenge_method", "S256");
       spotifyUserURL.searchParams.append("code_challenge", challenge);
   
