@@ -1,10 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { SpotifyAccessToken } from "../types/spotify/SpotifyLogin";
+import { SpotifyUser } from "../types/spotify/SpotifyUser";
+import { SpotifyTrack } from "../types/spotify/SpotifyTrack";
 
 type State = {
   token?: SpotifyAccessToken; 
-  // user?: UserDeezer;
-  // playlist?: TrackDeezer[];
+  user?: SpotifyUser;
+  playlistTitle?: string;
+  playlist?: SpotifyTrack[];
   // error?: AxiosError;
 }
 
@@ -17,17 +20,20 @@ const spotifySlice = createSlice({
     setSpotifyToken: (state, action: PayloadAction<SpotifyAccessToken>) => {
       state.token = action.payload;
     },
-    // setDeezerUser: (state, action: PayloadAction<UserDeezer>) => {
-    //   state.user = action.payload;
-    // },
-    // setDeezerPlaylist: (state, action: PayloadAction<TrackDeezer[]>) => {
-    //   state.playlist = action.payload;
-    // },
+    setSpotifyUser: (state, action: PayloadAction<SpotifyUser>) => {
+      state.user = action.payload;
+    },
+    setSpotifyPlaylistTitle: (state, action: PayloadAction<string>) => {
+      state.playlistTitle = action.payload;
+    },
+    setSpotifyPlaylist: (state, action: PayloadAction<SpotifyTrack[]>) => {
+      state.playlist = action.payload;
+    },
     // setDeezerError: (state, action: PayloadAction<AxiosError>) => {
     //   state.error = action.payload;
     // }
   }
 })
 
-export const { setSpotifyToken } = spotifySlice.actions;
+export const { setSpotifyToken, setSpotifyUser, setSpotifyPlaylistTitle, setSpotifyPlaylist } = spotifySlice.actions;
 export default spotifySlice.reducer;

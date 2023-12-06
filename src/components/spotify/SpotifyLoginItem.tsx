@@ -45,9 +45,11 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
       setIsPopupOpen(true);
   
       localStorage.setItem("verifier", verifier);
+      
       const scope = [
         'playlist-read-private',
         'user-read-private',
+        'user-library-read',
         'user-read-email',
         'playlist-modify-public',
         'playlist-modify-private',

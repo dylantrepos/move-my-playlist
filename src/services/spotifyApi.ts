@@ -1,6 +1,37 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { store } from "../store/store";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
+import { SpotifyUser } from "../types/spotify/SpotifyUser";
+
+/**
+ * Get user info from Spotify Api.
+ */
+export const fetchSpotifyUser = async (): Promise<SpotifyUser> => {
+  const token = store.getState().spotify.token?.accessToken;
+  const headers: Record<string, string | null> = {
+    "Authorization": `Bearer ${ token }`,
+  }
+
+  const { data } = await axios.get('/spotify-api', { headers });
+
+  return data;
+};
+
+/**
+ * Fetch all user playlist from Spotify Api.
+ */
+type FetchTracksData = { pageParam: string }
+
+export const fetchSpotifyPlaylists = async ({ pageParam }: FetchTracksData) => {
+  const token = store.getState().spotify.token?.accessToken;
+  const headers: Record<string, string | null> = {
+    "Authorization": `Bearer ${ token }`,
+  }
+
+  const data = await axios.get(pageParam, { headers })
+
+  return data.data
+}
 
 /**
  * Get track's id from Spotify Api.
@@ -91,3 +122,21 @@ export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: str
   }
 }
 
+/**
+ * Get playlist's tracks from Deezer Api.
+ */
+
+type FetchSpotifyTracks = { pageParam: string }
+
+export const fetchSpotifyPlaylistTracks = async ({ pageParam }: FetchSpotifyTracks ) => {
+  const token = store.getState().spotify.token?.accessToken;
+  const headers: Record<string, string | null> = {
+    "Authorization": `Bearer ${ token }`,
+  }
+  console.log({ token });
+
+  const { data } = await axios.get(pageParam, { headers })
+  
+  console.log({ data });
+  return data
+}

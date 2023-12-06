@@ -6,7 +6,7 @@ import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
 import { createSpotifyPlaylist, fetchAllSpotifyTrackId, addTracksToSpotifyPlaylist } from "../../services/spotifyApi";
 import { SpotifyTracksResultItem } from "./SpotifyTracksResultItem";
 
-export const SpotifyCreatePlaylist = () => {
+export const SpotifyCreatePlaylistItem = () => {
   const [inputValue, setInputValue] = useState('');
   const [deezerTracksNotFound, setDeezerTracksNotFound] = useState<DeezerTrack[]>([]);
   const [deezerTracksFound, setDeezerTracksFound] = useState<DeezerTrack[]>([]);

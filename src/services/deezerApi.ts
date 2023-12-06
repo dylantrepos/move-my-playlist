@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { DeezerAccessTokenResponse } from "../types/deezer/DeezerLogin";
 import { store } from "../store/store";
+import { SpotifyTrack } from "../types/spotify/SpotifyTrack";
 
 /**
  * Get access token from Deezer API.
@@ -67,5 +68,89 @@ export const fetchDeezerPlaylistTracks = async ({ pageParam }: FetchDeezerTracks
   const params = { 'access_token': token }
   const { data } = await axios.get(pageParam, { params })
   
+  return data
+}
+
+/**
+ * Get track's id from Deezer Api.
+ */
+export const fetchDeezerTrackId = async (track: SpotifyTrack): Promise<SpotifyTrack> => {
+  if (!track.deezerUrl) return track;
+  const token = store.getState().deezer.token?.accessToken;
+  const params = { 'access_token': token };
+
+  try {
+      const response = await axios.get(track.deezerUrl, { params });
+
+      console.log({response});
+      return {
+        ...track,
+        deezerId: response.data.id,
+      }
+  } catch (error) {
+      console.error(`Error for URL ${track.deezerUrl}: ${(error as AxiosError).message}`);
+      return {
+        ...track,
+        deezerId: undefined,
+      }
+  }
+};
+
+/**
+ * Get track's id for each spotify playlist track from Deezer Api.
+ */
+export const fetchAllDeezerTrackId = async (spotifyPlaylist: SpotifyTrack[]) => {
+  if(spotifyPlaylist) {
+    const promises = spotifyPlaylist
+    .map(playlist => ({
+      ...playlist,
+      deezerUrl: `deezer-api/track/isrc:${playlist.external_ids.isrc}`
+    }))
+    .map(fetchDeezerTrackId);
+
+    try {
+        const results = await Promise.all(promises);
+
+        console.log({ results });
+        return results
+    } catch (error) {
+        console.error(`Error in Promise.all: ${(error as AxiosError).message}`);
+        return null
+    }
+  }
+};
+
+
+/**
+ * Create a playlist with Deezer Api.
+ */
+export const createDeezerPlaylist = async (playlistTitle: string): Promise<AxiosResponse> => {
+  const url = `/deezer-api/user/me/playlists`
+  const token = store.getState().deezer.token?.accessToken;
+  const params = { 
+    'access_token': token, 
+    'request_method': 'POST',
+    title: playlistTitle 
+  };
+
+  const data = await axios.get(url, { params })
+
+  return data
+}
+
+/**
+ * Add tracks to a playlist with Deezer Api.
+ */
+export const addTracksToDeezerPlaylist = async (playlistId: string, tracksId: string[]): Promise<AxiosResponse> => {
+  const url = `/deezer-api/playlist/${playlistId}/tracks`
+  const token = store.getState().deezer.token?.accessToken;
+  const params = { 
+    'access_token': token, 
+    'request_method': 'POST',
+    songs: tracksId.join(',') 
+  };
+
+  const data = await axios.get(url, { params })
+
   return data
 }

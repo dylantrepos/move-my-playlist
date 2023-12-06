@@ -1,27 +1,27 @@
-// import { useState } from "react";
-// import { DeezerPlaylistTracksItem } from "./DeezerPlaylistTracksItem";
-// import { useGetDeezerPlaylist } from "../../hooks/deezer/useGetDeezerPlaylists";
-// import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
-// import { useDispatch } from "react-redux";
-// import { setDeezerPlaylistTitle } from "../../reducers/deezerReducer";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { useGetSpotifyPlaylist } from "../../hooks/spotify/useGetSpotifyPlaylists";
 import { SpotifyPlaylistItems } from "../../types/spotify/SpotifyPlaylist";
+import { SpotifyPlaylistTracksItem } from "./SpotifyPlaylistTracksItem";
+import { setSpotifyPlaylist, setSpotifyPlaylistTitle } from "../../reducers/spotifyReducer";
 
 export const SpotifyPlaylistsItem: React.FC = () => {
-  // const [selectPlaylistId, setSelectPlaylistId] = useState('0');
+  const [selectPlaylistId, setSelectPlaylistId] = useState<string>();
   const [userSpotifyPlaylist] = useGetSpotifyPlaylist();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // const playlistId = e.target.value;
-    // const playlistTitle = userDeezerPlaylist?.data.find(playlist => playlist.id === +playlistId)?.title ?? '';
-    // setSelectPlaylistId(playlistId)
-    // dispatch(setDeezerPlaylistTitle(playlistTitle))
+    const playlistId = e.target.value;
+    const playlistTitle = playlistId !== 'Your Music' ? userSpotifyPlaylist?.find(playlist => playlist.id === playlistId)?.name ?? '' : 'Your Music';
+    setSelectPlaylistId(playlistId)
+
+    dispatch(setSpotifyPlaylist([]));
+    dispatch(setSpotifyPlaylistTitle(playlistTitle))
   };
 
   return userSpotifyPlaylist ? 
     <>
-      <div style={{margin: ' 20px 0 10px'}}>Or choose an existing playlist</div>
+      <div style={{margin: ' 20px 0 10px'}}>To begin, choose the playlist you want to move</div>
       <select 
         defaultValue={"placeholder"} 
         onChange={handleChange}
@@ -33,10 +33,13 @@ export const SpotifyPlaylistsItem: React.FC = () => {
             {playlist.name}
           </option>
         ))}
+        <option value={"Your Music"}>
+          Your Music
+        </option>
       </select>
-      {/* <div>
-          {selectPlaylistId !== '0' ? <DeezerPlaylistTracksItem playlistId={selectPlaylistId} /> : ''}
-      </div> */}
+      <div>
+          {selectPlaylistId ? <SpotifyPlaylistTracksItem playlistId={selectPlaylistId} /> : ''}
+      </div>
     </>
   : ''
 }

@@ -42,7 +42,14 @@ export const DeezerLoginItem = ({ updateDeezerConnection }: Props) => {
       const deezerUserURL = new URL('/oauth/auth.php', DEEZER_AUTH_BASE);
       deezerUserURL.searchParams.append("app_id", import.meta.env.VITE_DEEZER_APP_ID);
       deezerUserURL.searchParams.append("redirect_uri", import.meta.env.VITE_DEEZER_REDIRECT_URL);
-      deezerUserURL.searchParams.append("perms", "basic_access,email");
+
+      const perms = [
+        'basic_access',
+        'email',
+        'manage_library',
+      ].join(',')
+
+      deezerUserURL.searchParams.append("perms", perms);
       
       const popup = openPopup(deezerUserURL.toString());
       setIsPopupOpen(true);

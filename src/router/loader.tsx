@@ -4,7 +4,7 @@ import { redirect } from "react-router-dom";
 import { setDeezerToken } from "../reducers/deezerReducer";
 import { setSpotifyToken } from "../reducers/spotifyReducer";
 
-export const homeLoader = () => {
+export const loginLoader = () => {
   const deezerCookieToken = getDeezerCookieToken();
   const spotifyCookieToken = getSpotifyCookieToken();
   const { token: deezerToken } = store.getState().deezer;
