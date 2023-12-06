@@ -2,9 +2,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useEffect, useState } from "react";
 import { DeezerTrack } from "../../types/deezer/DeezerPlaylistTracks";
-import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
 import { createSpotifyPlaylist, fetchAllSpotifyTrackId, addTracksToSpotifyPlaylist } from "../../services/spotifyApi";
 import { SpotifyTracksResultItem } from "./SpotifyTracksResultItem";
+import { AxiosResponse } from "axios";
 
 export const SpotifyCreatePlaylistItem = () => {
   const [inputValue, setInputValue] = useState('');
@@ -29,23 +29,22 @@ export const SpotifyCreatePlaylistItem = () => {
   const handlePostForm = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const playlistCreated = await createSpotifyPlaylist(inputValue);
+    const playlistCreatedResponse = await createSpotifyPlaylist(inputValue);
 
     if (
-        playlistCreated.status === 201 && 
+        playlistCreatedResponse.data.id && 
         (deezerPlaylist || []).length > 0 && 
         deezerTracksFound
     ) {
-      const spotifyPlaylistId = (playlistCreated.data as SpotifyPlaylist).id;
+      const spotifyPlaylistId = playlistCreatedResponse.data.id;
       const tracksFound = deezerTracksFound
         .filter((track) => track?.spotifyId)
         .map((track) => `spotify:track:${track.spotifyId}`);
   
-      const playlistCreatedResponse = await addTracksToSpotifyPlaylist(spotifyPlaylistId, tracksFound);
+      const addTracksToPlaylistResponse = await addTracksToSpotifyPlaylist(spotifyPlaylistId, tracksFound);
 
-      console.log({playlistCreatedResponse});
 
-      setPlaylistCreated(playlistCreatedResponse?.status === 201);
+      setPlaylistCreated((addTracksToPlaylistResponse as AxiosResponse).data['snapshot_id'] ?? false);
     }
   }
 

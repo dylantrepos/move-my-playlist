@@ -30,25 +30,25 @@ export const DeezerCreatePlaylistItem = () => {
   const handlePostForm = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const playlistCreated = await createDeezerPlaylist(inputValue);
+    const playlistCreatedResponse = await createDeezerPlaylist(inputValue);
 
-    console.log({playlistCreated});
+    console.log({playlistCreatedResponse});
     if (
-        playlistCreated.data.id && 
+        playlistCreatedResponse.data.id && 
         (spotifyPlaylist || []).length > 0 && 
         spotifyTracksFound
     ) {
-      const spotifyPlaylistId = playlistCreated.data.id;
+      const spotifyPlaylistId = playlistCreatedResponse.data.id;
 
       const tracksFound = spotifyTracksFound
         .filter((track) => track.deezerId)
         .map((track) => track.deezerId ?? '');
 
-      const playlistCreatedResponse = await addTracksToDeezerPlaylist(spotifyPlaylistId, tracksFound);
+      const addTracksToPlaylistResponse = await addTracksToDeezerPlaylist(spotifyPlaylistId, tracksFound);
 
-      console.log({playlistCreatedResponse});
+      console.log({addTracksToPlaylistResponse});
 
-      setPlaylistCreated(playlistCreatedResponse?.status === 201);
+      setPlaylistCreated(addTracksToPlaylistResponse?.data);
 
     }
   }

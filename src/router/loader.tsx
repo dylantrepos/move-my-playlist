@@ -1,8 +1,8 @@
 import { store } from "../store/store";
 import { getDeezerCookieToken, getSpotifyCookieToken } from "../utils/utils";
 import { redirect } from "react-router-dom";
-import { setDeezerToken } from "../reducers/deezerReducer";
-import { setSpotifyToken } from "../reducers/spotifyReducer";
+import { setDeezerPlaylist, setDeezerPlaylistTitle, setDeezerToken } from "../reducers/deezerReducer";
+import { setSpotifyPlaylist, setSpotifyPlaylistTitle, setSpotifyToken } from "../reducers/spotifyReducer";
 
 export const loginLoader = () => {
   const deezerCookieToken = getDeezerCookieToken();
@@ -17,6 +17,13 @@ export const loginLoader = () => {
   // Save deezer token in store
   if (!deezerToken) store.dispatch(setDeezerToken(deezerCookieToken));
   if (!spotifyToken) store.dispatch(setSpotifyToken(spotifyCookieToken));
+
+  // Reset store playlists & playlists titles
+  store.dispatch(setSpotifyPlaylist([]));
+  store.dispatch(setDeezerPlaylist([]));
+
+  store.dispatch(setSpotifyPlaylistTitle(''));
+  store.dispatch(setDeezerPlaylistTitle(''));
   
   return null
 }

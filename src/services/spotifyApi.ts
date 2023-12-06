@@ -115,7 +115,7 @@ export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: str
         { headers }
       );
 
-      return response
+      return response as AxiosResponse
   } catch (error) {
       console.error(`Error: ${(error as AxiosError).message}`);
       return error as AxiosError;
