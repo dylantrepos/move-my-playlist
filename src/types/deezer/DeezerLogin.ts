@@ -4,3 +4,8 @@ export type DeezerAccessToken = {
   expires: number;
 }
 
+export type DeezerAccessTokenResponse = {
+  "access_token": string;
+  "expires": number;
+}
+

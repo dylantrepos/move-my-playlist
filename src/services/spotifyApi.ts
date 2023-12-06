@@ -2,6 +2,9 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { store } from "../store/store";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
 
+/**
+ * Get track's id from Spotify Api.
+ */
 export const fetchSpotifyTrackId = async (track: DeezerTrack): Promise<DeezerTrack> => {
   if (!track.spotifyUrl) return track;
 
@@ -26,6 +29,9 @@ export const fetchSpotifyTrackId = async (track: DeezerTrack): Promise<DeezerTra
   }
 };
 
+/**
+ * Get track's id for each deezer playlist track from Spotify Api.
+ */
 export const fetchAllSpotifyTrackId = async (deezerPlaylist: DeezerTrack[]) => {
   if(deezerPlaylist) {
     const promises = deezerPlaylist
@@ -46,7 +52,10 @@ export const fetchAllSpotifyTrackId = async (deezerPlaylist: DeezerTrack[]) => {
   }
 };
 
-export const createSpotifyPlaylistRequest = async (playlistTitle: string): Promise<AxiosResponse> => {
+/**
+ * Create a playlist with Spotify Api.
+ */
+export const createSpotifyPlaylist = async (playlistTitle: string): Promise<AxiosResponse> => {
   const url = `https://api.spotify.com/v1/me/playlists`
   const token = store.getState().spotify.token?.accessToken;
   const body = { name: playlistTitle }
@@ -59,8 +68,10 @@ export const createSpotifyPlaylistRequest = async (playlistTitle: string): Promi
   return data
 }
 
-
-export const postSpotifyFromTracksId = async (playlistId: string, tracks: string[]): Promise<void> => {
+/**
+ * Add tracks into playlist with Spotify Api.
+ */
+export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: string[]): Promise<void> => {
   const token = store.getState().spotify.token?.accessToken;
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
