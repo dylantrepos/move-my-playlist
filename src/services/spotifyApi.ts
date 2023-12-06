@@ -71,7 +71,7 @@ export const createSpotifyPlaylist = async (playlistTitle: string): Promise<Axio
 /**
  * Add tracks into playlist with Spotify Api.
  */
-export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: string[]): Promise<void> => {
+export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: string[]): Promise<AxiosResponse | AxiosError> => {
   const token = store.getState().spotify.token?.accessToken;
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
@@ -84,9 +84,10 @@ export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: str
         { headers }
       );
 
-      console.log({response});
+      return response
   } catch (error) {
       console.error(`Error: ${(error as AxiosError).message}`);
+      return error as AxiosError;
   }
 }
 

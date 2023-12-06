@@ -6,7 +6,6 @@ import { DeezerPlaylistsItem } from '../components/deezer/DeezerPlaylistsItem';
 import { ErrorItem } from '../components/ErrorItem';
 import { SpotifyUserItem } from '../components/spotify/SpotifyUserItem';
 import { SpotifyCreatePlaylist } from '../components/spotify/SpotifyCreatePlaylist';
-import { SpotifyPlaylistsItem } from '../components/spotify/SpotifyPlaylistsItem';
 
 export default function Home() {
   const userDeezerError = useSelector((state: RootState) => state.deezer.error);
