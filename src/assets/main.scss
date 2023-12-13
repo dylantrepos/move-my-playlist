@@ -1,3 +1,5 @@
+@import '../assets/variables.scss';
+
 * {
   border: 0;
   box-sizing: border-box;
@@ -5,6 +7,53 @@
   font-family: Poppins, sans-serif;
   font-style: normal;
   font-weight: 300;
-  // margin: 0;
-  // padding: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  align-items: unset;
+  background-color: var(--background-primary-color);
+  display: flex;
+  height: 100dvh;
+  margin: 0 1rem;
+  
+  @media (min-width: $l) {
+    align-items: center;
+    margin: 0 4rem;
+  }
+  
+  @media (min-width: $xl) {
+    margin: 0 10rem;
+  }
+}
+
+h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+.primary-button {
+  border: 1px solid var(--primary-color);
+  border-radius: 100px;
+  font-weight: 500;
+  padding: .5rem 3.5rem;
+  text-decoration: none;
+  transition: all var(--primary-animation);
+  width: fit-content;
+
+  &:hover {
+    background-color: var(--primary-color);
+  }
 }

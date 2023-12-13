@@ -1,0 +1,21 @@
+:root {
+  // General
+  --background-primary-color: #000000;
+  --background-secondary-color: #0F0C13;
+  --text-color: #ffffff;
+  --primary-animation: .25s ease-in-out;
+
+  // Color
+  --primary-color: #D10071;
+  --secondary-color: #0490BD;
+  --spotify-color: #00D856;
+  --deezer-color: #64397E;
+}
+
+// Screen
+$xxs: 380px; /* Extra, extra small screens */
+$xs: 500px; /* Extra small screens */
+$m: 768px; /* Medium screens (typically tablets) */
+$l: 992px; /* Large screens (desktop) */
+$xl: 1400px; /* Extra large screens */
+$xxl: 1600px; /* Extra, extra large screens */

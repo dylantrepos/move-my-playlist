@@ -1,0 +1,106 @@
+@import '../../assets/variables.scss'; 
+
+.home__main-container {
+  display: grid;
+  gap: 0 2rem;
+  grid-template-areas: 
+    'animation'
+    'header'
+    'description'
+    'steps'
+    ;
+  grid-template-columns: 1fr;
+  
+  @media (min-width: $l) {
+    grid-template-areas: 
+      'header animation'
+      'description animation'
+      'steps animation'
+      ;
+    grid-template-columns: 1fr 40%;
+  }
+
+  @media (min-width: $xl) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.-right {
+  align-self: center;
+  grid-area: animation;
+}
+
+.home__right-panel {
+  grid-area: animation;
+}
+
+.home__started-button {
+  align-self: center;
+  margin: 2rem 0 5rem;
+  
+  @media (min-width: $l) {
+    align-self: flex-start;
+  }
+}
+
+.home__header-container {
+  grid-area: header;
+  margin-top: 2rem;
+  text-align: center;
+  
+  @media (min-width: $l) {
+    margin-top: 0rem;
+    text-align: start;
+  }
+
+  @media (min-width: $xl) and (max-width: $xxl) {
+    margin-top: 10rem;
+  }
+}
+
+.home__description-container {
+  grid-area: description;
+
+  text-align: center;
+
+  h2 {
+    margin: 2rem 0 1rem;
+  }
+
+  p {
+    max-width: 100%;
+  }
+
+  @media (min-width: $l) {
+    text-align: start;
+
+    p {
+      max-width: 90%;
+    }
+  }
+}
+
+.home__steps-container {
+  border: 1px solid var(--secondary-color);
+  border-radius: 10px;
+  grid-area: steps;
+  max-width: 100%;
+  padding: 1rem 1.5rem;
+  
+  @media (min-width: $l) {
+    max-width: 600px;
+  }
+
+  h3 {
+    margin-bottom: .8rem;
+  }
+
+  ol {
+    margin-inline-start: 2rem;
+  }
+
+  li {
+    margin: .5rem 0;
+  }
+}
+

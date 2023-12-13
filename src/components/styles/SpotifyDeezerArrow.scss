@@ -1,0 +1,15 @@
+@import '../../assets/variables.scss';
+
+.SpotifyDeezerArrow_container {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  
+  @media (min-width: $l) {
+    margin-bottom: 4rem;
+    margin-top: 0rem;
+  }
+}

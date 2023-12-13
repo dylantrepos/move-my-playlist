@@ -6,10 +6,15 @@ import { loginLoader } from './loader';
 import SpotifyPopupRedirection from "../views/SpotifyPopupRedirection";
 import DeezerToSpotify from "../views/DeezerToSpotify";
 import SpotifyToDeezer from "../views/SpotifyToDeezer";
+import Landing from "../views/Landing";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    element: <Landing />,
+  },
+  {
+    path: "/login",
     element: <Login />,
   },
   {
