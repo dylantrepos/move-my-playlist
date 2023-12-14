@@ -5,23 +5,27 @@
   gap: 0 2rem;
   grid-template-areas: 
     'animation'
-    'header'
+    'title'
     'description'
     'steps'
     ;
   grid-template-columns: 1fr;
+  margin: 0 2rem;
+  padding-top: var(--height-header);
   
   @media (min-width: $l) {
     grid-template-areas: 
-      'header animation'
+      'title animation'
       'description animation'
       'steps animation'
       ;
     grid-template-columns: 1fr 40%;
+    margin: 0 4rem;
   }
 
   @media (min-width: $xl) {
     grid-template-columns: 1fr 1fr;
+    margin: 0 10rem;
   }
 }
 
@@ -39,19 +43,19 @@
   }
 }
 
-.home__header-container {
-  grid-area: header;
+.home__title-container {
+  grid-area: title;
   margin-top: 2rem;
   text-align: center;
   
   @media (min-width: $l) {
-    margin-top: 20rem;
+    margin-top: 10rem;
     text-align: start;
   }
 
-  @media (min-width: $xxl) {
-    margin-top: 10rem;
-  }
+  // @media (min-width: $xxl) {
+  //   margin-top: 10rem;
+  // }
 }
 
 .home__description-container {
@@ -76,7 +80,7 @@
 }
 
 .home__steps-container {
-  border: 1px solid var(--secondary-color);
+  border: 1px solid var(--color-secondary);
   border-radius: 10px;
   grid-area: steps;
   margin-bottom: 3rem;
@@ -107,16 +111,22 @@
  */
 
 .home__demonstration {
-  align-self: center;
   grid-area: animation;
+  // align-self: center;
+  margin-top: 2rem;
+  
+  @media (min-width: $l) {
+    margin-top: 8rem;
+  }
 }
 
 // GIF Animation
 .home__gif {
+  align-self: center;
   max-width: 400px;
   min-width: 200px;
   width: 100%;
-  
+
   @media (min-width: $l) {
     max-width: 600px;
   }

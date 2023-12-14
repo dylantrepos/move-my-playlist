@@ -4,6 +4,7 @@ import { SPOTIFY_AUTH_BASE } from "../../env";
 import { setSpotifyToken } from "../../reducers/spotifyReducer";
 import { SpotifyAccessToken } from "../../types/spotify/SpotifyLogin";
 import { useDispatch } from "react-redux";
+import SpotifyLogo from '../../assets/images/spotify-lg.png';
 
 type SpotifyMessageEvent = {
   title: string;
@@ -82,11 +83,10 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
     () => { window.removeEventListener('message', spotifyPopupListener) }
   , [])
 
-  return (<>
-      <p>
-        Logged into Spotify.
-      </p>
-      {isLoggedInSpotify ? '✅' : ''}
-      <button onClick={connectToSpotifyAPI}>Connect to Spotify</button>
-  </>)
+  return (
+    <button className={`login__button-spotify ${isLoggedInSpotify ? '-logged' : ''}`} onClick={connectToSpotifyAPI}>
+      <img className="login__button-spotify-image" src={SpotifyLogo} />
+      <p className="login__button-spotify-title">{isLoggedInSpotify ? 'Connected' : 'Connect to Spotify'}</p>
+    </button>
+  )
 }

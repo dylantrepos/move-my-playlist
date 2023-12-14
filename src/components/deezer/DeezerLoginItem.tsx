@@ -4,6 +4,7 @@ import { DEEZER_AUTH_BASE } from "../../env";
 import { useDispatch } from "react-redux";
 import { setDeezerToken } from "../../reducers/deezerReducer";
 import { DeezerAccessToken } from "../../types/deezer/DeezerLogin";
+import DeezerLogo from '../../assets/images/deezer-lg.png';
 
 type DeezerMessageEvent = {
   title: string;
@@ -37,7 +38,7 @@ export const DeezerLoginItem = ({ updateDeezerConnection }: Props) => {
     }
   }, [])
   
-  const connectToSpotifyAPI = async () => {
+  const connectToDeezerAPI = async () => {
     if (!isPopupOpen) {
       const deezerUserURL = new URL('/oauth/auth.php', DEEZER_AUTH_BASE);
       deezerUserURL.searchParams.append("app_id", import.meta.env.VITE_DEEZER_APP_ID);
@@ -74,11 +75,10 @@ export const DeezerLoginItem = ({ updateDeezerConnection }: Props) => {
     }
   , [])
 
-  return (<>
-      <p>
-        Logged into Deezer.
-      </p>
-      {isLoggedInDeezer ? '✅' : ''}
-      <button onClick={connectToSpotifyAPI}>Connect to Deezer</button>
-  </>)
+  return (
+    <button className={`login__button-deezer ${isLoggedInDeezer ? '-logged' : ''}`} onClick={connectToDeezerAPI}>
+      <img className="login__button-deezer-image" src={DeezerLogo}/>
+      <p className="login__button-deezer-title">{isLoggedInDeezer ? 'Connected' : 'Connect to Deezer'}</p>
+    </button>
+  )
 }

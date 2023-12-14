@@ -1,15 +1,24 @@
 :root {
   // General
-  --background-primary-color: #000000;
-  --background-secondary-color: #0F0C13;
-  --text-color: #ffffff;
-  --primary-animation: .25s ease-in-out;
-
+  --animation-primary: .25s ease-in-out;
+  
+  // Height
+  --height-header: 5rem;
+  
   // Color
-  --primary-color: #D10071;
-  --secondary-color: #0490BD;
-  --spotify-color: #00D856;
-  --deezer-color: #a238ff;
+  --color-primary: #D10071;
+  --color-primary-darker: color-mix(in srgb,var(--color-primary),#000 60%);
+  --color-secondary: #0490BD;
+
+  --color-green: #00D12E;
+
+  --color-text: #ffffff;
+  
+  --color-background-primary: #000000;
+  --color-background-secondary: #0F0C13;
+
+  --color-spotify: #00D856;
+  --color-deezer: #a238ff;
 }
 
 // Screen

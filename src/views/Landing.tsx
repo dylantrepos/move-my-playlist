@@ -8,9 +8,9 @@ export default function Landing() {
 
   return (
     <div className="home__main-container">
-      <header className="home__header-container">
+      <section className="home__title-container">
         <h1>Move My Playlist</h1>
-      </header>
+      </section>
 
       <section className="home__description-container">
         <h2>Seamless Playlist Migration Between Deezer and Spotify</h2>

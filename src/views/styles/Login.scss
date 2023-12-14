@@ -1,0 +1,110 @@
+@import '../../assets/variables.scss'; 
+
+.login__main-container {
+  display: grid;
+  gap: 2rem 0;
+  grid-template-areas: 
+  'title'
+  'deezer'
+  'spotify'
+  ;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  height: 100%;
+  margin-bottom: 5rem;
+  margin-top: var(--height-header);
+  width: 100%;
+  
+  @media (min-width: $l) {
+    gap: 0 2rem;
+    grid-template-areas: 
+    'title title'
+    'deezer spotify'
+    ;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    height: calc(100dvh - var(--height-header));
+    margin-top: 0;
+  }
+}
+
+.login__main-title {
+  align-self: flex-end;
+  grid-area: title;
+  margin: 2rem;
+  text-align: center;
+  
+  @media (min-width: $l) {
+    margin: 5rem 2rem;
+  }
+}
+
+.login__button-deezer,
+.login__button-spotify {
+  align-self: flex-start;
+  background-color: transparent;
+  border: solid 1px var(--color-primary-darker) ;
+  border-radius: 15px;
+  cursor: pointer;
+  height: 12rem;
+  justify-self: center;
+  max-width: 25rem;
+  min-width: 20rem;
+  transition: all var(--animation-primary);
+  width: 80%;
+  
+  &-image {
+    max-width: 10rem;
+  }
+  
+  &-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 1rem;
+    transition: all var(--animation-primary);
+  }
+  
+  &:hover:not(.-logged) {
+    border: solid 1px var(--color-primary);
+
+    .login__button-deezer-title,
+    .login__button-spotify-title {
+      font-weight: 500;
+    }
+  }
+  
+  &.-logged {
+    border: solid 1px var(--color-green) ;
+
+    [class$='-title'] {
+      color: var(--color-green);
+    }
+  }
+
+  @media (min-width: $l) {
+    height: 15rem;
+    width: 25rem;
+  }
+}
+
+.login__button {
+  &-deezer {
+    grid-area: deezer;
+    justify-self: center;
+    
+    @media (min-width: $l) {
+      justify-self: flex-end;
+    }
+  }
+
+  &-spotify {
+    grid-area: spotify;
+    justify-self: center;
+    
+    @media (min-width: $l) {
+      justify-self: flex-start;
+    }
+  }
+}
+
+
