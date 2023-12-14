@@ -46,8 +46,10 @@ export default function SpotifyRedirection() {
   params.append("client_id", import.meta.env.VITE_SPOTIFY_APP_ID);
   params.append("grant_type", "authorization_code");
   params.append("code", code);
-  params.append("redirect_uri", "http://localhost:5173/spotify-redirection");
+  params.append("redirect_uri", import.meta.env.VITE_SPOTIFY_REDIRECT_URL);
   params.append("code_verifier", verifier!);
+
+  console.log({params});
   
   const { isPending, data, error } = useQuery({ 
     queryKey: ['spotify-user-token'], 
@@ -58,20 +60,20 @@ export default function SpotifyRedirection() {
     if (!isPending) {
       // Final user token
       if (!error) {
-        window.opener.postMessage({
+        opener.postMessage({
           title: 'spotify-popup',
           data: data,
         }, '*');
         window.close();
       } else {
-        window.opener.postMessage({
+        opener.postMessage({
           title: 'spotify-popup',
           data: error
         }, '*');
         window.close();
       }
     }
-  }, [isPending])
+  }, [isPending, data])
 
   if (isPending) 
     return <span>Loading...</span>

@@ -1,6 +1,6 @@
 @import '../../assets/variables.scss'; 
 
-.home__main-container {
+.landing__main-container {
   display: grid;
   gap: 0 2rem;
   grid-template-areas: 
@@ -34,7 +34,7 @@
  * Left side
  */
 
-.home__started-button {
+.landing__started-button {
   align-self: center;
   margin: 2rem 0 5rem;
   
@@ -43,7 +43,7 @@
   }
 }
 
-.home__title-container {
+.landing__title-container {
   grid-area: title;
   margin-top: 2rem;
   text-align: center;
@@ -58,7 +58,7 @@
   // }
 }
 
-.home__description-container {
+.landing__description-container {
   grid-area: description;
   text-align: center;
 
@@ -79,7 +79,7 @@
   }
 }
 
-.home__steps-container {
+.landing__steps-container {
   border: 1px solid var(--color-secondary);
   border-radius: 10px;
   grid-area: steps;
@@ -110,7 +110,7 @@
  * Right side
  */
 
-.home__demonstration {
+.landing__demonstration {
   grid-area: animation;
   // align-self: center;
   margin-top: 2rem;
@@ -121,7 +121,7 @@
 }
 
 // GIF Animation
-.home__gif {
+.landing__gif {
   align-self: center;
   max-width: 400px;
   min-width: 200px;

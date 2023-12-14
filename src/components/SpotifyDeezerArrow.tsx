@@ -3,12 +3,17 @@ import SpotifyLogo from '../assets/images/spotify-sm.png';
 import Arrow from '../assets/images/arrow.png';
 import './styles/SpotifyDeezerArrow.scss';
 
-export const SpotifyDeezerArrow = () => {
+type Props = {
+  className?: string;
+  deezerToSpotify?: boolean
+}
+
+export const SpotifyDeezerArrow = ({ className, deezerToSpotify = true }: Props) => {
   return (
-    <div className='SpotifyDeezerArrow__container'>
-      <img src={DeezerLogo} />
+    <div className={`SpotifyDeezerArrow__container ${className ?? ''}`}>
+      <img src={deezerToSpotify ? DeezerLogo : SpotifyLogo} />
       <img src={Arrow} />
-      <img src={SpotifyLogo} />
+      <img src={deezerToSpotify ? SpotifyLogo : DeezerLogo} />
     </div>
   )
 }

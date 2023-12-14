@@ -1,0 +1,98 @@
+@import '../../assets/variables.scss'; 
+
+.home__main-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  margin-bottom: 5rem;
+  margin-top: var(--height-header);
+  width: 100%;
+  
+  @media (min-width: $l) {
+    gap: 0 2rem;
+    height: calc(100dvh - var(--height-header));
+    margin-top: 0;
+  }
+}
+
+.home__title {
+  margin: 2rem 4rem;
+  text-align: center;
+  
+  @media (min-width: $l) {
+    margin: 5rem 2rem;
+  }
+}
+
+// Form
+.home__form {
+  display: grid;
+  gap: 1rem 2rem;
+  grid-template-areas: 
+  'left'
+  'right'
+  'bottom';
+  
+  @media (min-width: $l) {
+    gap: 5rem 2rem;
+    grid-template-areas: 
+    'left right'
+    'bottom bottom';
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"]:checked + .home__deezer-spotify-arrow { 
+    border: var(--color-primary-darker) 1px solid;
+    pointer-events: none;
+  }
+
+  // Radio button
+  .home__deezer-spotify-arrow {
+    align-items: center;
+    border: transparent 1px solid;
+    border-radius: 15px;
+    cursor: pointer;
+    display: grid;
+    grid-template-areas: 
+    '. . .'
+    'text text text';
+    justify-items: center;
+    padding: 4rem;
+    transition: all var(--animation-primary);  
+    width: fit-content;
+
+    p {
+      grid-area: text;
+    }
+  }
+
+  // Submit button
+  .home__submit-button {
+    background-color: transparent;
+    border: #ffffff30 1px solid;
+    cursor: pointer;
+    grid-area: bottom;
+    justify-self: center;
+    margin-top: 2rem;
+    
+    &.-active {
+      border: var(--color-primary) 1px solid;
+    }
+
+    &:disabled {
+      pointer-events: none;
+    }
+    
+    @media (min-width: $l) {
+      margin-top: 0;
+    }
+  }
+}
+
+
+
