@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import './styles/Landing.scss';
 import { SpotifyDeezerArrow } from "../components/SpotifyDeezerArrow";
-import { SpotifyDeezerAnimation } from "../components/SpotifyDeezerAnimation";
+import Gif from '../assets/images/deezer-to-spotify.gif';
+
 
 export default function Landing() {
 
@@ -30,9 +31,9 @@ export default function Landing() {
             <li>Sit Back and Relax: Our system takes care of the heavy lifting. Grab a cup of coffee, and your playlists will be ready on the other platform in no time.</li>
         </ol>
       </section>
-      <section className="-right">
+      <section className="home__demonstration">
         <SpotifyDeezerArrow />
-        <SpotifyDeezerAnimation />
+        <img src={Gif} className='home__gif'/>
       </section>
       {/* <footer>
         <p>Move My Playlist - Your Music, Your Way! 🎶</p>

@@ -25,14 +25,10 @@
   }
 }
 
-.-right {
-  align-self: center;
-  grid-area: animation;
-}
 
-.home__right-panel {
-  grid-area: animation;
-}
+/*
+ * Left side
+ */
 
 .home__started-button {
   align-self: center;
@@ -49,18 +45,17 @@
   text-align: center;
   
   @media (min-width: $l) {
-    margin-top: 0rem;
+    margin-top: 20rem;
     text-align: start;
   }
 
-  @media (min-width: $xl) and (max-width: $xxl) {
+  @media (min-width: $xxl) {
     margin-top: 10rem;
   }
 }
 
 .home__description-container {
   grid-area: description;
-
   text-align: center;
 
   h2 {
@@ -84,6 +79,7 @@
   border: 1px solid var(--secondary-color);
   border-radius: 10px;
   grid-area: steps;
+  margin-bottom: 3rem;
   max-width: 100%;
   padding: 1rem 1.5rem;
   
@@ -104,3 +100,24 @@
   }
 }
 
+
+
+/*
+ * Right side
+ */
+
+.home__demonstration {
+  align-self: center;
+  grid-area: animation;
+}
+
+// GIF Animation
+.home__gif {
+  max-width: 400px;
+  min-width: 200px;
+  width: 100%;
+  
+  @media (min-width: $l) {
+    max-width: 600px;
+  }
+}

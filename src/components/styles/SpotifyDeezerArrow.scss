@@ -1,6 +1,6 @@
 @import '../../assets/variables.scss';
 
-.SpotifyDeezerArrow_container {
+.SpotifyDeezerArrow__container {
   align-items: center;
   display: flex;
   gap: 1rem;
@@ -8,8 +8,17 @@
   margin-bottom: 1rem;
   margin-top: 1rem;
   
+  img {
+    max-width: 4rem;
+  }
+  
   @media (min-width: $l) {
     margin-bottom: 4rem;
     margin-top: 0rem;
+
+    img {
+      max-width: 7rem;
+    }
   }
 }
+

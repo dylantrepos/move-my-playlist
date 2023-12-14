@@ -5,7 +5,7 @@ import './styles/SpotifyDeezerArrow.scss';
 
 export const SpotifyDeezerArrow = () => {
   return (
-    <div className='SpotifyDeezerArrow_container'>
+    <div className='SpotifyDeezerArrow__container'>
       <img src={DeezerLogo} />
       <img src={Arrow} />
       <img src={SpotifyLogo} />
