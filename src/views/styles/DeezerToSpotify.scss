@@ -1,0 +1,49 @@
+@import '../../assets/variables.scss'; 
+
+.deezerToSpotify__main-container {
+  height: 100%;
+  margin-top: var(--height-header);
+  width: 100%;
+}
+
+.deezerToSpotify__title {
+  margin-top: 15dvh;
+  text-align: center;
+}
+
+.deezerToSpotify__playlist-container {
+  background-color: var(--color-background-secondary);
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  bottom: 0;
+  box-shadow: -5px 14px 33.8px 0px var(--color-box-shadow-playlist-deezer);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 75dvh;
+  left: 50%;
+  max-height: 45rem;
+  max-width: 90dvw;
+  min-width: 22rem;
+  padding: 1.5rem 1.5rem 0;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 100%;
+  
+  @media (min-width: $xs) {
+    height: 70dvh;
+    
+    max-width: 35rem;
+    min-width: 30rem;
+    padding: 2rem 2rem 0;
+    width: 90dvw;
+  }
+  
+  @media (min-width: $l) {
+    height: 70dvh;
+    max-width: 40rem;
+    min-width: 22rem;
+    padding: 2rem 2rem 0;
+    
+  }
+}

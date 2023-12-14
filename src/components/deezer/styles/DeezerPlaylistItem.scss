@@ -1,0 +1,98 @@
+@import '../../../assets/variables.scss';
+
+.deezerPlaylistItem__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.deezerPlaylistItem__subtitle {
+  align-items: center;
+  display: flex;
+  gap: .5rem;
+
+  img {
+    width: 1rem;
+  }
+}
+
+.deezerPlaylistItem__playlist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  padding-bottom: 2rem;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  } 
+}
+
+.deezerPlaylistItem__playlist {
+  align-content: flex-start;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  font-size: 1rem;
+  gap: .4rem 1rem;
+  grid-template: 
+    'image title settings' 
+    'image info settings' 1rem
+    'image author settings' 
+  / min-content 1fr auto;
+  justify-items: flex-start;
+
+  > * {
+    pointer-events: none;
+  }
+
+  @media (min-width: $l) {
+    gap: .4rem 1.5rem;
+    
+  }
+
+  &-image {
+    border-radius: 5px;
+    grid-area: image;
+    width: 4.5rem;
+    
+    @media (min-width: $xs) {
+      width: 6rem;
+      
+    }
+  }
+
+  &-title {
+    align-self: flex-end;
+    font-size: 1rem;
+    font-weight: 500;
+    grid-area: title;
+    text-align: left;
+    
+    @media (min-width: $xs) {
+      font-size: 1.2rem;
+      
+    }
+  }
+
+  &-info {
+    grid-area: info;
+    text-align: left;
+  }
+
+  &-author {
+    font-size: .8rem;
+    font-style: italic;
+    grid-area: author;
+    margin-top: .25rem;
+    text-align: left;
+  }
+
+  &-settings {
+    align-self: center;
+    grid-area: settings;
+    width: .2rem;
+  }
+}
+

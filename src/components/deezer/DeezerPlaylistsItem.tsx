@@ -4,6 +4,9 @@ import { useGetDeezerPlaylist } from "../../hooks/deezer/useGetDeezerPlaylists";
 import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
 import { useDispatch } from "react-redux";
 import { setDeezerPlaylist, setDeezerPlaylistTitle } from "../../reducers/deezerReducer";
+import './styles/DeezerPlaylistItem.scss';
+import Chevron from '../../assets/images/chevrons.png';
+import DeezerDetails from '../../assets/images/deezer-details.png'
 
 export const DeezerPlaylistsItem: React.FC = () => {
   const [selectPlaylistId, setSelectPlaylistId] = useState<string>();
@@ -22,8 +25,13 @@ export const DeezerPlaylistsItem: React.FC = () => {
 
   return userDeezerPlaylist ? 
     <>
-      <div style={{margin: ' 20px 0 10px'}}>To begin, choose the playlist you want to move</div>
-      <select 
+      <div className="deezerPlaylistItem__title">Playlists</div>
+      <div className="deezerPlaylistItem__subtitle">
+        <img src={Chevron} />
+        <p>Added recently</p>
+      </div>
+
+      {/* <select 
         defaultValue={"placeholder"} 
         onChange={handleChange}
         style={{background: '#e1e1e1', borderRadius: '5px', padding: '10px'}}
@@ -37,6 +45,25 @@ export const DeezerPlaylistsItem: React.FC = () => {
       </select>
       <div>
           {selectPlaylistId ? <DeezerPlaylistTracksItem playlistId={selectPlaylistId} /> : ''}
+      </div> */}
+      <div className="deezerPlaylistItem__playlist-container">
+        {userDeezerPlaylist.data?.map((playlist: DeezerPlaylist) => (
+          <button className="deezerPlaylistItem__playlist">
+            <img 
+              src={playlist.picture} 
+              className="deezerPlaylistItem__playlist-image"
+            />
+            <p className="deezerPlaylistItem__playlist-title">{playlist.title}</p>
+            <p className="deezerPlaylistItem__playlist-info">
+            {playlist.nb_tracks} {`Track${playlist.nb_tracks > 1 ? 's' : ''}`}</p>
+            <p className="deezerPlaylistItem__playlist-author">
+            Created by {playlist.creator.name} </p>
+            <img 
+              src={DeezerDetails}
+              className="deezerPlaylistItem__playlist-settings" 
+            />
+          </button>
+        ))}
       </div>
     </>
   : ''
