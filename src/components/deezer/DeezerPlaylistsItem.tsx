@@ -25,11 +25,11 @@ export const DeezerPlaylistsItem: React.FC = () => {
 
   return userDeezerPlaylist ? 
     <>
-      <div className="deezerPlaylistItem__title">Playlists</div>
+      {/* <div className="deezerPlaylistItem__title">Playlists</div>
       <div className="deezerPlaylistItem__subtitle">
         <img src={Chevron} />
         <p>Added recently</p>
-      </div>
+      </div> */}
 
       {/* <select 
         defaultValue={"placeholder"} 
@@ -46,7 +46,7 @@ export const DeezerPlaylistsItem: React.FC = () => {
       <div>
           {selectPlaylistId ? <DeezerPlaylistTracksItem playlistId={selectPlaylistId} /> : ''}
       </div> */}
-      <div className="deezerPlaylistItem__playlist-container">
+      {/* <div className="deezerPlaylistItem__playlist-container"> */}
         {userDeezerPlaylist.data?.map((playlist: DeezerPlaylist) => (
           <button className="deezerPlaylistItem__playlist">
             <img 
@@ -64,7 +64,7 @@ export const DeezerPlaylistsItem: React.FC = () => {
             />
           </button>
         ))}
-      </div>
+      {/* </div> */}
     </>
   : ''
 }

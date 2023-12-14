@@ -1,34 +1,5 @@
 @import '../../../assets/variables.scss';
 
-.deezerPlaylistItem__title {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.deezerPlaylistItem__subtitle {
-  align-items: center;
-  display: flex;
-  gap: .5rem;
-
-  img {
-    width: 1rem;
-  }
-}
-
-.deezerPlaylistItem__playlist-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  overflow: scroll;
-  -ms-overflow-style: none;  /* IE and Edge */
-  padding-bottom: 2rem;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  } 
-}
-
 .deezerPlaylistItem__playlist {
   align-content: flex-start;
   background: transparent;

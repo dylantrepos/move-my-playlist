@@ -11,7 +11,7 @@
   text-align: center;
 }
 
-.deezerToSpotify__playlist-container {
+.deezerToSpotify__playlist {
   background-color: var(--color-background-secondary);
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
@@ -19,7 +19,7 @@
   box-shadow: -5px 14px 33.8px 0px var(--color-box-shadow-playlist-deezer);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
   height: 75dvh;
   left: 50%;
   max-height: 45rem;
@@ -31,8 +31,8 @@
   width: 100%;
   
   @media (min-width: $xs) {
+    gap: 2rem;
     height: 70dvh;
-    
     max-width: 35rem;
     min-width: 30rem;
     padding: 2rem 2rem 0;
@@ -46,4 +46,38 @@
     padding: 2rem 2rem 0;
     
   }
+}
+
+.deezerToSpotify__playlist-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  
+  @media (min-width: $xs) {
+    font-size: 1.5rem;
+
+  }
+}
+
+.deezerToSpotify__playlist-subtitle {
+  align-items: center;
+  display: flex;
+  gap: .5rem;
+
+  img {
+    width: 1rem;
+  }
+}
+
+.deezerToSpotify__playlist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  padding-bottom: 2rem;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  } 
 }
