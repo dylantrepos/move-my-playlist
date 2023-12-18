@@ -27,6 +27,10 @@ export const fetchDeezerToken = async (code: string): Promise<DeezerAccessTokenR
  */
 export const fetchDeezerUserProfil = async () => {
   const token = store.getState().deezer.token?.accessToken ?? '';
+  const user = store.getState().deezer.user;
+
+  if (user) return user;
+
   const params: Record<string, string | null> = {
     "access_token": token,
   };
@@ -44,6 +48,7 @@ export const fetchDeezerUserProfil = async () => {
  */
 export const fetchDeezerUserPlaylists = async () => {
   const token = store.getState().deezer.token?.accessToken ?? '';
+
   const params: Record<string, string | null> = {
     "access_token": token,
   };

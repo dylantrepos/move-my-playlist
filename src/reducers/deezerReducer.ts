@@ -5,14 +5,19 @@ import { AxiosError } from "axios";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
 
 type State = {
-  token?: DeezerAccessToken; 
+  token: DeezerAccessToken; 
   user?: DeezerUser;
   playlistTitle?: string;
   playlist?: DeezerTrack[];
   error?: AxiosError;
 }
 
-const initialState: State = {};
+const initialState: State = {
+  token: {
+    accessToken: '',
+    expires: 0
+  }
+};
 
 const deezerSlice = createSlice({
   name: 'userDeezer',

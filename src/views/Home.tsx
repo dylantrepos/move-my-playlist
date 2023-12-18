@@ -62,7 +62,7 @@ export default function Home() {
           </span>
         </label>
         <button 
-          className={`primary-button home__submit-button ${choice ? '-active' : ''}`}
+          className={`button-primary home__submit-button ${choice ? '-active' : ''}`}
           type='submit'
           disabled={!choice}
         >

@@ -17,7 +17,7 @@ export default function Landing() {
         <p>Are you tired of manually recreating your favorite playlists on different music platforms? Say goodbye to the hassle, and welcome to Move My Playlist – the ultimate solution for effortlessly transferring your music playlists between Deezer and Spotify!</p>
         <Link 
           to="login"
-          className="primary-button landing__started-button"
+          className="button-primary landing__started-button"
         >
           Get Started
         </Link>

@@ -15,7 +15,7 @@ export const loginLoader = () => {
   if (!spotifyCookieToken || Object.values(spotifyCookieToken).length === 0) return redirect('/');
   
   // Save deezer token in store
-  if (!deezerToken) store.dispatch(setDeezerToken(deezerCookieToken));
+  if (deezerToken.accessToken.length === 0) store.dispatch(setDeezerToken(deezerCookieToken));
   if (!spotifyToken) store.dispatch(setSpotifyToken(spotifyCookieToken));
 
   // Reset store playlists & playlists titles
