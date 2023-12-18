@@ -4,7 +4,6 @@ import { RootState } from '../store/store';
 import { DeezerUserItem } from '../components/deezer/DeezerUserItem';
 import { ErrorItem } from '../components/ErrorItem';
 import { SpotifyUserItem } from '../components/spotify/SpotifyUserItem';
-import { SpotifyCreatePlaylist } from '../components/spotify/SpotifyCreatePlaylistItem';
 import { SpotifyPlaylistsItem } from '../components/spotify/SpotifyPlaylistsItem';
 import { DeezerCreatePlaylistItem } from '../components/deezer/DeezerCreatePlaylistItem';
 

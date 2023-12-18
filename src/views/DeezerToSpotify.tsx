@@ -14,6 +14,7 @@ export default function DeezerToSpotify() {
   const [user] = useGetDeezerUserData(); 
   const [title, setTitle] = useState<string>();
   const [checkAllTracks, setCheckAllTracks] = useState<boolean>(false);
+  const [tracklistIds, setTracklistIds] = useState<string[]>([]);
 
   const handleSelectPlaylist = (playlist: DeezerPlaylist) => {
     setCurrPlaylist(playlist);
@@ -32,10 +33,11 @@ export default function DeezerToSpotify() {
       const newTitle = `${currPlaylist?.title} (${nbTracks})`
       setTitle(newTitle);
       setCheckAllTracks(false);
+      setTracklistIds([]);
     } 
     else if (user) setTitle(`Playlists de ${user?.firstname}`);
   }, [currPlaylist, user])
-
+  
   return user ? (
   <div className='deezerToSpotify__main-container'>
     <h1 className='deezerToSpotify__title'>
@@ -54,9 +56,13 @@ export default function DeezerToSpotify() {
               </option>
             ))}
           </select>
-          <button className='button-primary'>
+          <button 
+            className='button-primary'  
+            disabled={tracklistIds.length === 0}
+          >
             Confirm
           </button>
+          
         </div> 
     : ''}
     <div className='deezerToSpotify__playlist'>
@@ -81,6 +87,8 @@ export default function DeezerToSpotify() {
         ? <DeezerPlaylistsTracksItem 
             playlist={currPlaylist} 
             checkAllTracks={checkAllTracks}
+            tracklistIds={tracklistIds}
+            setTracklistIds={setTracklistIds}
           /> 
         : <DeezerPlaylistsItem 
             handleSelectPlaylist={handleSelectPlaylist}

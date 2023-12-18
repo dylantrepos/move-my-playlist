@@ -34,6 +34,19 @@
       max-width: 15rem;
     }
   }
+
+  button {
+    border-color: rgb(55, 55, 55);
+    color: rgb(55, 55, 55);
+    pointer-events: none;
+
+    &:not(:disabled) {
+      border-color: var(--color-primary);
+      color: white;
+      cursor: pointer;
+      pointer-events: all;
+    }
+  }
 }
 
 

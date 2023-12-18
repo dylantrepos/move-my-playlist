@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 type Props = {
   playlist: DeezerPlaylist;
   checkAllTracks: boolean;
+  tracklistIds: string[];
+  setTracklistIds: (tracklist: string[]) => void;
 }
 
-export const DeezerPlaylistsTracksItem = ({ playlist, checkAllTracks }: Props) => {
+export const DeezerPlaylistsTracksItem = ({ playlist, checkAllTracks, tracklistIds, setTracklistIds }: Props) => {
   const [trackListData, hasLoaded] = useGetDeezerTracks(playlist.id.toString());
-  const [trackIdList, setTrackIdList] = useState<string[]>([]);
+  // const [trackIdList, setTrackIdList] = useState<string[]>([]);
   const [IsAllTrackChecked, setIsAllTracksChecked] = useState(false);
 
   const handleSubmitPlaylist = (e: React.FormEvent) => {
@@ -29,30 +31,24 @@ export const DeezerPlaylistsTracksItem = ({ playlist, checkAllTracks }: Props) =
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const updatedTrackIdlist = trackIdList.includes(value)
-      ? trackIdList.filter((track) => track !== value)
-      : [...trackIdList, value];
-
-    setTrackIdList(updatedTrackIdlist);
+    const updatedTrackIdlist = tracklistIds.includes(value)
+      ? tracklistIds.filter((track) => track !== value)
+      : [...tracklistIds, value];
+      
+    setTracklistIds(updatedTrackIdlist);
   };
 
   useEffect(() => {
     if (trackListData?.data) {
       if (IsAllTrackChecked) {
-        setTrackIdList([]);
+        setTracklistIds([]);
         setIsAllTracksChecked(false)
       } else {
-        setTrackIdList(trackListData.data.map((track: DeezerTrack) => track.id.toString()));
+        setTracklistIds(trackListData.data.map((track: DeezerTrack) => track.id.toString()));
         setIsAllTracksChecked(true)
       }
     }
   }, [checkAllTracks]);
-
-  useEffect(() => {
-    setTrackIdList([]);
-    setIsAllTracksChecked(false)
-  }, [playlist]);
-
 
   return !hasLoaded || !trackListData
     ? <p>Loading tracks ...</p>
@@ -74,7 +70,7 @@ export const DeezerPlaylistsTracksItem = ({ playlist, checkAllTracks }: Props) =
               margin: '0 15px'
             }} 
             value={track.id}
-            checked={trackIdList.includes(track.id.toString())}
+            checked={tracklistIds.includes(track.id.toString())}
             onChange={handleCheckboxChange}
           />
           <img 
@@ -94,7 +90,7 @@ export const DeezerPlaylistsTracksItem = ({ playlist, checkAllTracks }: Props) =
             {track.album.title} 
           </p>
           <Check            
-            classNames={`deezerPlaylistsTracksItem__playlist-item-check ${trackIdList.includes(track.id.toString()) ? '-checked' : ''}`} 
+            classNames={`deezerPlaylistsTracksItem__playlist-item-check ${tracklistIds.includes(track.id.toString()) ? '-checked' : ''}`} 
           />
         </label>
       ))}
