@@ -16,7 +16,7 @@ export default function Home() {
 
   const handlePostHomeForm = (e: FormEvent) => {
     e.preventDefault();
-    navigate(choice === 'deezerToSpotify' ? '/deezer-to-spotify' : '/spotify-to-deezer');
+    navigate(choice === 'deezerToSpotify' ? '/deezer-to-spotify/playlist' : '/spotify-to-deezer/playlist');
   }
 
   return (
@@ -69,16 +69,6 @@ export default function Home() {
           Confirm
         </button>
       </form>
-      {/* <div>
-        <div>
-          <Link to={'../deezer-to-spotify'}>
-            Transfert Deezer playlist to Spotify
-          </Link>
-          <Link to={'../spotify-to-deezer'}>
-            Transfert Spotify playlist to Deezer
-          </Link>
-        </div>
-      </div> */}
     </div> 
   )
 }

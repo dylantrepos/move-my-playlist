@@ -1,0 +1,68 @@
+@import '../../assets/variables.scss';
+
+.playlistItem {
+  align-content: flex-start;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  font-size: 1rem;
+  gap: .4rem 1rem;
+  grid-template: 
+    'image title settings' 
+    'image info settings' 1rem
+    'image author settings' 
+  / min-content 1fr auto;
+  justify-items: flex-start;
+
+  > * {
+    pointer-events: none;
+  }
+
+  @media (min-width: $l) {
+    gap: .4rem 1.5rem;
+    
+  }
+
+  &__image {
+    border-radius: 5px;
+    grid-area: image;
+    width: 4.5rem;
+    
+    @media (min-width: $xs) {
+      width: 6rem;
+      
+    }
+  }
+
+  &__title {
+    align-self: flex-end;
+    font-size: 1rem;
+    font-weight: 500;
+    grid-area: title;
+    text-align: left;
+    
+    @media (min-width: $xs) {
+      font-size: 1.2rem;
+      
+    }
+  }
+
+  &__info {
+    grid-area: info;
+    text-align: left;
+  }
+
+  &__author {
+    font-size: .8rem;
+    font-style: italic;
+    grid-area: author;
+    margin-top: .25rem;
+    text-align: left;
+  }
+
+  &__settings {
+    align-self: center;
+    grid-area: settings;
+    width: .2rem;
+  }
+}

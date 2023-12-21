@@ -1,49 +1,6 @@
-@import '../../../assets/variables.scss';
+@import '../../assets/variables.scss';
 
-.deezerPlaylistsTracksItem__select-container {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1rem;
-  width: 100%;
-
-  button {
-    border: var(--color-primary) 1px solid;
-    color: white;
-    cursor: pointer;
-    pointer-events: all;
-    
-    &:disabled {
-      border: #ffffff30 1px solid;
-      color: #ffffff30;
-      pointer-events: none;
-    }
-  }
-}
-
-.deezerPlaylistsTracksItem__playlist-item-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  overflow: scroll;
-  -ms-overflow-style: none;  /* IE and Edge */
-  padding-bottom: 2rem;
-  scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  } 
-}
-
-.deezerPlaylistsTracksItem__playlist-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-}
-
-.deezerPlaylistsTracksItem__playlist-item {
+.trackItem {
   align-content: flex-start;
   background: transparent;
   cursor: pointer;
@@ -70,7 +27,7 @@
     
   }
 
-  &-image {
+  &__image {
     border-radius: 5px;
     grid-area: image;
     width: 4.5rem;
@@ -81,7 +38,7 @@
     }
   }
 
-  &-title {
+  &__title {
     align-self: flex-end;
     font-size: 1rem;
     font-weight: 500;
@@ -94,12 +51,12 @@
     }
   }
 
-  &-info {
+  &__info {
     grid-area: info;
     text-align: left;
   }
 
-  &-author {
+  &__author {
     font-size: .8rem;
     font-style: italic;
     grid-area: author;
@@ -107,7 +64,7 @@
     text-align: left;
   }
 
-  &-check {
+  &__check {
     align-self: center;
 
     border: 1px solid rgb(255, 255, 255);

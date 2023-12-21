@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
-import { DeezerUserItem } from '../components/deezer/DeezerUserItem';
 import { ErrorItem } from '../components/ErrorItem';
 import { SpotifyUserItem } from '../components/spotify/SpotifyUserItem';
 import { SpotifyPlaylistsItem } from '../components/spotify/SpotifyPlaylistsItem';
-import { DeezerCreatePlaylistItem } from '../components/deezer/DeezerCreatePlaylistItem';
 
 export default function SpotifyToDeezer() {
   const userDeezerError = useSelector((state: RootState) => state.deezer.error);
@@ -22,10 +20,6 @@ export default function SpotifyToDeezer() {
               <SpotifyPlaylistsItem />
             </>
         }</div>
-        <div style={{width: '50%', padding: '0 20px', border: '#a238ff 1px solid'}}>
-          <DeezerUserItem />
-          <DeezerCreatePlaylistItem />
-        </div>
       </div>
     </> 
 }

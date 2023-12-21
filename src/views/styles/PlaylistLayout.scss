@@ -1,0 +1,15 @@
+@import '../../assets/variables.scss'; 
+
+.playlistLayout {
+  height: 100%;
+  margin-top: var(--height-header);
+  width: 100%;
+}
+
+.playlistLayout__title {
+  text-align: center;
+  
+  @media (min-width: $xs) {
+    margin-top: 15dvh;
+  }
+}

@@ -1,21 +1,28 @@
-import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
 import { DeezerTrack } from "../../types/deezer/DeezerPlaylistTracks";
 import { useGetDeezerTracks } from "../../hooks/deezer/useGetDeezerTracks";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { setSelectedPlaylist, setSelectedTracks } from "../../reducers/deezerReducer";
+import { TrackItem } from "../TrackItem";
+
 import './styles/DeezerPlaylistTracksItem.scss';
-import { Check } from "../../assets/icons/check";
-import { useEffect, useState } from "react";
+import PlaylistLayout from "../../views/layout/PlaylistLayout";
+import { ListContainer } from "../ListContainer";
+import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useEffect } from "react";
+import { PlaylistSelectItem } from "../PlaylistSelectItem";
 
-type Props = {
-  playlist: DeezerPlaylist;
-  checkAllTracks: boolean;
-  tracklistIds: string[];
-  setTracklistIds: (tracklist: string[]) => void;
-}
+export const DeezerPlaylistsTracksItem = () => {
+  const currTracksSelected = useSelector((state: RootState) => state.deezer.selectedTracks);
+  const currPlaylistSelected = useSelector((state: RootState) => state.deezer.selectedPlaylist)
+  const playlists = useSelector((state: RootState) => state.deezer.playlists)
+  const [trackListData, hasLoaded] = useGetDeezerTracks(currPlaylistSelected?.id.toString() ?? '');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-export const DeezerPlaylistsTracksItem = ({ playlist, checkAllTracks, tracklistIds, setTracklistIds }: Props) => {
-  const [trackListData, hasLoaded] = useGetDeezerTracks(playlist.id.toString());
-  // const [trackIdList, setTrackIdList] = useState<string[]>([]);
-  const [IsAllTrackChecked, setIsAllTracksChecked] = useState(false);
+  useEffect(() => {
+    if (!currPlaylistSelected) navigate('/deezer-to-spotify/playlist');
+  }, [])
 
   const handleSubmitPlaylist = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,69 +37,70 @@ export const DeezerPlaylistsTracksItem = ({ playlist, checkAllTracks, tracklistI
   }
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    const updatedTrackIdlist = tracklistIds.includes(value)
-      ? tracklistIds.filter((track) => track !== value)
-      : [...tracklistIds, value];
+    const trackId = +e.target.value;
+    const updatedTrackIdlist = currTracksSelected.includes(trackId)
+      ? currTracksSelected.filter((track) => track !== trackId)
+      : [...currTracksSelected, trackId];
       
-    setTracklistIds(updatedTrackIdlist);
+    dispatch(setSelectedTracks(updatedTrackIdlist));
   };
 
-  useEffect(() => {
-    if (trackListData?.data) {
-      if (IsAllTrackChecked) {
-        setTracklistIds([]);
-        setIsAllTracksChecked(false)
-      } else {
-        setTracklistIds(trackListData.data.map((track: DeezerTrack) => track.id.toString()));
-        setIsAllTracksChecked(true)
-      }
-    }
-  }, [checkAllTracks]);
+  const handleChangePlaylist = (e: ChangeEvent<HTMLSelectElement>) => {
+    const playlistId = +e.target.value;
+    const selectedPlaylist = playlists.find(playlist => playlist.id === playlistId);
 
-  return !hasLoaded || !trackListData
-    ? <p>Loading tracks ...</p>
-    : trackListData?.total === 0 
-      ? <p>No tracks in this playlist.</p> 
-      :
-    <form
-      className="deezerPlaylistsTracksItem__playlist-form"
-      onSubmit={handleSubmitPlaylist}
-    >
-      {trackListData.data?.map((track: DeezerTrack) => (
-        <label 
-          key={track.id} 
-          className="deezerPlaylistsTracksItem__playlist-item"
-        >
-           <input 
-            type="checkbox" 
-            style={{
-              margin: '0 15px'
-            }} 
-            value={track.id}
-            checked={tracklistIds.includes(track.id.toString())}
-            onChange={handleCheckboxChange}
+    if (selectedPlaylist) {
+      dispatch(setSelectedPlaylist(selectedPlaylist))
+      dispatch(setSelectedTracks([]));
+    }
+  }
+
+  useEffect(() => {
+    console.log({currTracksSelected});
+  }, [currTracksSelected])
+
+  return currPlaylistSelected && (
+    <PlaylistLayout title={'Choose the tracks'}>
+      <div className='deezerPlaylistsTracksItem__select-container'>
+          <PlaylistSelectItem 
+            playlists={playlists}
+            playlistId={currPlaylistSelected.id}
+            handleChangePlaylist={handleChangePlaylist}
           />
-          <img 
-            src={track.album.cover} 
-            className="deezerPlaylistsTracksItem__playlist-item-image"
-          />
-          <p className="deezerPlaylistsTracksItem__playlist-item-title">
-            {track.title}
-          </p>
-          <p className="deezerPlaylistsTracksItem__playlist-item-info">
-            {track.artist.name}
-          </p>
-          <p className="deezerPlaylistsTracksItem__playlist-item-author">
-            {track.album.title} 
-          </p>
-          <p className="deezerPlaylistsTracksItem__playlist-item-author">
-            {track.album.title} 
-          </p>
-          <Check            
-            classNames={`deezerPlaylistsTracksItem__playlist-item-check ${tracklistIds.includes(track.id.toString()) ? '-checked' : ''}`} 
-          />
-        </label>
-      ))}
-  </form> 
+          <button 
+            className='button-primary'  
+            disabled={currTracksSelected.length === 0}
+          >
+            Confirm
+          </button>
+          
+        </div> 
+      <ListContainer 
+        title={currPlaylistSelected.title}
+        withSelectAll={true}
+      >
+        { !hasLoaded || !trackListData
+          ? <p>Loading tracks ...</p>
+          : trackListData?.total === 0 
+            ? <p>No tracks in this playlist.</p> 
+            :
+          <form
+            className="deezerPlaylistsTracksItem__playlist-form"
+            onSubmit={handleSubmitPlaylist}
+          >
+            {trackListData.data?.map((track: DeezerTrack) => (
+              <TrackItem
+                key={track.id} 
+                id={track.id}
+                cover={track.album.cover}
+                trackTitle={track.title}
+                albumTitle={track.album.title}
+                artist={track.artist.name}
+                checked={currTracksSelected.includes(track.id)}
+                handleChange={handleCheckboxChange}
+              />
+            ))}
+          </form> }
+      </ListContainer>
+    </PlaylistLayout>)
 }

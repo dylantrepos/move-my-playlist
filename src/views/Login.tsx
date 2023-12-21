@@ -17,7 +17,7 @@ export default function Login() {
   useEffect(() => {
     console.log({currentConnection});
     if (currentConnection.deezer && currentConnection.spotify) {
-      setTimeout(() => navigate('/home'), 1500)
+      setTimeout(() => navigate('/home'), 500)
       ;
     }
   }, [currentConnection])

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { DeezerPlaylistTracks } from "../../types/deezer/DeezerPlaylistTracks";
+import { DeezerPlaylistTracks, DeezerTrack } from "../../types/deezer/DeezerPlaylistTracks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchDeezerPlaylistTracks } from "../../services/deezerApi";
+import { useDispatch } from "react-redux";
+import { setDeezerPlaylistTracks } from "../../reducers/deezerReducer";
 
 export const useGetDeezerTracks = (playlistId: string): [DeezerPlaylistTracks | undefined, boolean] => {
   const [playlistTracks, setPlaylistTracks] = useState<DeezerPlaylistTracks | undefined>();
+  const dispatch = useDispatch();
   
   const { isPending, data, refetch, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({ 
     queryKey: ['deezer-playlist-tracks', playlistId], 
@@ -18,9 +21,12 @@ export const useGetDeezerTracks = (playlistId: string): [DeezerPlaylistTracks | 
     if (!isFetching && data) {
       if (hasNextPage) fetchNextPage();
       else if(!isPending) {
+        const tracks: DeezerTrack[] = data.pages.reduce((acc, curr) => [...acc, ...curr.data], []);
+        
+        dispatch(setDeezerPlaylistTracks(tracks));
         setPlaylistTracks({
           total: data.pages[0].total,
-          data: data.pages.reduce((acc, curr) => [...acc, ...curr.data], [])
+          data: tracks
         } as DeezerPlaylistTracks)
       }
     }

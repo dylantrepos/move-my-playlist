@@ -1,41 +1,51 @@
 import { useGetDeezerPlaylist } from "../../hooks/deezer/useGetDeezerPlaylists";
 import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import DeezerDetails from '../../assets/images/deezer-details.png'
+import { useDispatch } from 'react-redux';
+import { setDeezerPlaylists, setSelectedPlaylist } from "../../reducers/deezerReducer";
+import { useNavigate } from "react-router-dom";
+import { PlaylistItem } from "../PlaylistItem";
 import './styles/DeezerPlaylistItem.scss';
+import { useGetDeezerUserData } from "../../hooks/deezer/useGetDeezerUserData";
+import PlaylistLayout from "../../views/layout/PlaylistLayout";
+import { ListContainer } from "../ListContainer";
+import { useEffect } from "react";
 
-type Props = {
-  handleSelectPlaylist: (playlist: DeezerPlaylist) => void;
-}
-
-export const DeezerPlaylistsItem = ({ handleSelectPlaylist }: Props) => {
+export const DeezerPlaylistsItem = () => {
+  const [user] = useGetDeezerUserData(); 
   const [userDeezerPlaylist] = useGetDeezerPlaylist();
-  const { accessToken } = useSelector((state: RootState) => state.deezer.token);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSelectPlaylist = (playlist: DeezerPlaylist) => {
+    dispatch(setSelectedPlaylist(playlist));
+    navigate('/deezer-to-spotify/tracks');
+  }
+
+  useEffect(() => {
+    if (userDeezerPlaylist) {
+      dispatch(setDeezerPlaylists(userDeezerPlaylist.data));
+    }
+  }, [userDeezerPlaylist])
+
 
   return userDeezerPlaylist ? 
-    <>
-      {userDeezerPlaylist.data?.map((playlist: DeezerPlaylist) => (
-        <button 
-          key={playlist.id} 
-          className="deezerPlaylistItem__playlist-item"
-          onClick={() => handleSelectPlaylist(playlist)}
-        >
-          <img 
-            src={`${playlist.picture}?access_token=${accessToken}`} 
-            className="deezerPlaylistItem__playlist-item-image"
+    <PlaylistLayout title={'Choose the playlist'}>
+      <ListContainer 
+        title={`Playlists de ${user?.firstname}`}
+      >
+        {userDeezerPlaylist.data?.map((playlist: DeezerPlaylist) => (
+          <PlaylistItem
+            key={playlist.id}
+            playlist={playlist}
+            cover={playlist.picture}
+            title={playlist.title}
+            nbTracks={playlist.nb_tracks}
+            author={playlist.creator.name}
+            handleClick={handleSelectPlaylist}
+            type="deezer"
           />
-          <p className="deezerPlaylistItem__playlist-item-title">{playlist.title}</p>
-          <p className="deezerPlaylistItem__playlist-item-info">
-          {playlist.nb_tracks} {`Track${playlist.nb_tracks > 1 ? 's' : ''}`}</p>
-          <p className="deezerPlaylistItem__playlist-item-author">
-          Created by {playlist.creator.name} </p>
-          <img 
-            src={DeezerDetails}
-            className="deezerPlaylistItem__playlist-item-settings" 
-          />
-        </button>
-      ))}
-    </>
+        ))}
+      </ListContainer>
+    </PlaylistLayout>
   : ''
 }
