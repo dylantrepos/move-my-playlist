@@ -1,3 +1,6 @@
+import { fetchAllSpotifyTrackId } from "../services/spotifyApi";
+import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
+
 export const addCookie = (cname: string, cvalue: string, exdays = 7) => {
   const date = new Date();
   date.setTime(date.getTime() + (exdays*24*60*60*1000));
@@ -59,4 +62,22 @@ export const openPopup = (url: string) => {
   const windowOpener = open(url, '_blank', `width=${currWidth},height=${currHeight},left=0,top=0`);
 
   return windowOpener;
+}
+
+type HandleCheckTracksFoundProps = {
+  tracksFound: string[];
+  tracksNotFound: DeezerTrack[];
+}
+
+export const getExistingTracksFromSpotify = async (tracks: DeezerTrack[]): Promise<HandleCheckTracksFoundProps> => {
+  const spotifyTracksResults = await fetchAllSpotifyTrackId(tracks);
+  let [tracksFound, tracksNotFound]: [string[], DeezerTrack[]] = [[], []];
+
+  if (spotifyTracksResults) {
+    tracksFound = spotifyTracksResults
+      .filter((track) => track?.spotifyId)
+      .map((track) => `spotify:track:${track.spotifyId}`);
+    tracksNotFound = spotifyTracksResults.filter((track) => !track?.spotifyId);
+  }
+  return {tracksFound, tracksNotFound};
 }

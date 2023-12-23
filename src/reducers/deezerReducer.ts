@@ -10,7 +10,6 @@ type State = {
   user?: DeezerUser;
   playlist?: DeezerTrack[];
   playlists: DeezerPlaylist[];
-  playlistTitle?: string;
   playlistTracks: DeezerTrack[];
   selectedPlaylist?: DeezerPlaylist;
   selectedTracks: number[];
@@ -36,9 +35,6 @@ const deezerSlice = createSlice({
     },
     setDeezerUser: (state, action: PayloadAction<DeezerUser>) => {
       state.user = action.payload;
-    },
-    setDeezerPlaylistTitle: (state, action: PayloadAction<string>) => {
-      state.playlistTitle = action.payload;
     },
     setDeezerPlaylist: (state, action: PayloadAction<DeezerTrack[]>) => {
       state.playlist = action.payload;
@@ -71,7 +67,6 @@ export const {
   setDeezerUser, 
   setDeezerPlaylist, 
   setDeezerPlaylists,
-  setDeezerPlaylistTitle, 
   setDeezerPlaylistTracks,
   setDeezerError, 
   setSelectedTracks,

@@ -1,12 +1,7 @@
 @import '../../assets/variables.scss'; 
 
-.playlistLayout {
-  height: 100%;
-  margin-top: var(--height-header);
-  width: 100%;
-}
-
 .playlistLayout__title {
+  margin-top: var(--height-header);
   text-align: center;
   
   @media (min-width: $xs) {

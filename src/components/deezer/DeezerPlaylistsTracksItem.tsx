@@ -3,10 +3,10 @@ import { useGetDeezerTracks } from "../../hooks/deezer/useGetDeezerTracks";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { setSelectedPlaylist, setSelectedTracks } from "../../reducers/deezerReducer";
-import { TrackItem } from "../TrackItem";
+import { TrackInputItem } from "../TrackItem";
 
 import './styles/DeezerPlaylistTracksItem.scss';
-import PlaylistLayout from "../../views/layout/PlaylistLayout";
+import PlaylistLayout from "../../layout/PlaylistLayout";
 import { ListContainer } from "../ListContainer";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect } from "react";
@@ -26,14 +26,7 @@ export const DeezerPlaylistsTracksItem = () => {
 
   const handleSubmitPlaylist = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log({trackIdList});
-
-    // const playlist = trackIdList.map((track) => 
-    //   trackListData?.data.find((trackData: DeezerTrack) => trackData.id === +track)) as DeezerTrack[];
-    
-    // dispatch(setDeezerPlaylist(playlist));
-
-    console.log('Final records : ', playlist);
+    navigate('/deezer-to-spotify/transfert');
   }
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,10 +48,6 @@ export const DeezerPlaylistsTracksItem = () => {
     }
   }
 
-  useEffect(() => {
-    console.log({currTracksSelected});
-  }, [currTracksSelected])
-
   return currPlaylistSelected && (
     <PlaylistLayout title={'Choose the tracks'}>
       <div className='deezerPlaylistsTracksItem__select-container'>
@@ -70,6 +59,7 @@ export const DeezerPlaylistsTracksItem = () => {
           <button 
             className='button-primary'  
             disabled={currTracksSelected.length === 0}
+            onClick={handleSubmitPlaylist}
           >
             Confirm
           </button>
@@ -89,7 +79,7 @@ export const DeezerPlaylistsTracksItem = () => {
             onSubmit={handleSubmitPlaylist}
           >
             {trackListData.data?.map((track: DeezerTrack) => (
-              <TrackItem
+              <TrackInputItem
                 key={track.id} 
                 id={track.id}
                 cover={track.album.cover}

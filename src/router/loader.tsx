@@ -1,7 +1,7 @@
 import { store } from "../store/store";
 import { getDeezerCookieToken, getSpotifyCookieToken } from "../utils/utils";
 import { redirect } from "react-router-dom";
-import { setDeezerPlaylist, setDeezerPlaylistTitle, setDeezerToken } from "../reducers/deezerReducer";
+import { setDeezerPlaylist, setDeezerToken } from "../reducers/deezerReducer";
 import { setSpotifyPlaylist, setSpotifyPlaylistTitle, setSpotifyToken } from "../reducers/spotifyReducer";
 
 export const loginLoader = () => {
@@ -23,7 +23,6 @@ export const loginLoader = () => {
   store.dispatch(setDeezerPlaylist([]));
 
   store.dispatch(setSpotifyPlaylistTitle(''));
-  store.dispatch(setDeezerPlaylistTitle(''));
   
   return null
 }

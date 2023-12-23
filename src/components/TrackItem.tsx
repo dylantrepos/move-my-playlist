@@ -1,17 +1,65 @@
 import './styles/TrackItem.scss';
-import { Check } from "../assets/icons/check";
+import { Check } from "../assets/icons/Check";
 
-type Props = {
-  id: number;
+const Track = ({
+  cover,
+  trackTitle,
+  albumTitle,
+  artist,
+}: TrackItemProps) => {
+  return (
+    <>
+      <img 
+        src={cover} 
+        className="trackItem__image"
+      />
+      <p className="trackItem__title">
+        {trackTitle}
+      </p>
+      <p className="trackItem__artist">
+        {artist}
+      </p>
+      <p className="trackItem__album">
+        {albumTitle} 
+      </p>
+    </>
+  )
+}
+
+type TrackItemProps = {
   cover: string;
   trackTitle: string;
   albumTitle: string;
   artist: string;
+}
+
+export const TrackItem = ({
+  cover,
+  trackTitle,
+  albumTitle,
+  artist,
+}: TrackItemProps) => {
+  return (
+    <div 
+      className="trackItem"
+    >
+      <Track
+        cover={cover}
+        trackTitle={trackTitle}
+        albumTitle={albumTitle}
+        artist={artist}
+      />
+    </div>
+  )
+}
+
+type TrackInputItemProps = TrackItemProps & {
+  id: number;
   checked: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const TrackItem = ({
+export const TrackInputItem = ({
   id,
   cover,
   trackTitle,
@@ -19,7 +67,7 @@ export const TrackItem = ({
   artist,
   checked,
   handleChange
-}: Props) => {
+}: TrackInputItemProps) => {
   return (
     <label 
       className="trackItem"
@@ -29,22 +77,16 @@ export const TrackItem = ({
         value={id}
         onChange={handleChange}
       />
-      <img 
-        src={cover} 
-        className="trackItem__image"
+     <Track
+        cover={cover}
+        trackTitle={trackTitle}
+        albumTitle={albumTitle}
+        artist={artist}
       />
-      <p className="trackItem__title">
-        {trackTitle}
-      </p>
-      <p className="trackItem__info">
-        {artist}
-      </p>
-      <p className="trackItem__author">
-        {albumTitle} 
-      </p>
-      <Check            
+      <Check              
         classNames={`trackItem__check ${checked ? '-checked' : ''}`} 
       />
     </label>
   )
 }
+

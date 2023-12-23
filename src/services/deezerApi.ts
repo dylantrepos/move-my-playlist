@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { DeezerAccessTokenResponse } from "../types/deezer/DeezerLogin";
 import { store } from "../store/store";
 import { SpotifyTrack } from "../types/spotify/SpotifyTrack";
+import { DeezerPlaylists } from "../types/deezer/DeezerPlaylist";
 
 /**
  * Get access token from Deezer API.
@@ -46,7 +47,7 @@ export const fetchDeezerUserProfil = async () => {
 /**
  * Get user's playlists from Deezer Api.
  */
-export const fetchDeezerUserPlaylists = async () => {
+export const fetchDeezerUserPlaylists = async (): Promise<DeezerPlaylists> => {
   const token = store.getState().deezer.token?.accessToken ?? '';
 
   const params: Record<string, string | null> = {

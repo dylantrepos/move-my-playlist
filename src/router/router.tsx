@@ -1,16 +1,18 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
+
+import { loginLoader } from './loader';
+
 import Login from "../views/Login";
 import DeezerPopupRedirection from "../views/DeezerPopupRedirection";
 import Home from "../views/Home";
-import { loginLoader } from './loader';
 import SpotifyPopupRedirection from "../views/SpotifyPopupRedirection";
 import SpotifyToDeezer from "../views/SpotifyToDeezer";
 import Landing from "../views/Landing";
-import { Layout } from "../components/Layout";
-import TracksLayout from "../views/layout/TracksLayout";
+
 import { DeezerPlaylistsItem } from "../components/deezer/DeezerPlaylistsItem";
 import { DeezerPlaylistsTracksItem } from "../components/deezer/DeezerPlaylistsTracksItem";
 import { Header } from "../components/Header";
+import { DeezerTracksResultItem } from "../components/deezer/DeezerTracksResultItem";
 
 export const router = createBrowserRouter([
   {
@@ -52,7 +54,11 @@ export const router = createBrowserRouter([
           {
             path: "tracks",
             element: <DeezerPlaylistsTracksItem />
-          }
+          },
+          {
+            path: "transfert",
+            element: <DeezerTracksResultItem />
+          },
         ]
       },
       {

@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { store } from "../store/store";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
 import { SpotifyUser } from "../types/spotify/SpotifyUser";
+import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
 
 /**
  * Get user info from Spotify Api.
@@ -86,7 +87,7 @@ export const fetchAllSpotifyTrackId = async (deezerPlaylist: DeezerTrack[]) => {
 /**
  * Create a playlist with Spotify Api.
  */
-export const createSpotifyPlaylist = async (playlistTitle: string): Promise<AxiosResponse> => {
+export const createSpotifyPlaylist = async (playlistTitle: string): Promise<SpotifyPlaylist> => {
   const url = `https://api.spotify.com/v1/me/playlists`
   const token = store.getState().spotify.token?.accessToken;
   const body = { name: playlistTitle }
@@ -96,7 +97,22 @@ export const createSpotifyPlaylist = async (playlistTitle: string): Promise<Axio
 
   const data = await axios.post(url, body, { headers })
 
-  return data
+  return data.data
+}
+
+/**
+ * Create a playlist with Spotify Api.
+ */
+export const deleteSpotifyPlaylist = async (playlistId: string): Promise<SpotifyPlaylist> => {
+  const url = `https://api.spotify.com/v1/playlists/${playlistId}/followers`
+  const token = store.getState().spotify.token?.accessToken;
+  const headers: Record<string, string | null> = {
+    "Authorization": `Bearer ${ token }`,
+  }
+
+  const data = await axios.delete(url, { headers })
+
+  return data.data
 }
 
 /**

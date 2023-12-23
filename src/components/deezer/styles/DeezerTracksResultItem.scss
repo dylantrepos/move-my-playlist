@@ -1,0 +1,20 @@
+@import '../../../assets/variables.scss';
+
+.deezerTracksResultItem {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.deezerTracksResultItem__not-found {
+  margin: 1rem;
+
+  &-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+}

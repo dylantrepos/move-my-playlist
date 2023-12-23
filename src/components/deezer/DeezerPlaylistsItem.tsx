@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { PlaylistItem } from "../PlaylistItem";
 import './styles/DeezerPlaylistItem.scss';
 import { useGetDeezerUserData } from "../../hooks/deezer/useGetDeezerUserData";
-import PlaylistLayout from "../../views/layout/PlaylistLayout";
+import PlaylistLayout from "../../layout/PlaylistLayout";
 import { ListContainer } from "../ListContainer";
 import { useEffect } from "react";
 
@@ -23,7 +23,7 @@ export const DeezerPlaylistsItem = () => {
 
   useEffect(() => {
     if (userDeezerPlaylist) {
-      dispatch(setDeezerPlaylists(userDeezerPlaylist.data));
+      dispatch(setDeezerPlaylists(userDeezerPlaylist));
     }
   }, [userDeezerPlaylist])
 
@@ -33,7 +33,7 @@ export const DeezerPlaylistsItem = () => {
       <ListContainer 
         title={`Playlists de ${user?.firstname}`}
       >
-        {userDeezerPlaylist.data?.map((playlist: DeezerPlaylist) => (
+        {userDeezerPlaylist?.map((playlist: DeezerPlaylist) => (
           <PlaylistItem
             key={playlist.id}
             playlist={playlist}

@@ -1,16 +1,15 @@
 import { DeezerPlaylist } from "../types/deezer/DeezerPlaylist";
-import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
 import DeezerDetails from '../assets/images/deezer-details.png'
 import './styles/PlaylistItem.scss';
 
 type Props = {
-  playlist: DeezerPlaylist | SpotifyPlaylist
+  playlist: DeezerPlaylist;
   cover: string;
   title: string;
   nbTracks: number;
   author: string;
   type: 'deezer' | 'spotify';
-  handleClick: (playlist: DeezerPlaylist | SpotifyPlaylist) => void;
+  handleClick: (playlist: DeezerPlaylist) => void;
 }
 
 export const PlaylistItem = ({
