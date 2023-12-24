@@ -1,7 +1,7 @@
 import { useGetDeezerPlaylist } from "../../hooks/deezer/useGetDeezerPlaylists";
 import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
 import { useDispatch } from 'react-redux';
-import { setDeezerPlaylists, setSelectedPlaylist } from "../../reducers/deezerReducer";
+import { resetPlaylistAndTracks, setDeezerPlaylists, setSelectedPlaylist } from "../../reducers/deezerReducer";
 import { useNavigate } from "react-router-dom";
 import { PlaylistItem } from "../PlaylistItem";
 import './styles/DeezerPlaylistItem.scss';
@@ -22,6 +22,9 @@ export const DeezerPlaylistsItem = () => {
   }
 
   useEffect(() => {
+    // Reset playlist & tracks on load
+    dispatch(resetPlaylistAndTracks());
+
     if (userDeezerPlaylist) {
       dispatch(setDeezerPlaylists(userDeezerPlaylist));
     }

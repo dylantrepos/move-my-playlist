@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { openPopup, setDeezerCookieToken } from "../../utils/utils";
+import { openPopup } from "../../utils/utils";
 import { DEEZER_AUTH_BASE } from "../../env";
 import { useDispatch } from "react-redux";
 import { setDeezerToken } from "../../reducers/deezerReducer";
 import { DeezerAccessToken } from "../../types/deezer/DeezerLogin";
 import DeezerLogo from '../../assets/images/deezer-lg.png';
+import { setDeezerCookieToken } from "../../utils/cookie";
 
 type DeezerMessageEvent = {
   title: string;

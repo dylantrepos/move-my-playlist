@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { generateCodeChallenge, generateCodeVerifier, openPopup, setSpotifyCookieToken } from "../../utils/utils";
+import { generateCodeChallenge, generateCodeVerifier, openPopup } from "../../utils/utils";
 import { SPOTIFY_AUTH_BASE } from "../../env";
 import { setSpotifyToken } from "../../reducers/spotifyReducer";
 import { SpotifyAccessToken } from "../../types/spotify/SpotifyLogin";
 import { useDispatch } from "react-redux";
 import SpotifyLogo from '../../assets/images/spotify-lg.png';
+import { setSpotifyCookieToken } from "../../utils/cookie";
 
 type SpotifyMessageEvent = {
   title: string;

@@ -13,16 +13,15 @@ import { ChangeEvent, useEffect } from "react";
 import { PlaylistSelectItem } from "../PlaylistSelectItem";
 
 export const DeezerPlaylistsTracksItem = () => {
-  const currTracksSelected = useSelector((state: RootState) => state.deezer.selectedTracks);
-  const currPlaylistSelected = useSelector((state: RootState) => state.deezer.selectedPlaylist)
-  const playlists = useSelector((state: RootState) => state.deezer.playlists)
-  const [trackListData, hasLoaded] = useGetDeezerTracks(currPlaylistSelected?.id.toString() ?? '');
+  const {selectedTracks, selectedPlaylist, playlists} = useSelector((state: RootState) => state.deezer);
+  const [trackListData, hasLoaded] = useGetDeezerTracks(selectedPlaylist?.id.toString() ?? '');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!currPlaylistSelected) navigate('/deezer-to-spotify/playlist');
+    if (!selectedPlaylist) navigate('/deezer-to-spotify/playlist');
   }, [])
+
 
   const handleSubmitPlaylist = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,9 +30,9 @@ export const DeezerPlaylistsTracksItem = () => {
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const trackId = +e.target.value;
-    const updatedTrackIdlist = currTracksSelected.includes(trackId)
-      ? currTracksSelected.filter((track) => track !== trackId)
-      : [...currTracksSelected, trackId];
+    const updatedTrackIdlist = selectedTracks.includes(trackId)
+      ? selectedTracks.filter((track) => track !== trackId)
+      : [...selectedTracks, trackId];
       
     dispatch(setSelectedTracks(updatedTrackIdlist));
   };
@@ -48,17 +47,17 @@ export const DeezerPlaylistsTracksItem = () => {
     }
   }
 
-  return currPlaylistSelected && (
+  return selectedPlaylist && (
     <PlaylistLayout title={'Choose the tracks'}>
       <div className='deezerPlaylistsTracksItem__select-container'>
           <PlaylistSelectItem 
             playlists={playlists}
-            playlistId={currPlaylistSelected.id}
+            playlistId={selectedPlaylist.id}
             handleChangePlaylist={handleChangePlaylist}
           />
           <button 
             className='button-primary'  
-            disabled={currTracksSelected.length === 0}
+            disabled={selectedTracks.length === 0}
             onClick={handleSubmitPlaylist}
           >
             Confirm
@@ -66,19 +65,19 @@ export const DeezerPlaylistsTracksItem = () => {
           
         </div> 
       <ListContainer 
-        title={currPlaylistSelected.title}
+        title={selectedPlaylist.title}
         withSelectAll={true}
       >
         { !hasLoaded || !trackListData
           ? <p>Loading tracks ...</p>
-          : trackListData?.total === 0 
+          : trackListData?.length === 0 
             ? <p>No tracks in this playlist.</p> 
             :
           <form
             className="deezerPlaylistsTracksItem__playlist-form"
             onSubmit={handleSubmitPlaylist}
           >
-            {trackListData.data?.map((track: DeezerTrack) => (
+            {trackListData?.map((track: DeezerTrack) => (
               <TrackInputItem
                 key={track.id} 
                 id={track.id}
@@ -86,7 +85,7 @@ export const DeezerPlaylistsTracksItem = () => {
                 trackTitle={track.title}
                 albumTitle={track.album.title}
                 artist={track.artist.name}
-                checked={currTracksSelected.includes(track.id)}
+                checked={selectedTracks.includes(track.id)}
                 handleChange={handleCheckboxChange}
               />
             ))}

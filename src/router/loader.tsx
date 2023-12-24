@@ -1,5 +1,5 @@
 import { store } from "../store/store";
-import { getDeezerCookieToken, getSpotifyCookieToken } from "../utils/utils";
+import { getDeezerCookieToken, getSpotifyCookieToken } from "../utils/cookie";
 import { redirect } from "react-router-dom";
 import { setDeezerPlaylist, setDeezerToken } from "../reducers/deezerReducer";
 import { setSpotifyPlaylist, setSpotifyPlaylistTitle, setSpotifyToken } from "../reducers/spotifyReducer";

@@ -54,8 +54,15 @@ const deezerSlice = createSlice({
     setSelectedPlaylist: (state, action: PayloadAction<DeezerPlaylist>) => {
       state.selectedPlaylist = action.payload;
     },
-    addAllTrack: (state) => {
-      state.selectedTracks = state.playlistTracks.map(playlist => playlist.id);
+    resetPlaylistAndTracks: (state) => {
+      state.selectedPlaylist = undefined;
+      state.selectedTracks = [];
+    },
+    updateAllTrack: (state, action: PayloadAction<'checkAll' | 'uncheckAll'>) => {
+      state.selectedTracks = 
+      action.payload === 'checkAll' 
+        ? state.playlistTracks.map(playlist => playlist.id)
+        : state.selectedTracks = [];
     }
   }
 })
@@ -71,6 +78,7 @@ export const {
   setDeezerError, 
   setSelectedTracks,
   setSelectedPlaylist,
-  addAllTrack,
+  resetPlaylistAndTracks,
+  updateAllTrack,
 } = deezerSlice.actions;
 

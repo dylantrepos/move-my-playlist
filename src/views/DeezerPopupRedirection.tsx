@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router';
-import { setDeezerCookieToken } from '../utils/utils';
+import { setDeezerCookieToken } from '../utils/cookie';
 import { useDispatch } from 'react-redux';
 import { setDeezerToken } from '../reducers/deezerReducer';
 import { useEffect } from 'react';

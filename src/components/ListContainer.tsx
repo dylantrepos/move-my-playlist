@@ -3,7 +3,7 @@ import { Check } from '../assets/icons/Check.tsx';
 import Chevron from '../assets/images/chevrons.png';
 import './styles/ListContainer.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAllTrack, setSelectedTracks } from '../reducers/deezerReducer';
+import { updateAllTrack } from '../reducers/deezerReducer';
 import { RootState } from '../store/store';
 
 type Props = {
@@ -19,23 +19,7 @@ export const ListContainer = ({
 
   return (
     <div className='listContainer'>
-      <Header
-        title={title}
-        withSelectAll={withSelectAll}
-      />
-      <div className="listContainer__playlist-item-container">
-        { children }
-      </div>
-    </div>
-  )
-}
-
-const Header = ({
-  title,
-  withSelectAll,
-}: PropsWithChildren<Props>) => {
-  return (
-    <div className="listContainer__header">
+      <div className="listContainer__header">
         <div className="listContainer__header-title">
           {title}
         </div>
@@ -44,33 +28,29 @@ const Header = ({
         { withSelectAll && (
           <Toggle />
         )}
+      </div>
+      <div className="listContainer__playlist-item-container">
+        { children }
+      </div>
     </div>
   )
 }
 
-
 const Toggle = () => {
   const [checkAllTracks, setCheckAllTracks] = useState(false);
-  const currTracksSelected = useSelector((state: RootState) => state.deezer.selectedTracks);
-  const currPlaylistSelected = useSelector((state: RootState) => state.deezer.selectedPlaylist)
+  const {selectedTracks, selectedPlaylist} = useSelector((state: RootState) => state.deezer);
 
   const dispatch = useDispatch();
 
   const handleCheckAllTracks = () => {
-    if (checkAllTracks) {
-      dispatch(setSelectedTracks([]));
-    } else {
-      dispatch(addAllTrack());
-    }
+    dispatch(updateAllTrack(checkAllTracks ? 'uncheckAll' : 'checkAll'));
     setCheckAllTracks(!checkAllTracks);
   }
 
   useEffect(() => {
-    if (currTracksSelected.length === currPlaylistSelected?.nb_tracks) setCheckAllTracks(true);
-    else setCheckAllTracks(false);
-    
-    if (currTracksSelected.length === 0) setCheckAllTracks(false);
-  }, [currTracksSelected])
+    if (selectedTracks.length === 0) setCheckAllTracks(false);
+    else setCheckAllTracks(selectedTracks.length === selectedPlaylist?.nb_tracks);
+  }, [selectedTracks, selectedPlaylist])
 
   return (
     <button 

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import { SpotifyAccessToken, SpotifyAccessTokenResponse } from '../../types/spotify/SpotifyLogin';
 import { setSpotifyToken } from '../../reducers/spotifyReducer';
-import { setSpotifyCookieToken } from '../../utils/utils';
+import { setSpotifyCookieToken } from '../../utils/cookie';
 
 // const fetchToken = async (url: string) => (await axios(url)).data;
 const fetchToken = async () => {
