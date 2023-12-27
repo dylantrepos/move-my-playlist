@@ -10,11 +10,38 @@
 }
 
 .deezerTracksResultItem__not-found {
-  margin: 1rem;
+  align-items: center;
+  flex: 1;
+  overflow-y: hidden;
+  position: relative;
+  width: 100%;
+  
+  &::before {
+    background: linear-gradient(45deg, transparent, var(--color-red), transparent);
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 1.5rem;
+    width: 100dvw;
+  }
 
   &-title {
     font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: 1rem;
+    margin-top: 3rem;
   }
 }
+
+
+/*
+ * Loading Item 
+ */
+.deezerTracksResultItem__loading-playlist {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+

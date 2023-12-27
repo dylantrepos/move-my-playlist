@@ -66,6 +66,7 @@ export const DeezerPlaylistsTracksItem = () => {
         </div> 
       <ListContainer 
         title={selectedPlaylist.title}
+        subtitle="Added recently"
         withSelectAll={true}
       >
         { !hasLoaded || !trackListData

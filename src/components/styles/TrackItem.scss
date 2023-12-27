@@ -3,7 +3,6 @@
 .trackItem, .trackInputItem {
   align-content: flex-start;
   background: transparent;
-  cursor: pointer;
   display: grid;
   font-size: 1rem;
   gap: 0rem 1rem;
@@ -93,4 +92,8 @@
       stroke: var(--color-green);
     }
   }
+}
+
+.trackInputItem {
+  cursor: pointer;
 }

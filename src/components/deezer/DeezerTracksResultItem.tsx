@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 export const DeezerTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.deezer);
   const [tracksNotFound, setTracksNotFound] = useState<DeezerTrack[]>([]);
+  const [hasBeenAdded, setHasBeenAdded] = useState(false);
   const hasLoaded = useRef(false);
   const navigate = useNavigate();
 
@@ -21,11 +22,6 @@ export const DeezerTracksResultItem = () => {
 
   useEffect(() => {
     if (!hasLoaded.current) {
-
-      /**
-       * ! TODO : Load twice here
-       */
-      
       const implementedtrack = async () => {
         // Create playlist
         if (selectedPlaylist?.title) {
@@ -40,6 +36,8 @@ export const DeezerTracksResultItem = () => {
 
             // Implement tracks
             await addTracksToSpotifyPlaylist(playlistId, tracksFound);
+
+            setHasBeenAdded(true);
   
             // Delete playlist
             setTimeout(async () => {
@@ -56,7 +54,7 @@ export const DeezerTracksResultItem = () => {
   }, [])
 
 
-  return true && (
+  return hasBeenAdded ? (
     <PlaylistLayout title={'Your playlist has been added !'}>
       <section className="deezerTracksResultItem">
         <p>Your playlist 'My Awesome Playlist' has been successfully added to your Spotify playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Spotify, but you can check and add them manually if you'd like.`}</p>
@@ -68,9 +66,19 @@ export const DeezerTracksResultItem = () => {
           <section className="deezerTracksResultItem__not-found">
             <h4 className="deezerTracksResultItem__not-found-title">Tracks not found</h4>
             
-            <TracksNotFoundItem tracksNotFound={[...tracksNotFound]} />
+            <TracksNotFoundItem tracksNotFound={[...tracksNotFound, ...tracksNotFound]} />
           </section>
       }
     </PlaylistLayout>)
+    : <LoadingPlaylistImport /> 
 }
 
+const LoadingPlaylistImport = () => {
+  return (
+    <PlaylistLayout title={'Importing your new playlist'}>
+      <section className="deezerTracksResultItem__loading-playlist">
+        <p>please wait...</p>
+      </section>
+    </PlaylistLayout> 
+  )
+}

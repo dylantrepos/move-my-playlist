@@ -8,26 +8,30 @@ import { RootState } from '../store/store';
 
 type Props = {
   title: string;
+  subtitle?: string;
   withSelectAll?: boolean;
+  classNames?: string;
 }
 
 export const ListContainer = ({
   title,
+  subtitle,
   withSelectAll,
+  classNames,
   children
 }: PropsWithChildren<Props>) => {
 
   return (
-    <div className='listContainer'>
+    <div className={`listContainer ${classNames}`}>
       <div className="listContainer__header">
         <div className="listContainer__header-title">
           {title}
         </div>
-        <img src={Chevron} />
-        <p>Added recently</p>
-        { withSelectAll && (
-          <Toggle />
-        )}
+        { subtitle && (<>
+          <img src={Chevron} />
+          <p>{subtitle}</p> 
+        </>)}
+        { withSelectAll && <Toggle /> }
       </div>
       <div className="listContainer__playlist-item-container">
         { children }
