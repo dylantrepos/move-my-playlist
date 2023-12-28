@@ -6,11 +6,11 @@ import { setSelectedPlaylist, setSelectedTracks } from "../../reducers/deezerRed
 import { TrackInputItem } from "../TrackItem";
 
 import './styles/DeezerPlaylistTracksItem.scss';
-import PlaylistLayout from "../../layout/PlaylistLayout";
 import { ListContainer } from "../ListContainer";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect } from "react";
 import { PlaylistSelectItem } from "../PlaylistSelectItem";
+import { Title } from "../Title";
 
 export const DeezerPlaylistsTracksItem = () => {
   const {selectedTracks, selectedPlaylist, playlists} = useSelector((state: RootState) => state.deezer);
@@ -48,7 +48,8 @@ export const DeezerPlaylistsTracksItem = () => {
   }
 
   return selectedPlaylist && (
-    <PlaylistLayout title={'Choose the tracks'}>
+    <>
+      <Title>Choose the tracks</Title>
       <div className='deezerPlaylistsTracksItem__select-container'>
           <PlaylistSelectItem 
             playlists={playlists}
@@ -92,5 +93,5 @@ export const DeezerPlaylistsTracksItem = () => {
             ))}
           </form> }
       </ListContainer>
-    </PlaylistLayout>)
+    </>)
 }

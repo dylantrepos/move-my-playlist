@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import PlaylistLayout from "../../layout/PlaylistLayout";
 import { RootState } from "../../store/store";
 import { addTracksToSpotifyPlaylist, createSpotifyPlaylist, deleteSpotifyPlaylist } from "../../services/spotifyApi";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +7,7 @@ import { TracksNotFoundItem } from "../TracksNotFoundItem";
 import { getExistingTracksFromSpotify } from "../../utils/utils";
 import './styles/DeezerTracksResultItem.scss';
 import { Link, useNavigate } from "react-router-dom";
+import { Title } from "../Title";
 
 export const DeezerTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.deezer);
@@ -55,7 +55,8 @@ export const DeezerTracksResultItem = () => {
 
 
   return hasBeenAdded ? (
-    <PlaylistLayout title={'Your playlist has been added !'}>
+    <>
+      <Title>Your playlist has been added !</Title>
       <section className="deezerTracksResultItem">
         <p>Your playlist 'My Awesome Playlist' has been successfully added to your Spotify playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Spotify, but you can check and add them manually if you'd like.`}</p>
         <Link to={'/deezer-to-spotify/playlist'} className="button-primary">
@@ -69,16 +70,17 @@ export const DeezerTracksResultItem = () => {
             <TracksNotFoundItem tracksNotFound={[...tracksNotFound, ...tracksNotFound]} />
           </section>
       }
-    </PlaylistLayout>)
+    </>)
     : <LoadingPlaylistImport /> 
 }
 
 const LoadingPlaylistImport = () => {
   return (
-    <PlaylistLayout title={'Importing your new playlist'}>
+    <>
+      <Title>Importing your new playlist</Title>
       <section className="deezerTracksResultItem__loading-playlist">
         <p>please wait...</p>
       </section>
-    </PlaylistLayout> 
+    </> 
   )
 }

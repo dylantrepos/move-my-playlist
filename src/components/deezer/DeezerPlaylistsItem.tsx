@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { PlaylistItem } from "../PlaylistItem";
 import './styles/DeezerPlaylistItem.scss';
 import { useGetDeezerUserData } from "../../hooks/deezer/useGetDeezerUserData";
-import PlaylistLayout from "../../layout/PlaylistLayout";
 import { ListContainer } from "../ListContainer";
 import { useEffect } from "react";
+import { Title } from "../Title";
 
 export const DeezerPlaylistsItem = () => {
   const [user] = useGetDeezerUserData(); 
@@ -32,7 +32,8 @@ export const DeezerPlaylistsItem = () => {
 
 
   return userDeezerPlaylist ? 
-    <PlaylistLayout title={'Choose the playlist'}>
+    <>
+      <Title>Choose the playlist</Title>
       <ListContainer 
         title={`Playlists de ${user?.firstname}`}
         subtitle="Added recently"
@@ -50,6 +51,6 @@ export const DeezerPlaylistsItem = () => {
           />
         ))}
       </ListContainer>
-    </PlaylistLayout>
+    </>
   : ''
 }
