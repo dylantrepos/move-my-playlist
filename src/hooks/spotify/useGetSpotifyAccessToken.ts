@@ -1,45 +1,10 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
-import { SpotifyAccessToken, SpotifyAccessTokenResponse } from '../../types/spotify/SpotifyLogin';
+import { SpotifyAccessToken } from '../../types/spotify/SpotifyLogin';
 import { setSpotifyToken } from '../../reducers/spotifyReducer';
 import { setSpotifyCookieToken } from '../../utils/cookie';
-
-// const fetchToken = async (url: string) => (await axios(url)).data;
-const fetchToken = async () => {
-  const params: Record<string, string | null> = {
-    'client_id': import.meta.env?.VITE_SPOTIFY_APP_ID ?? null,
-    'client_secret': import.meta.env?.VITE_SPOTIFY_SECRET_KEY ?? null,
-    'grant_type': 'client_credentials',
-    'scope': 'playlist-read-private'
-  };
-
-  const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-
-  const data = await axios.post(
-    'spotify-token', 
-    params,
-    { headers }
-  )
-
-  const token: SpotifyAccessTokenResponse = data.data
-
-  console.log({token});
-
-  if (token) {
-    const newToken: SpotifyAccessToken = {
-      accessToken: token['access_token'],
-      expires: token['expires_in'],
-      tokenType: token['token_type'],
-      scope: token['scope'],
-    }
-
-    return newToken;
-  }
-
-
-};
+import { fetchSpotifyToken } from '../../services/spotifyApi';
 
 export const useGetSpotifyAccessToken = (): [SpotifyAccessToken | undefined, boolean, Error | null] => {
   const [token, setToken] = useState<SpotifyAccessToken>();
@@ -47,13 +12,13 @@ export const useGetSpotifyAccessToken = (): [SpotifyAccessToken | undefined, boo
   
   const { isPending, data, error } = useQuery({ 
     queryKey: ['spotify-token'], 
-    queryFn: () => fetchToken(),
+    queryFn: () => fetchSpotifyToken(),
   })
 
   useEffect(() => {
     if (!isPending && data) {
       dispatch(setSpotifyToken(data));
-      setSpotifyCookieToken(JSON.stringify(data), data.expires);
+      setSpotifyCookieToken(JSON.stringify(data), data['expires_in']);
       setToken(data);
     }
   }, [isPending]);

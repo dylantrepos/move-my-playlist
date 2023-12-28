@@ -16,8 +16,8 @@ export const loginLoader = async () => {
   const { token: spotifyToken } = store.getState().spotify;
 
   // Save deezer token in store
-  if (deezerToken['access_token']?.length === 0) store.dispatch(setDeezerToken(deezerCookieToken));
-  if (!spotifyToken) store.dispatch(setSpotifyToken(spotifyCookieToken));
+  if (!deezerToken['access_token']) store.dispatch(setDeezerToken(deezerCookieToken));
+  if (!spotifyToken['access_token']) store.dispatch(setSpotifyToken(spotifyCookieToken));
 
   // Reset store playlists & playlists titles
   store.dispatch(setSpotifyPlaylist([]));

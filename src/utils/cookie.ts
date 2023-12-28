@@ -55,9 +55,9 @@ export const getCookieDeezerToken = async (): Promise<DeezerAccessToken | undefi
 export const getCookieSpotifyToken = async (): Promise<SpotifyAccessToken | undefined> => {
   const cookie = JSON.parse(getCookieString('spotify-token') || '{}');
   
-  if (cookie.accessToken) {
+  if (cookie['access_token']) {
     try {
-      const checkTokenSpotify = await checkValidSpotifyToken(cookie.accessToken);
+      const checkTokenSpotify = await checkValidSpotifyToken(cookie['access_token']);
 
       if (checkTokenSpotify) return cookie;
       else removeCookie('spotify-token');

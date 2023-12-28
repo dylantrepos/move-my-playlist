@@ -15,9 +15,10 @@ type SpotifyMessageEvent = {
 
 type Props = {
   updateSpotifyConnection: () => void;
+  isLogged: boolean;
 }
 
-export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
+export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) => {
   const [isLoggedInSpotify, setIsLoggedInSpotify] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
 
       if (data) {
         dispatch(setSpotifyToken(data));
-        setSpotifyCookieToken(JSON.stringify(data), data.expires);
+        setSpotifyCookieToken(JSON.stringify(data), data['expires_in']);
         setIsLoggedInSpotify(true);
         
         updateSpotifyConnection();
@@ -40,7 +41,7 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
   }, [])
 
   const connectToSpotifyAPI = async () => {
-    if (!isPopupOpen) {
+    if (!isPopupOpen && !isLoggedInSpotify && !isLogged) {
       const verifier = generateCodeVerifier(128);
       const challenge = await generateCodeChallenge(verifier);
 
@@ -85,9 +86,9 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection }: Props) => {
   , [])
 
   return (
-    <button className={`login__button-spotify ${isLoggedInSpotify ? '-logged' : ''}`} onClick={connectToSpotifyAPI}>
+    <button className={`login__button-spotify ${isLoggedInSpotify || isLogged ? '-logged' : ''}`} onClick={connectToSpotifyAPI} disabled={isLoggedInSpotify || isLogged}>
       <img className="login__button-spotify-image" src={SpotifyLogo} />
-      <p className="login__button-spotify-title">{isLoggedInSpotify ? 'Connected' : 'Connect to Spotify'}</p>
+      <p className="login__button-spotify-title">{isLoggedInSpotify || isLogged ? 'Connected' : 'Connect to Spotify'}</p>
     </button>
   )
 }

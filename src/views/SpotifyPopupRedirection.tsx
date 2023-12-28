@@ -13,16 +13,9 @@ const fetchToken = async (url: string, body: URLSearchParams) => {
     }
   )
 
-  const token = data.data
+  const token = data.data as SpotifyAccessToken
 
-  const newToken: SpotifyAccessToken = {
-    accessToken: token['access_token'],
-    expires: token['expires_in'],
-    tokenType: token['token_type'],
-    scope: token['scope']
-  }
-
-  return newToken;
+  return token;
 };
 
 export default function SpotifyRedirection() {

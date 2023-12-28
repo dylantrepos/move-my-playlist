@@ -70,12 +70,10 @@ export const DeezerLoginItem = ({ updateDeezerConnection, isLogged }: Props) => 
     }
   }
 
-  useEffect(() => {
-    
-    
-    return () => { 
+  useEffect(() => 
+    () => { 
       window.removeEventListener('message', deezerPopupListener);
-    }}
+    }
   , [])
 
   return (

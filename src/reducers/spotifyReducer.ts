@@ -4,14 +4,22 @@ import { SpotifyUser } from "../types/spotify/SpotifyUser";
 import { SpotifyTrack } from "../types/spotify/SpotifyTrack";
 
 type State = {
-  token?: SpotifyAccessToken; 
+  token: SpotifyAccessToken; 
   user?: SpotifyUser;
   playlistTitle?: string;
   playlist?: SpotifyTrack[];
   // error?: AxiosError;
 }
 
-const initialState: State = {};
+const initialState: State = {
+  token: {
+    'access_token': '',
+    'expires_in': 0,
+    'refresh_token': '',
+    'scope': '',
+    'token_type': '',
+  },
+};
 
 const spotifySlice = createSlice({
   name: 'userDeezer',

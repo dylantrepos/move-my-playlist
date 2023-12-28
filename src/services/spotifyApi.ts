@@ -3,12 +3,35 @@ import { store } from "../store/store";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
 import { SpotifyUser } from "../types/spotify/SpotifyUser";
 import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
+import { SpotifyAccessToken } from "../types/spotify/SpotifyLogin";
+
+/**
+ * Get access token from Spotify API.
+ */
+export const fetchSpotifyToken = async () => {
+  const params: Record<string, string | null> = {
+    'client_id': import.meta.env?.VITE_SPOTIFY_APP_ID ?? null,
+    'client_secret': import.meta.env?.VITE_SPOTIFY_SECRET_KEY ?? null,
+    'grant_type': 'client_credentials',
+    'scope': 'playlist-read-private'
+  };
+
+  const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+
+  const { data } = await axios.post(
+    'spotify-token', 
+    params,
+    { headers }
+  )
+
+ return data as SpotifyAccessToken
+};
 
 /**
  * Get user info from Spotify Api.
  */
 export const fetchSpotifyUser = async (): Promise<SpotifyUser> => {
-  const token = store.getState().spotify.token?.accessToken;
+  const token = store.getState().spotify.token['access_token'];
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
@@ -24,7 +47,7 @@ export const fetchSpotifyUser = async (): Promise<SpotifyUser> => {
 type FetchTracksData = { pageParam: string }
 
 export const fetchSpotifyPlaylists = async ({ pageParam }: FetchTracksData) => {
-  const token = store.getState().spotify.token?.accessToken;
+  const token = store.getState().spotify.token['access_token'];
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
@@ -40,7 +63,7 @@ export const fetchSpotifyPlaylists = async ({ pageParam }: FetchTracksData) => {
 export const fetchSpotifyTrackId = async (track: DeezerTrack): Promise<DeezerTrack> => {
   if (!track.spotifyUrl) return track;
 
-  const token = store.getState().spotify.token?.accessToken;
+  const token = store.getState().spotify.token['access_token'];
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
@@ -89,7 +112,7 @@ export const fetchAllSpotifyTrackId = async (deezerPlaylist: DeezerTrack[]) => {
  */
 export const createSpotifyPlaylist = async (playlistTitle: string): Promise<SpotifyPlaylist> => {
   const url = `https://api.spotify.com/v1/me/playlists`
-  const token = store.getState().spotify.token?.accessToken;
+  const token = store.getState().spotify.token['access_token'];
   const body = { name: playlistTitle }
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
@@ -105,7 +128,7 @@ export const createSpotifyPlaylist = async (playlistTitle: string): Promise<Spot
  */
 export const deleteSpotifyPlaylist = async (playlistId: string): Promise<SpotifyPlaylist> => {
   const url = `https://api.spotify.com/v1/playlists/${playlistId}/followers`
-  const token = store.getState().spotify.token?.accessToken;
+  const token = store.getState().spotify.token['access_token'];
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
@@ -119,7 +142,7 @@ export const deleteSpotifyPlaylist = async (playlistId: string): Promise<Spotify
  * Add tracks into playlist with Spotify Api.
  */
 export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: string[]): Promise<AxiosResponse | AxiosError> => {
-  const token = store.getState().spotify.token?.accessToken;
+  const token = store.getState().spotify.token['access_token'];
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
@@ -145,7 +168,7 @@ export const addTracksToSpotifyPlaylist = async (playlistId: string, tracks: str
 type FetchSpotifyTracks = { pageParam: string }
 
 export const fetchSpotifyPlaylistTracks = async ({ pageParam }: FetchSpotifyTracks ) => {
-  const token = store.getState().spotify.token?.accessToken;
+  const token = store.getState().spotify.token['access_token'];
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
