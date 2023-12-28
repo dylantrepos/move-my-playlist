@@ -14,10 +14,11 @@ type DeezerMessageEvent = {
 
 type Props = {
   updateDeezerConnection: () => void;
+  isLogged: boolean;
 }
 
 
-export const DeezerLoginItem = ({ updateDeezerConnection }: Props) => {
+export const DeezerLoginItem = ({ updateDeezerConnection, isLogged }: Props) => {
   const [isLoggedInDeezer, setIsLoggedInDeezer] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ export const DeezerLoginItem = ({ updateDeezerConnection }: Props) => {
   }, [])
   
   const connectToDeezerAPI = async () => {
-    if (!isPopupOpen) {
+    if (!isPopupOpen && !isLoggedInDeezer && !isLogged) {
       const deezerUserURL = new URL('/oauth/auth.php', DEEZER_AUTH_BASE);
       deezerUserURL.searchParams.append("app_id", import.meta.env.VITE_DEEZER_APP_ID);
       deezerUserURL.searchParams.append("redirect_uri", import.meta.env.VITE_DEEZER_REDIRECT_URL);
@@ -69,17 +70,18 @@ export const DeezerLoginItem = ({ updateDeezerConnection }: Props) => {
     }
   }
 
-  useEffect(() => 
-    () => { 
+  useEffect(() => {
+    
+    
+    return () => { 
       window.removeEventListener('message', deezerPopupListener);
-
-    }
+    }}
   , [])
 
   return (
-    <button className={`login__button-deezer ${isLoggedInDeezer ? '-logged' : ''}`} onClick={connectToDeezerAPI}>
+    <button className={`login__button-deezer ${isLoggedInDeezer || isLogged ? '-logged' : ''}`} onClick={connectToDeezerAPI} disabled={isLoggedInDeezer || isLogged}>
       <img className="login__button-deezer-image" src={DeezerLogo}/>
-      <p className="login__button-deezer-title">{isLoggedInDeezer ? 'Connected' : 'Connect to Deezer'}</p>
+      <p className="login__button-deezer-title">{isLoggedInDeezer || isLogged ? 'Connected' : 'Connect to Deezer'}</p>
     </button>
   )
 }

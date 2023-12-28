@@ -3,7 +3,6 @@ import { store } from "../store/store";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
 import { SpotifyUser } from "../types/spotify/SpotifyUser";
 import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
-import { SpotifyAccessTokenResponse } from "../types/spotify/SpotifyLogin";
 
 /**
  * Get user info from Spotify Api.
@@ -161,25 +160,20 @@ export const fetchSpotifyPlaylistTracks = async ({ pageParam }: FetchSpotifyTrac
 /**
  * Check if access token is valid from Spotify API.
  */
-export const checkValidSpotifyToken = async (token: string): Promise<SpotifyAccessTokenResponse> => {
+export const checkValidSpotifyToken = async (token: string): Promise<boolean> => {
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
 
   try {
-    const { data } = await axios.get(
+    await axios.get(
       '/spotify-api', 
       { headers }
     );
   
-    return data;
+    return true;
   } catch (error) {
-    const { response, message } = error as AxiosError
-    if (response) {
-      return response.data as SpotifyAccessTokenResponse;
-    } else {
-      throw new Error(message);
-    }
+    return false;
   }
 
 };

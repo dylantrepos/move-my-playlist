@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { DeezerAccessTokenResponse } from "../types/deezer/DeezerLogin";
+import { DeezerAccessToken } from "../types/deezer/DeezerLogin";
 import { store } from "../store/store";
 import { SpotifyTrack } from "../types/spotify/SpotifyTrack";
 import { DeezerPlaylists } from "../types/deezer/DeezerPlaylist";
@@ -7,7 +7,7 @@ import { DeezerPlaylists } from "../types/deezer/DeezerPlaylist";
 /**
  * Get access token from Deezer API.
  */
-export const fetchDeezerToken = async (code: string): Promise<DeezerAccessTokenResponse> => {
+export const fetchDeezerToken = async (code: string): Promise<DeezerAccessToken> => {
   const params: Record<string, string | null> = {
     "app_id": import.meta.env?.VITE_DEEZER_APP_ID ?? null,
     "secret": import.meta.env?.VITE_DEEZER_SECRET_KEY ?? null,
@@ -27,8 +27,11 @@ export const fetchDeezerToken = async (code: string): Promise<DeezerAccessTokenR
  * Get user profil from Deezer Api.
  */
 export const fetchDeezerUserProfil = async () => {
-  const token = store.getState().deezer.token?.accessToken ?? '';
+  const token = store.getState().deezer.token['access_token'] ?? '';
   const user = store.getState().deezer.user;
+
+  console.log({token});
+  console.log(store.getState().deezer);
 
   if (user) return user;
 
@@ -48,7 +51,7 @@ export const fetchDeezerUserProfil = async () => {
  * Get user's playlists from Deezer Api.
  */
 export const fetchDeezerUserPlaylists = async (): Promise<DeezerPlaylists> => {
-  const token = store.getState().deezer.token?.accessToken ?? '';
+  const token = store.getState().deezer.token?.['access_token'] ?? '';
 
   const params: Record<string, string | null> = {
     "access_token": token,
@@ -70,7 +73,7 @@ export const fetchDeezerUserPlaylists = async (): Promise<DeezerPlaylists> => {
 type FetchDeezerTracks = { pageParam: string }
 
 export const fetchDeezerPlaylistTracks = async ({ pageParam }: FetchDeezerTracks ) => {
-  const token = store.getState().deezer.token?.accessToken;
+  const token = store.getState().deezer.token?.['access_token'];
   const params = { 'access_token': token }
   const { data } = await axios.get(pageParam, { params })
   
@@ -82,7 +85,7 @@ export const fetchDeezerPlaylistTracks = async ({ pageParam }: FetchDeezerTracks
  */
 export const fetchDeezerTrackId = async (track: SpotifyTrack): Promise<SpotifyTrack> => {
   if (!track.deezerUrl) return track;
-  const token = store.getState().deezer.token?.accessToken;
+  const token = store.getState().deezer.token['access_token'];
   const params = { 'access_token': token };
 
   try {
@@ -132,7 +135,7 @@ export const fetchAllDeezerTrackId = async (spotifyPlaylist: SpotifyTrack[]) => 
  */
 export const createDeezerPlaylist = async (playlistTitle: string): Promise<AxiosResponse> => {
   const url = `/deezer-api/user/me/playlists`
-  const token = store.getState().deezer.token?.accessToken;
+  const token = store.getState().deezer.token['access_token'];
   const params = { 
     'access_token': token, 
     'request_method': 'POST',
@@ -149,7 +152,7 @@ export const createDeezerPlaylist = async (playlistTitle: string): Promise<Axios
  */
 export const addTracksToDeezerPlaylist = async (playlistId: string, tracksId: string[]): Promise<AxiosResponse> => {
   const url = `/deezer-api/playlist/${playlistId}/tracks`
-  const token = store.getState().deezer.token?.accessToken;
+  const token = store.getState().deezer.token['access_token'];
   const params = { 
     'access_token': token, 
     'request_method': 'POST',
@@ -165,16 +168,20 @@ export const addTracksToDeezerPlaylist = async (playlistId: string, tracksId: st
 /**
  * Check if access token is valid from Deezer API.
  */
-export const checkValidDeezerToken = async (token: string): Promise<DeezerAccessTokenResponse> => {
+export const checkValidDeezerToken = async (token: string): Promise<boolean> => {
   const params: Record<string, string | null> = {
     "output": "json",
     "access_token": token
   };
 
-  const { data } = await axios.get(
-    '/deezer-api/user/me', 
-    { params }
-  );
+  try {
+    const { data } = await axios.get(
+      '/deezer-api/user/me', 
+      { params }
+    );
 
-  return data;
+    return data.error ? false : true;
+  } catch (err) {
+    throw new Error((err as AxiosError).message);
+  }
 };

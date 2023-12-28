@@ -18,8 +18,8 @@ type State = {
 
 const initialState: State = {
   token: {
-    accessToken: '',
-    expires: 0
+    'access_token': '',
+    'expires': 0
   },
   playlists: [],
   selectedTracks: [],

@@ -16,7 +16,7 @@ export default function DeezerRedirection() {
 
   
   useEffect(() => {
-      if (!isPending && token?.accessToken) {
+      if (!isPending && token) {
         setDeezerCookieToken(JSON.stringify(token), token.expires);
         dispatch(setDeezerToken(token));
 

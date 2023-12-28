@@ -81,6 +81,10 @@
     }
   }
 
+  &:disabled {
+    pointer-events: none;
+  }
+
   @media (min-width: $l) {
     height: 15rem;
     width: 25rem;

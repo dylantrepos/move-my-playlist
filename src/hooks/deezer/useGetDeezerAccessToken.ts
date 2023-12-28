@@ -17,13 +17,8 @@ export const useGetDeezerAccessToken = (code: string): [DeezerAccessToken | unde
 
   useEffect(() => {
     if (!isPending && data) {
-      const newToken = {
-        accessToken: data['access_token'],
-        expires: data.expires
-      }
-      console.log({newToken});
-      dispatch(setDeezerToken(newToken));
-      setToken(newToken);
+      dispatch(setDeezerToken(data));
+      setToken(data);
     }
   }, [isPending]);
 

@@ -1,5 +1,5 @@
 import { checkValidDeezerToken } from "../services/deezerApi";
-import { checkValidSpotifyToken } from "../services/spotifyApi";
+import { checkValidSpotifyToken } from '../services/spotifyApi';
 import { DeezerAccessToken } from "../types/deezer/DeezerLogin";
 import { SpotifyAccessToken } from "../types/spotify/SpotifyLogin";
 
@@ -37,26 +37,39 @@ export const removeCookie = (cname: string) => {
 document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
 };
 
-export const checkCookiesTokenExist = async (): Promise<boolean> => {
-  const deezerCookieToken = getDeezerCookieToken();
-  const spotifyCookieToken = getSpotifyCookieToken();
+export const getCookieDeezerToken = async (): Promise<DeezerAccessToken | undefined> => {
+  const cookie = JSON.parse(getCookieString('deezer-token') || '{}');
   
-  const isLogged = {
-    deezer: false,
-    spotify: false,
-  };
-
-  if (deezerCookieToken.accessToken && spotifyCookieToken.accessToken) {
+  if (cookie['access_token']) {
     try {
-      const checkTokenDeezer = await checkValidDeezerToken(deezerCookieToken.accessToken);
-      const checkTokenSpotify = await checkValidSpotifyToken(spotifyCookieToken.accessToken);
-      
-      if (!checkTokenDeezer?.error) isLogged.deezer = true;
-      if (!checkTokenSpotify?.error) isLogged.spotify = true;
+      const checkTokenDeezer = await checkValidDeezerToken(cookie['access_token']);
+
+      if (checkTokenDeezer) return cookie;
+      else removeCookie('deezer-token');
     } catch (err) {
       console.error(err);
     }
   }
+}
 
-  return Object.values(isLogged).every(logged => logged);
+export const getCookieSpotifyToken = async (): Promise<SpotifyAccessToken | undefined> => {
+  const cookie = JSON.parse(getCookieString('spotify-token') || '{}');
+  
+  if (cookie.accessToken) {
+    try {
+      const checkTokenSpotify = await checkValidSpotifyToken(cookie.accessToken);
+
+      if (checkTokenSpotify) return cookie;
+      else removeCookie('spotify-token');
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
+export const checkCookiesTokenExist = async (): Promise<boolean> => {
+  const deezerToken = await getCookieDeezerToken() ?? false;
+  const spotifyToken = await getCookieSpotifyToken() ?? false;
+
+  return !!deezerToken && !!spotifyToken;
 }
