@@ -160,3 +160,21 @@ export const addTracksToDeezerPlaylist = async (playlistId: string, tracksId: st
 
   return data
 }
+
+
+/**
+ * Check if access token is valid from Deezer API.
+ */
+export const checkValidDeezerToken = async (token: string): Promise<DeezerAccessTokenResponse> => {
+  const params: Record<string, string | null> = {
+    "output": "json",
+    "access_token": token
+  };
+
+  const { data } = await axios.get(
+    '/deezer-api/user/me', 
+    { params }
+  );
+
+  return data;
+};

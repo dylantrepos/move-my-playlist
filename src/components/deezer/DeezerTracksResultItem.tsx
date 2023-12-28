@@ -57,18 +57,18 @@ export const DeezerTracksResultItem = () => {
   return hasBeenAdded ? (
     <>
       <Title>Your playlist has been added !</Title>
-      <section className="deezerTracksResultItem">
+      <div className="deezerTracksResultItem">
         <p>Your playlist 'My Awesome Playlist' has been successfully added to your Spotify playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Spotify, but you can check and add them manually if you'd like.`}</p>
         <Link to={'/deezer-to-spotify/playlist'} className="button-primary">
           Transfert another playlist
         </Link>
-      </section>
+      </div>
       { tracksNotFound.length > 0 && 
-          <section className="deezerTracksResultItem__not-found">
+          <div className="deezerTracksResultItem__not-found">
             <h4 className="deezerTracksResultItem__not-found-title">Tracks not found</h4>
             
             <TracksNotFoundItem tracksNotFound={[...tracksNotFound, ...tracksNotFound]} />
-          </section>
+          </div>
       }
     </>)
     : <LoadingPlaylistImport /> 
@@ -78,9 +78,9 @@ const LoadingPlaylistImport = () => {
   return (
     <>
       <Title>Importing your new playlist</Title>
-      <section className="deezerTracksResultItem__loading-playlist">
+      <div className="deezerTracksResultItem__loading-playlist">
         <p>please wait...</p>
-      </section>
+      </div>
     </> 
   )
 }

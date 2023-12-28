@@ -7,5 +7,11 @@ export type DeezerAccessToken = {
 export type DeezerAccessTokenResponse = {
   "access_token": string;
   "expires": number;
+  error?: DeezerErrorResponse
 }
 
+export type DeezerErrorResponse = {
+  code: number;
+  message: string;
+  type: string;
+}

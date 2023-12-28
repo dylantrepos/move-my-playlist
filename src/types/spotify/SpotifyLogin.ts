@@ -4,6 +4,7 @@ export type SpotifyAccessTokenResponse = {
   "refresh_token": string;
   "scope": string;
   "token_type": string;
+  "error"?: SpotifyError;
 }
 
 export type SpotifyAccessToken = {
@@ -11,4 +12,15 @@ export type SpotifyAccessToken = {
   expires: number
   tokenType: string;
   scope: string;
+  error?: SpotifyError;
 }
+
+export type SpotifyErrorResponse = {
+  error: SpotifyError;
+}
+
+export type SpotifyError = {
+  status: number;
+  message: string;
+}
+

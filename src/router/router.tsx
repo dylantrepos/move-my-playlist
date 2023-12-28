@@ -1,6 +1,6 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 
-import { loginLoader } from './loader';
+import { loginLoader, redirectLoader } from './loader';
 
 import Login from "../views/Login";
 import DeezerPopupRedirection from "../views/DeezerPopupRedirection";
@@ -28,6 +28,7 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+        loader: async () => redirectLoader('/home'),
       },
       {
         path: "deezer-redirection",
