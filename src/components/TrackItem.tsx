@@ -54,7 +54,7 @@ export const TrackItem = ({
 }
 
 type TrackInputItemProps = TrackItemProps & {
-  id: number;
+  id: number | string;
   checked: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

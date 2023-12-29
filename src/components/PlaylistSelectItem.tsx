@@ -1,9 +1,10 @@
 import { ChangeEvent } from "react";
 import { DeezerPlaylist } from "../types/deezer/DeezerPlaylist";
 import './styles/PlaylistSelectItem.scss';
+import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
 
 type Props = {
-  playlists: DeezerPlaylist[];
+  playlists: DeezerPlaylist[] | SpotifyPlaylist[];
   playlistId: number;
   handleChangePlaylist: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -20,9 +21,9 @@ export const PlaylistSelectItem = ({
       value={playlistId ?? "placeholder"}
     >
       <option value="placeholder" disabled>Choose a playlist </option>
-      {playlists?.map((playlist: DeezerPlaylist) => (
+      {playlists?.map((playlist: DeezerPlaylist | SpotifyPlaylist) => (
         <option key={playlist.id} value={playlist.id}>
-          {playlist.title}
+          {'nb_tracks' in playlist ? playlist.title : playlist.name}
         </option>
       ))}
     </select>

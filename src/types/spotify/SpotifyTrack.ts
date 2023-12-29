@@ -63,7 +63,7 @@ export type SpotifyTrack = {
   external_ids: SpotifyExternalIds;
   external_urls: SpotifyExternalUrls;
   href: string;
-  id: number;
+  id: string;
   is_playable: boolean;
   linked_from: SpotifyLinkedFrom;
   restrictions: SpotifyRestrictions;

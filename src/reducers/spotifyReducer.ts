@@ -12,7 +12,7 @@ type State = {
   playlists: SpotifyPlaylist[];
   playlistTracks: SpotifyTrack[];
   selectedPlaylist?: SpotifyPlaylist;
-  selectedTracks: number[];
+  selectedTracks: string[];
   error?: AxiosError;
 }
 
@@ -51,7 +51,7 @@ const spotifySlice = createSlice({
     setSpotifyError: (state, action: PayloadAction<AxiosError>) => {
       state.error = action.payload;
     },
-    setSelectedTracks: (state, action: PayloadAction<number[]>) => {
+    setSelectedTracks: (state, action: PayloadAction<string[]>) => {
       state.selectedTracks = action.payload;
     },
     setSelectedPlaylist: (state, action: PayloadAction<SpotifyPlaylist>) => {
@@ -62,6 +62,7 @@ const spotifySlice = createSlice({
       state.selectedTracks = [];
     },
     updateAllTrack: (state, action: PayloadAction<'checkAll' | 'uncheckAll'>) => {
+      console.log({state: state.playlistTracks, action});
       state.selectedTracks = 
       action.payload === 'checkAll' 
         ? state.playlistTracks.map(playlist => playlist.id)

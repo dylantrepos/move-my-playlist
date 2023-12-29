@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchSpotifyPlaylistTracks } from "../../services/spotifyApi";
-import { SpotifyTrackUserInfo } from "../../types/spotify/SpotifyTrack";
-import { SpotifyPlaylistTracks } from "../../types/spotify/SpotifyPlaylist";
+import { SpotifyTrack, SpotifyTrackUserInfo } from "../../types/spotify/SpotifyTrack";
+import { setSpotifyPlaylistTracks } from "../../reducers/spotifyReducer";
+import { useDispatch } from "react-redux";
 
-export const useGetSpotifyTracks = (playlistId: string): [SpotifyPlaylistTracks | undefined, boolean] => {
-  const [playlistTracks, setPlaylistTracks] = useState<SpotifyPlaylistTracks | undefined>();
+export const useGetSpotifyTracks = (playlistId: string): [SpotifyTrack[] | undefined, boolean] => {
+  const [playlistTracks, setPlaylistTracks] = useState<SpotifyTrack[] | undefined>();
+  const dispatch = useDispatch();
 
   console.log({playlistId});
 
@@ -18,7 +20,6 @@ export const useGetSpotifyTracks = (playlistId: string): [SpotifyPlaylistTracks 
     queryFn: fetchSpotifyPlaylistTracks,
     initialPageParam: searchUrl,
     getNextPageParam: (lastPage) => lastPage.next,
-    // getNextPageParam: (lastPage) => lastPage.next?.replace('https://api.spotify.com', '/spotify-api'),
     refetchOnWindowFocus: false
   })
 
@@ -26,11 +27,10 @@ export const useGetSpotifyTracks = (playlistId: string): [SpotifyPlaylistTracks 
     if (!isFetching && data) {
       if (hasNextPage) fetchNextPage();
       else if(!isPending) {
-        console.log({data});
-        setPlaylistTracks({
-          total: data.pages[0].total,
-          items: data.pages.reduce((acc, curr) => [...acc, ...curr.items], []).map(((trackInfo: SpotifyTrackUserInfo) => trackInfo.track))
-        } as SpotifyPlaylistTracks)
+        const tracks: SpotifyTrack[] = data.pages.reduce((acc, curr) => [...acc, ...curr.items], []).map(((trackInfo: SpotifyTrackUserInfo) => trackInfo.track));
+        dispatch(setSpotifyPlaylistTracks(tracks));
+        setPlaylistTracks(tracks);
+        console.log({tracks});
       }
     }
   }, [isFetching, isPending])

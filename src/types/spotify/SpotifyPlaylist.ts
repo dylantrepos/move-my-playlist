@@ -17,7 +17,7 @@ export type SpotifyPlaylistItems = {
     "spotify": string
   };
   "href": string;
-  "id": string;
+  "id": number;
   "images": [
     {
       "url": string;
@@ -61,7 +61,7 @@ export type SpotifyPlaylist = {
     "total": number
   };
   "href": string;
-  "id": string;
+  "id": number;
   "images": [
     {
       "url": string;
