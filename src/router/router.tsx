@@ -14,6 +14,7 @@ import { Header } from "../components/Header";
 import { DeezerTracksResultItem } from "../components/deezer/DeezerTracksResultItem";
 import { SpotifyPlaylistsItem } from "../components/spotify/SpotifyPlaylistsItem";
 import { SpotifyPlaylistsTracksItem } from "../components/spotify/SpotifyPlaylistsTracksItem";
+import { SpotifyTracksResultItem } from "../components/spotify/SpotifyTracksResultItem";
 
 export const router = createBrowserRouter([
   {
@@ -78,7 +79,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "transfert",
-            element: <DeezerTracksResultItem />
+            element: <SpotifyTracksResultItem />
           },
         ]
       },

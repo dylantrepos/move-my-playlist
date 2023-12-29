@@ -50,6 +50,7 @@ export const DeezerLoginItem = ({ updateDeezerConnection, isLogged }: Props) => 
         'basic_access',
         'email',
         'manage_library',
+        'delete_library',
       ].join(',')
 
       deezerUserURL.searchParams.append("perms", perms);

@@ -40,8 +40,10 @@ export const SpotifyPlaylistsTracksItem = () => {
   };
 
   const handleChangePlaylist = (e: ChangeEvent<HTMLSelectElement>) => {
-    const playlistId = +e.target.value;
-    const selectedPlaylist = playlists.find(playlist => playlist.id === playlistId);
+    const playlistId = e.target.value;
+    const selectedPlaylist = playlists.find(playlist => playlist.id.toString() === playlistId);
+
+    console.log(playlistId);
 
     if (selectedPlaylist) {
       dispatch(setSelectedPlaylist(selectedPlaylist))

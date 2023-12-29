@@ -35,13 +35,13 @@ export const DeezerTracksResultItem = () => {
             setTracksNotFound(tracksNotFound);
 
             // Implement tracks
-            await addTracksToSpotifyPlaylist(playlistId, tracksFound);
+            await addTracksToSpotifyPlaylist(playlistId.toString(), tracksFound);
 
             setHasBeenAdded(true);
   
             // Delete playlist
             setTimeout(async () => {
-              await deleteSpotifyPlaylist(playlistId);
+              await deleteSpotifyPlaylist(playlistId.toString());
             }, 3000)
           }
         }

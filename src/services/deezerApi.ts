@@ -91,7 +91,8 @@ export const fetchDeezerTrackId = async (track: SpotifyTrack): Promise<SpotifyTr
   try {
       const response = await axios.get(track.deezerUrl, { params });
 
-      console.log({response});
+      console.log({track, response});
+
       return {
         ...track,
         deezerId: response.data.id,
@@ -113,14 +114,13 @@ export const fetchAllDeezerTrackId = async (spotifyPlaylist: SpotifyTrack[]) => 
     const promises = spotifyPlaylist
     .map(playlist => ({
       ...playlist,
-      deezerUrl: `deezer-api/track/isrc:${playlist.external_ids.isrc}`
+      deezerUrl: `/deezer-api/track/isrc:${playlist.external_ids.isrc}`
     }))
     .map(fetchDeezerTrackId);
 
     try {
         const results = await Promise.all(promises);
 
-        console.log({ results });
         return results
     } catch (error) {
         console.error(`Error in Promise.all: ${(error as AxiosError).message}`);
@@ -144,7 +144,9 @@ export const createDeezerPlaylist = async (playlistTitle: string): Promise<Axios
 
   const data = await axios.get(url, { params })
 
-  return data
+  console.log('add :', data);
+
+  return data.data
 }
 
 /**
@@ -160,6 +162,8 @@ export const addTracksToDeezerPlaylist = async (playlistId: string, tracksId: st
   };
 
   const data = await axios.get(url, { params })
+
+  console.log({ data, tracksId, playlistId });
 
   return data
 }
@@ -185,3 +189,21 @@ export const checkValidDeezerToken = async (token: string): Promise<boolean> => 
     throw new Error((err as AxiosError).message);
   }
 };
+
+/**
+ * Delete a playlist with Deezer Api.
+ */
+export const deleteDeezerPlaylist = async (playlistId: string): Promise<AxiosResponse> => {
+  const url = `/deezer-api/playlist/${playlistId}`
+  const token = store.getState().deezer.token['access_token'];
+  const params = { 
+    'access_token': token, 
+    'playlist_id': playlistId 
+  };
+
+  const data = await axios.delete(url, { params })
+
+  console.log('remove: ', { data });
+
+  return data
+}

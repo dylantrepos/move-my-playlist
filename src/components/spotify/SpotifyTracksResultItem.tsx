@@ -1,70 +1,89 @@
-import { DeezerTrack } from "../../types/deezer/DeezerPlaylistTracks";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { addTracksToSpotifyPlaylist, createSpotifyPlaylist, deleteSpotifyPlaylist } from "../../services/spotifyApi";
+import { useEffect, useRef, useState } from "react";
+import { TracksNotFoundItem } from "../TracksNotFoundItem";
+import { getExistingTracksFromDeezer, getExistingTracksFromSpotify } from "../../utils/utils";
+import './styles/SpotifyTracksResultItem.scss';
+import { Link, useNavigate } from "react-router-dom";
+import { Title } from "../Title";
+import { SpotifyTrack } from "../../types/spotify/SpotifyTrack";
+import { addTracksToDeezerPlaylist, createDeezerPlaylist, deleteDeezerPlaylist, fetchAllDeezerTrackId } from "../../services/deezerApi";
 
-type Props = {
-  deezerTracksFound: DeezerTrack[];
-  deezerTracksNotFound: DeezerTrack[];
-}
+export const SpotifyTracksResultItem = () => {
+  const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.spotify);
+  const [tracksNotFound, setTracksNotFound] = useState<SpotifyTrack[]>([]);
+  const [hasBeenAdded, setHasBeenAdded] = useState(false);
+  const hasLoaded = useRef(false);
+  const navigate = useNavigate();
 
-export const SpotifyTracksResultItem = ({ deezerTracksFound, deezerTracksNotFound }: Props) => {
+  useEffect(() => {
+    // if (!selectedPlaylist) navigate('/spotify-to-deezer/playlist');
+  }, [])
 
-  return <>
-    <DeezerTracksNotFoundItem deezerTracksNotFound={deezerTracksNotFound} />
-    <DeezerTracksFoundItem deezerTracksFound={deezerTracksFound} />
-  </>
-}
+  useEffect(() => {
+    if (!hasLoaded.current) {
+      const implementedtrack = async () => {
+        // Create playlist
+        if (selectedPlaylist?.name) {
+          const { id: playlistId } = await createDeezerPlaylist(selectedPlaylist.name);
+          
+          if ( playlistId ) {
+            // Check existing tracks
+            const tracksChoiced = playlistTracks.filter(playlist => selectedTracks.includes(playlist.id));
+            const {tracksFound, tracksNotFound} = await getExistingTracksFromDeezer(tracksChoiced);
+            // const tracksId = await fetchAllDeezerTrackId(tracksChoiced);
+            // console.log({tracksId});
+            console.log({tracksFound, tracksNotFound});
+            setTracksNotFound(tracksNotFound);
 
+            // Implement tracks
+            await addTracksToDeezerPlaylist(playlistId.toString(), tracksFound);
 
-const DeezerTracksFoundItem = ({ deezerTracksFound }: Pick<Props, 'deezerTracksFound'>) => {
-  return deezerTracksFound.length > 0 ? 
-  <div style={{marginTop: 20}}>
-    <h6>Tracks found : </h6>
-    {
-      deezerTracksFound.map((track: DeezerTrack) => (
-        <div style={{
-          display: "flex", 
-          border: `1px solid #04db1f`, 
-          borderRadius: '5px', 
-          padding: '5px', 
-          cursor: "pointer",
-          background: '#e7f6ea',
-          margin: '5px 0'
-        }}
-        key={`found-${track.id}`}
-        >
-      <img src={track.album?.cover} style={{width: '50px', height: '50px', marginRight: '10px', borderRadius: '5px'}}/>
-          <div style={{display: "flex", flexDirection: "column"}}>
-            <b style={{fontWeight: 500}}>{track.title}</b>
-            <span>{track.artist?.name}</span>
-          </div>
-      </div>
-      ))
+            setHasBeenAdded(true);
+  
+            // Delete playlist
+            setTimeout(async () => {
+              await deleteDeezerPlaylist(playlistId.toString());
+            }, 5000)
+          }
+        }
+      }
+
+      implementedtrack();
     }
-  </div> : ''
+
+    return () => {hasLoaded.current = true};
+  }, [])
+
+
+  return hasBeenAdded ? (
+    <>
+      <div className="deezerTracksResultItem">
+        <Title>Your playlist has been added !</Title>
+        <p>Your playlist <span className="deezerTracksResultItem__playlist-title">{selectedPlaylist?.name}</span> has been successfully added to your Spotify playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Spotify, but you can check and add them manually if you'd like.`}</p>
+        <Link to={'/spotify-to-deezer/playlist'} className="button-primary">
+          Transfert another playlist
+        </Link>
+      </div>
+      { tracksNotFound.length > 0 && 
+          <div className="deezerTracksResultItem__not-found">
+            <h4 className="deezerTracksResultItem__not-found-title">Tracks not found</h4>
+            
+            <TracksNotFoundItem tracksNotFound={[...tracksNotFound, ...tracksNotFound]} />
+          </div>
+      }
+    </>)
+    : <LoadingPlaylistImport /> 
 }
 
-const DeezerTracksNotFoundItem = ({ deezerTracksNotFound }: Pick<Props, 'deezerTracksNotFound'>) => {
-  return deezerTracksNotFound.length > 0 ? 
-  <div style={{marginTop: 20}}>
-    <h6>Tracks not found : </h6>
-    { deezerTracksNotFound.map((track: DeezerTrack) => (
-      <div 
-        style={{
-          display: "flex", 
-          border: `1px solid #ff0b0b`, 
-          borderRadius: '5px', 
-          padding: '5px', 
-          cursor: "pointer",
-          background: '#f6e7e7',
-          margin: '5px 0'
-        }}
-        key={`not-found-${track.id}`}
-      >
-        <img src={track.album.cover} style={{width: '50px', height: '50px', marginRight: '10px', borderRadius: '5px'}}/>
-        <div style={{display: "flex", flexDirection: "column"}}>
-          <b style={{fontWeight: 500}}>{track.title}</b>
-          <span>{track.artist?.name}</span>
-        </div>
+const LoadingPlaylistImport = () => {
+  return (
+    <div className="deezerTracksResultItem">
+      <Title>Importing your new playlist</Title>
+      <div className="deezerTracksResultItem__loading-playlist">
+        <p>please wait...</p>
       </div>
-    ))}
-  </div> : ''
-  }
+    </div> 
+  )
+}

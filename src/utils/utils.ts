@@ -1,5 +1,7 @@
+import { fetchAllDeezerTrackId } from "../services/deezerApi";
 import { fetchAllSpotifyTrackId } from "../services/spotifyApi";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
+import { SpotifyTrack } from "../types/spotify/SpotifyTrack";
 
 export const generateCodeChallenge = async (codeVerifier: string) => {
   const data = new TextEncoder().encode(codeVerifier);
@@ -30,12 +32,12 @@ export const openPopup = (url: string) => {
   return windowOpener;
 }
 
-type HandleCheckTracksFoundProps = {
+type HandleCheckSpotifyTracksFoundProps = {
   tracksFound: string[];
   tracksNotFound: DeezerTrack[];
 }
 
-export const getExistingTracksFromSpotify = async (tracks: DeezerTrack[]): Promise<HandleCheckTracksFoundProps> => {
+export const getExistingTracksFromSpotify = async (tracks: DeezerTrack[]): Promise<HandleCheckSpotifyTracksFoundProps> => {
   const spotifyTracksResults = await fetchAllSpotifyTrackId(tracks);
   let [tracksFound, tracksNotFound]: [string[], DeezerTrack[]] = [[], []];
 
@@ -45,5 +47,26 @@ export const getExistingTracksFromSpotify = async (tracks: DeezerTrack[]): Promi
       .map((track) => `spotify:track:${track.spotifyId}`);
     tracksNotFound = spotifyTracksResults.filter((track) => !track?.spotifyId);
   }
+  return {tracksFound, tracksNotFound};
+}
+
+type HandleCheckDeezerTracksFoundProps = {
+  tracksFound: string[];
+  tracksNotFound: SpotifyTrack[];
+}
+
+export const getExistingTracksFromDeezer = async (tracks: SpotifyTrack[]): Promise<HandleCheckDeezerTracksFoundProps> => {
+  const deezerTracksResults = await fetchAllDeezerTrackId(tracks);
+  let [tracksFound, tracksNotFound]: [string[], SpotifyTrack[]] = [[], []];
+
+  console.log({ deezerTracksResults });
+  
+  if (deezerTracksResults) {
+    tracksFound = deezerTracksResults
+    .filter((track) => track?.deezerId)
+    .map((track) => `${track.deezerId}`);
+    tracksNotFound = deezerTracksResults.filter((track) => !track?.deezerId);
+  }
+
   return {tracksFound, tracksNotFound};
 }

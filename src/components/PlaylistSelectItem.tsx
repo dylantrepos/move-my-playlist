@@ -22,6 +22,7 @@ export const PlaylistSelectItem = ({
     >
       <option value="placeholder" disabled>Choose a playlist </option>
       {playlists?.map((playlist: DeezerPlaylist | SpotifyPlaylist) => (
+        ('nb_tracks' in playlist ? playlist.nb_tracks > 0 : playlist.tracks.total > 0) && 
         <option key={playlist.id} value={playlist.id}>
           {'nb_tracks' in playlist ? playlist.title : playlist.name}
         </option>

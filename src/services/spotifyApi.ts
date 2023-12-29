@@ -124,7 +124,7 @@ export const createSpotifyPlaylist = async (playlistTitle: string): Promise<Spot
 }
 
 /**
- * Create a playlist with Spotify Api.
+ * Delete a playlist with Spotify Api.
  */
 export const deleteSpotifyPlaylist = async (playlistId: string): Promise<SpotifyPlaylist> => {
   const url = `https://api.spotify.com/v1/playlists/${playlistId}/followers`
