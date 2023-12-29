@@ -4,11 +4,11 @@ import { useDispatch } from 'react-redux';
 import { resetPlaylistAndTracks, setDeezerPlaylists, setSelectedPlaylist } from "../../reducers/deezerReducer";
 import { useNavigate } from "react-router-dom";
 import { PlaylistItem } from "../PlaylistItem";
-import './styles/DeezerPlaylistItem.scss';
 import { useGetDeezerUserData } from "../../hooks/deezer/useGetDeezerUserData";
 import { ListContainer } from "../ListContainer";
 import { useEffect } from "react";
 import { Title } from "../Title";
+import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
 
 export const DeezerPlaylistsItem = () => {
   const [user] = useGetDeezerUserData(); 
@@ -16,9 +16,11 @@ export const DeezerPlaylistsItem = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSelectPlaylist = (playlist: DeezerPlaylist) => {
-    dispatch(setSelectedPlaylist(playlist));
-    navigate('/deezer-to-spotify/tracks');
+  const handleSelectPlaylist = (playlist: DeezerPlaylist | SpotifyPlaylist) => {
+    if ('duration' in playlist) {
+      dispatch(setSelectedPlaylist(playlist as DeezerPlaylist));
+      navigate('/deezer-to-spotify/tracks');
+    }
   }
 
   useEffect(() => {
@@ -35,11 +37,12 @@ export const DeezerPlaylistsItem = () => {
     <>
       <Title>Choose the playlist</Title>
       <ListContainer 
-        title={`Playlists de ${user?.firstname}`}
+        title={`${user?.firstname}'s playlists`}
         subtitle="Added recently"
+        classNames='-deezer'
       >
         {userDeezerPlaylist?.map((playlist: DeezerPlaylist) => (
-          <PlaylistItem
+          playlist.nb_tracks > 0 &&  <PlaylistItem
             key={playlist.id}
             playlist={playlist}
             cover={playlist.picture}

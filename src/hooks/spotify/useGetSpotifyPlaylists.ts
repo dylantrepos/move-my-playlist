@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { SpotifyPlaylistItems } from '../../types/spotify/SpotifyPlaylist';
+import { SpotifyPlaylist } from '../../types/spotify/SpotifyPlaylist';
 import { fetchSpotifyPlaylists } from "../../services/spotifyApi";
 
-export const useGetSpotifyPlaylist = (): [SpotifyPlaylistItems[] | undefined, boolean] => {
-  const [playlists, setPlaylists] = useState<SpotifyPlaylistItems[]>();
+export const useGetSpotifyPlaylist = (): [SpotifyPlaylist[] | undefined, boolean] => {
+  const [playlists, setPlaylists] = useState<SpotifyPlaylist[]>();
   
   const { isPending, data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({ 
     queryKey: ['spotify-playlist'], 

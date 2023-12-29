@@ -6,13 +6,13 @@ import Login from "../views/Login";
 import DeezerPopupRedirection from "../views/DeezerPopupRedirection";
 import Home from "../views/Home";
 import SpotifyPopupRedirection from "../views/SpotifyPopupRedirection";
-import SpotifyToDeezer from "../views/SpotifyToDeezer";
 import Landing from "../views/Landing";
 
 import { DeezerPlaylistsItem } from "../components/deezer/DeezerPlaylistsItem";
 import { DeezerPlaylistsTracksItem } from "../components/deezer/DeezerPlaylistsTracksItem";
 import { Header } from "../components/Header";
 import { DeezerTracksResultItem } from "../components/deezer/DeezerTracksResultItem";
+import { SpotifyPlaylistsItem } from "../components/spotify/SpotifyPlaylistsItem";
 
 export const router = createBrowserRouter([
   {
@@ -64,8 +64,22 @@ export const router = createBrowserRouter([
       },
       {
         path: "spotify-to-deezer",
-        element: <SpotifyToDeezer />,
+        element: <Outlet />,
         loader: loginLoader,
+        children: [
+          {
+            path: "playlist",
+            element: <SpotifyPlaylistsItem />
+          },
+          {
+            path: "tracks",
+            element: <DeezerPlaylistsTracksItem />
+          },
+          {
+            path: "transfert",
+            element: <DeezerTracksResultItem />
+          },
+        ]
       },
     ]
   }

@@ -1,15 +1,17 @@
 import { DeezerPlaylist } from "../types/deezer/DeezerPlaylist";
 import DeezerDetails from '../assets/images/deezer-details.png'
 import './styles/PlaylistItem.scss';
+import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
+import { Disc } from "../assets/icons/Disc";
 
 type Props = {
-  playlist: DeezerPlaylist;
+  playlist: DeezerPlaylist | SpotifyPlaylist;
   cover: string;
   title: string;
   nbTracks: number;
   author: string;
   type: 'deezer' | 'spotify';
-  handleClick: (playlist: DeezerPlaylist) => void;
+  handleClick: <T extends DeezerPlaylist | SpotifyPlaylist>(playlist: T) => void;
 }
 
 export const PlaylistItem = ({
@@ -27,10 +29,16 @@ export const PlaylistItem = ({
         className="playlistItem"
         onClick={() => handleClick(playlist)}
       >
-        <img 
-          src={cover} 
-          className="playlistItem__image"
-        />
+        {cover 
+        ? <img 
+            src={cover} 
+            className="playlistItem__image"
+          />
+        : <div className="playlistItem__image">
+            <Disc />
+          </div>
+        }
+        
         <p className="playlistItem__title">
           {title}
         </p>
@@ -40,12 +48,12 @@ export const PlaylistItem = ({
         <p className="playlistItem__author">
           Created by {author} 
         </p>
-        { type === 'deezer' ? 
+        { type === 'deezer' && 
           <img 
-          src={DeezerDetails}
-          className="playlistItem__settings" 
+            src={DeezerDetails}
+            className="playlistItem__settings" 
           /> 
-        : '' }
+        }
       </button>
   )
 }

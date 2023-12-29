@@ -1,45 +1,58 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { resetPlaylistAndTracks, setSpotifyPlaylists, setSelectedPlaylist } from "../../reducers/spotifyReducer";
+import { useNavigate } from "react-router-dom";
+import { PlaylistItem } from "../PlaylistItem";
+import { ListContainer } from "../ListContainer";
+import { useEffect } from "react";
+import { Title } from "../Title";
+import { useGetSpotifyUserData } from "../../hooks/spotify/useGetSpotifyUserData";
 import { useGetSpotifyPlaylist } from "../../hooks/spotify/useGetSpotifyPlaylists";
-import { SpotifyPlaylistItems } from "../../types/spotify/SpotifyPlaylist";
-import { SpotifyPlaylistTracksItem } from "./SpotifyPlaylistTracksItem";
-import { setSpotifyPlaylist, setSpotifyPlaylistTitle } from "../../reducers/spotifyReducer";
+import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
+import { DeezerPlaylist } from '../../types/deezer/DeezerPlaylist';
 
-export const SpotifyPlaylistsItem: React.FC = () => {
-  const [selectPlaylistId, setSelectPlaylistId] = useState<string>();
+export const SpotifyPlaylistsItem = () => {
+  const [user] = useGetSpotifyUserData(); 
   const [userSpotifyPlaylist] = useGetSpotifyPlaylist();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const playlistId = e.target.value;
-    const playlistTitle = playlistId !== 'Your Music' ? userSpotifyPlaylist?.find(playlist => playlist.id === playlistId)?.name ?? '' : 'Your Music';
-    setSelectPlaylistId(playlistId)
+  const handleSelectPlaylist = (playlist: SpotifyPlaylist | DeezerPlaylist) => {
+    if ('collaborative' in playlist) {
+      dispatch(setSelectedPlaylist(playlist as SpotifyPlaylist));
+      navigate('/spotify-to-deezer/tracks');
+    }
+  }
 
-    dispatch(setSpotifyPlaylist([]));
-    dispatch(setSpotifyPlaylistTitle(playlistTitle))
-  };
+  useEffect(() => {
+    // Reset playlist & tracks on load
+    dispatch(resetPlaylistAndTracks());
 
-  return userSpotifyPlaylist ? 
+    if (userSpotifyPlaylist) {
+      dispatch(setSpotifyPlaylists(userSpotifyPlaylist));
+    }
+  }, [userSpotifyPlaylist])
+
+
+  return ( user && userSpotifyPlaylist ) && 
     <>
-      <div style={{margin: ' 20px 0 10px'}}>To begin, choose the playlist you want to move</div>
-      <select 
-        defaultValue={"placeholder"} 
-        onChange={handleChange}
-        style={{background: '#e1e1e1', borderRadius: '5px', padding: '10px'}}
+      <Title>Choose the playlist</Title>
+      <ListContainer 
+        title={`${user?.display_name}'s library`}
+        subtitle="Recently played"
+        classNames='-spotify'
       >
-        <option value="placeholder" disabled>Choose a playlist here</option>
-        {userSpotifyPlaylist?.map((playlist: SpotifyPlaylistItems) => (
-          <option key={playlist.id} value={playlist.id}>
-            {playlist.name}
-          </option>
+        {userSpotifyPlaylist?.map((playlist: SpotifyPlaylist) => (
+          playlist.tracks.total > 0 && <PlaylistItem
+            key={playlist.id}
+            playlist={playlist}
+            cover={playlist.images.length > 0 ? playlist.images[0].url : ''}
+            title={playlist.name}
+            nbTracks={playlist.tracks.total}
+            author={playlist.owner.display_name}
+            handleClick={handleSelectPlaylist}
+            type="spotify"
+          />
         ))}
-        <option value={"Your Music"}>
-          Your Music
-        </option>
-      </select>
-      <div>
-          {selectPlaylistId ? <SpotifyPlaylistTracksItem playlistId={selectPlaylistId} /> : ''}
-      </div>
+      </ListContainer>
     </>
-  : ''
 }

@@ -2,13 +2,18 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { SpotifyAccessToken } from "../types/spotify/SpotifyLogin";
 import { SpotifyUser } from "../types/spotify/SpotifyUser";
 import { SpotifyTrack } from "../types/spotify/SpotifyTrack";
+import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
+import { AxiosError } from "axios";
 
 type State = {
   token: SpotifyAccessToken; 
   user?: SpotifyUser;
-  playlistTitle?: string;
   playlist?: SpotifyTrack[];
-  // error?: AxiosError;
+  playlists: SpotifyPlaylist[];
+  playlistTracks: SpotifyTrack[];
+  selectedPlaylist?: SpotifyPlaylist;
+  selectedTracks: number[];
+  error?: AxiosError;
 }
 
 const initialState: State = {
@@ -19,10 +24,13 @@ const initialState: State = {
     'scope': '',
     'token_type': '',
   },
+  playlists: [],
+  selectedTracks: [],
+  playlistTracks: [],
 };
 
 const spotifySlice = createSlice({
-  name: 'userDeezer',
+  name: 'userSpotify',
   initialState,
   reducers: {
     setSpotifyToken: (state, action: PayloadAction<SpotifyAccessToken>) => {
@@ -31,17 +39,49 @@ const spotifySlice = createSlice({
     setSpotifyUser: (state, action: PayloadAction<SpotifyUser>) => {
       state.user = action.payload;
     },
-    setSpotifyPlaylistTitle: (state, action: PayloadAction<string>) => {
-      state.playlistTitle = action.payload;
-    },
     setSpotifyPlaylist: (state, action: PayloadAction<SpotifyTrack[]>) => {
       state.playlist = action.payload;
     },
-    // setDeezerError: (state, action: PayloadAction<AxiosError>) => {
-    //   state.error = action.payload;
-    // }
+    setSpotifyPlaylists: (state, action: PayloadAction<SpotifyPlaylist[]>) => {
+      state.playlists = action.payload;
+    },
+    setSpotifyPlaylistTracks: (state, action: PayloadAction<SpotifyTrack[]>) => {
+      state.playlistTracks = action.payload;
+    },
+    setSpotifyError: (state, action: PayloadAction<AxiosError>) => {
+      state.error = action.payload;
+    },
+    setSelectedTracks: (state, action: PayloadAction<number[]>) => {
+      state.selectedTracks = action.payload;
+    },
+    setSelectedPlaylist: (state, action: PayloadAction<SpotifyPlaylist>) => {
+      state.selectedPlaylist = action.payload;
+    },
+    resetPlaylistAndTracks: (state) => {
+      state.selectedPlaylist = undefined;
+      state.selectedTracks = [];
+    },
+    updateAllTrack: (state, action: PayloadAction<'checkAll' | 'uncheckAll'>) => {
+      state.selectedTracks = 
+      action.payload === 'checkAll' 
+        ? state.playlistTracks.map(playlist => playlist.id)
+        : state.selectedTracks = [];
+    }
   }
 })
 
-export const { setSpotifyToken, setSpotifyUser, setSpotifyPlaylistTitle, setSpotifyPlaylist } = spotifySlice.actions;
 export default spotifySlice.reducer;
+
+export const { 
+  setSpotifyToken, 
+  setSpotifyUser, 
+  setSpotifyPlaylist, 
+  setSpotifyPlaylists,
+  setSpotifyPlaylistTracks,
+  setSpotifyError, 
+  setSelectedTracks,
+  setSelectedPlaylist,
+  resetPlaylistAndTracks,
+  updateAllTrack,
+} = spotifySlice.actions;
+

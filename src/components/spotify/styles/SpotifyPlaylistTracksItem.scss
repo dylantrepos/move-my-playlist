@@ -1,0 +1,140 @@
+@import '../../../assets/variables.scss';
+
+.spotifyPlaylistsTracksItem__select-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+  width: 100%;
+
+  button {
+    border: var(--color-primary) 1px solid;
+    color: white;
+    cursor: pointer;
+    pointer-events: all;
+    
+    &:disabled {
+      border: #ffffff30 1px solid;
+      color: #ffffff30;
+      pointer-events: none;
+    }
+  }
+}
+
+.spotifyPlaylistsTracksItem__playlist-item-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  padding-bottom: 2rem;
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  } 
+}
+
+.spotifyPlaylistsTracksItem__playlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.spotifyPlaylistsTracksItem__playlist-item {
+  align-content: flex-start;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  font-size: 1rem;
+  gap: .4rem 1rem;
+  grid-template: 
+    'image title check' 
+    'image info check' 1rem
+    'image author check' 
+  / min-content 1fr auto;
+  justify-items: flex-start;
+
+  input {
+    display: none;
+  }
+
+  > * {
+    pointer-events: none;
+  }
+
+  @media (min-width: $l) {
+    gap: .4rem 1.5rem;
+    
+  }
+
+  &-image {
+    border-radius: 5px;
+    grid-area: image;
+    width: 4.5rem;
+    
+    @media (min-width: $xs) {
+      width: 6rem;
+      
+    }
+  }
+
+  &-title {
+    align-self: flex-end;
+    font-size: 1rem;
+    font-weight: 500;
+    grid-area: title;
+    text-align: left;
+    
+    @media (min-width: $xs) {
+      font-size: 1.2rem;
+      
+    }
+  }
+
+  &-info {
+    grid-area: info;
+    text-align: left;
+  }
+
+  &-author {
+    font-size: .8rem;
+    font-style: italic;
+    grid-area: author;
+    margin-top: .25rem;
+    text-align: left;
+  }
+
+  &-check {
+    align-self: center;
+
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 100px;
+    grid-area: check;
+    padding: .3rem;
+    position: relative;
+    stroke: transparent;
+    transition: all var(--animation-primary);
+
+    &::before {
+      border: 1px solid var(--color-green);
+      content: '';
+      display: fl;
+      height: 1.5rem;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 1.5rem;
+    }
+
+    &.-checked {
+
+      border-color: var(--color-green);
+      position: relative;
+      stroke: var(--color-green);
+    }
+  }
+}

@@ -9,7 +9,6 @@
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   bottom: 0;
-  box-shadow: -5px 14px 33.8px 0px var(--color-box-shadow-playlist-deezer);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -38,6 +37,14 @@
     min-width: 22rem;
     padding: 2rem 2rem 0;
     
+  }
+
+  &.-deezer {
+    box-shadow: -5px 14px 33.8px 0px var(--color-box-shadow-playlist-deezer);
+  }
+
+  &.-spotify {
+    box-shadow: -5px 14px 33.8px 0px var(--color-box-shadow-playlist-spotify);
   }
 }
 
