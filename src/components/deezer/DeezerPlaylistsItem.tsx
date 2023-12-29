@@ -31,7 +31,7 @@ export const DeezerPlaylistsItem = () => {
   }, [userDeezerPlaylist])
 
 
-  return userDeezerPlaylist ? 
+  return ( user && userDeezerPlaylist ) && 
     <>
       <Title>Choose the playlist</Title>
       <ListContainer 
@@ -52,5 +52,4 @@ export const DeezerPlaylistsItem = () => {
         ))}
       </ListContainer>
     </>
-  : ''
 }

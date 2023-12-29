@@ -12,6 +12,7 @@ export default function Login() {
     spotify: false,
   })
   const hasLoaded = useRef(false);
+  const [isCookieCheckLoaded, setIsCookieCheckLoaded] = useState(false);
 
   const updateDeezerConnection = () => setCurrentConnection((old) => ({ ...old, deezer: true }));
   const updateSpotifyConnection = () => setCurrentConnection((old) => ({...old, spotify: true}));
@@ -19,17 +20,16 @@ export default function Login() {
   useEffect(() => {
     if(hasLoaded.current) {
       const checkExistingTokens = async () => {
-        console.log('hello');
         const deezerCookieToken = await getCookieDeezerToken();
         const spotifyCookieToken = await getCookieSpotifyToken();
   
         if (deezerCookieToken && !currentConnection.deezer) updateDeezerConnection();
         if (spotifyCookieToken && !currentConnection.spotify) updateSpotifyConnection();
+
+        setIsCookieCheckLoaded(true);
       }
   
        checkExistingTokens();
-
-       console.log({currentConnection});
   
       if (currentConnection.deezer && currentConnection.spotify) {
         setTimeout(() => navigate('/home'), 500);
@@ -41,7 +41,7 @@ export default function Login() {
     }
   }, [currentConnection, navigate])
 
-  return (
+  return isCookieCheckLoaded && (
     <div className="login__main-container">
       <h1 className="login__main-title">
         Start by login you on each platform
