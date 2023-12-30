@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { store } from "../store/store";
 import { DeezerTrack } from "../types/deezer/DeezerPlaylistTracks";
 import { SpotifyUser } from "../types/spotify/SpotifyUser";
-import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
+import { SpotifyPlaylist, SpotifyPlaylistTracks } from "../types/spotify/SpotifyPlaylist";
 import { SpotifyAccessToken } from "../types/spotify/SpotifyLogin";
 
 /**
@@ -122,6 +122,22 @@ export const createSpotifyPlaylist = async (playlistTitle: string): Promise<Spot
 
   return data.data
 }
+
+/**
+ * Create a playlist with Spotify Api.
+ */
+export const getSpotifySavedTracksInfo = async (): Promise<SpotifyPlaylistTracks> => {
+  const url = `https://api.spotify.com/v1/me/tracks`
+  const token = store.getState().spotify.token['access_token'];
+  const headers: Record<string, string | null> = {
+    "Authorization": `Bearer ${ token }`,
+  }
+
+  const data = await axios.get(url, { headers })
+
+  return data.data
+}
+
 
 /**
  * Delete a playlist with Spotify Api.

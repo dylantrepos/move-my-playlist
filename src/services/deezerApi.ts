@@ -133,7 +133,7 @@ export const fetchAllDeezerTrackId = async (spotifyPlaylist: SpotifyTrack[]) => 
 /**
  * Create a playlist with Deezer Api.
  */
-export const createDeezerPlaylist = async (playlistTitle: string): Promise<AxiosResponse> => {
+export const createDeezerPlaylist = async (playlistTitle: string): Promise<{id: string}> => {
   const url = `/deezer-api/user/me/playlists`
   const token = store.getState().deezer.token['access_token'];
   const params = { 
@@ -155,6 +155,9 @@ export const createDeezerPlaylist = async (playlistTitle: string): Promise<Axios
 export const addTracksToDeezerPlaylist = async (playlistId: string, tracksId: string[]): Promise<AxiosResponse> => {
   const url = `/deezer-api/playlist/${playlistId}/tracks`
   const token = store.getState().deezer.token['access_token'];
+
+  tracksId = [...new Set(tracksId)];
+  
   const params = { 
     'access_token': token, 
     'request_method': 'POST',

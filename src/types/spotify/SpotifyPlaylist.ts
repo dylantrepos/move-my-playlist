@@ -61,7 +61,7 @@ export type SpotifyPlaylist = {
     "total": number
   };
   "href": string;
-  "id": number;
+  "id": string;
   "images": [
     {
       "url": string;

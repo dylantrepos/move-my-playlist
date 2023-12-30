@@ -11,7 +11,7 @@ export const useGetSpotifyTracks = (playlistId: string): [SpotifyTrack[] | undef
 
   console.log({playlistId});
 
-  const searchUrl = playlistId === 'Your Music' 
+  const searchUrl = playlistId === 'Liked Songs' 
     ? 'https://api.spotify.com/v1/me/tracks'
     : `https://api.spotify.com/v1/playlists/${playlistId}/tracks?offset=0`
   

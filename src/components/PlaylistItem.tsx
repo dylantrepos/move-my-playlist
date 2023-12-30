@@ -3,6 +3,7 @@ import DeezerDetails from '../assets/images/deezer-details.png'
 import './styles/PlaylistItem.scss';
 import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
 import { Disc } from "../assets/icons/Disc";
+import { Heart } from "../assets/icons/Heart";
 
 type Props = {
   playlist: DeezerPlaylist | SpotifyPlaylist;
@@ -11,6 +12,7 @@ type Props = {
   nbTracks: number;
   author: string;
   type: 'deezer' | 'spotify';
+  isLovedTracks?: boolean;
   handleClick: <T extends DeezerPlaylist | SpotifyPlaylist>(playlist: T) => void;
 }
 
@@ -21,6 +23,7 @@ export const PlaylistItem = ({
   nbTracks,
   author,
   type,
+  isLovedTracks,
   handleClick
 }: Props) => {
   return (
@@ -35,7 +38,7 @@ export const PlaylistItem = ({
             className="playlistItem__image"
           />
         : <div className="playlistItem__image">
-            <Disc />
+            {isLovedTracks ? <Heart /> : <Disc />}
           </div>
         }
         

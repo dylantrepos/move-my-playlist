@@ -5,7 +5,7 @@ import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
 
 type Props = {
   playlists: DeezerPlaylist[] | SpotifyPlaylist[];
-  playlistId: number;
+  playlistId: number | string;
   handleChangePlaylist: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 

@@ -26,9 +26,10 @@ export const SpotifyPlaylistsItem = () => {
   useEffect(() => {
     // Reset playlist & tracks on load
     dispatch(resetPlaylistAndTracks());
-
+    
     if (userSpotifyPlaylist) {
       dispatch(setSpotifyPlaylists(userSpotifyPlaylist));
+      console.log({userSpotifyPlaylist});
     }
   }, [userSpotifyPlaylist])
 
@@ -41,6 +42,7 @@ export const SpotifyPlaylistsItem = () => {
         subtitle="Recently played"
         classNames='-spotify'
       >
+
         {userSpotifyPlaylist?.map((playlist: SpotifyPlaylist) => (
           playlist.tracks.total > 0 && <PlaylistItem
             key={playlist.id}
@@ -51,6 +53,7 @@ export const SpotifyPlaylistsItem = () => {
             author={playlist.owner.display_name}
             handleClick={handleSelectPlaylist}
             type="spotify"
+            isLovedTracks={playlist.id === 'Liked Songs'}
           />
         ))}
       </ListContainer>

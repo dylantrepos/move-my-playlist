@@ -1,14 +1,13 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { addTracksToSpotifyPlaylist, createSpotifyPlaylist, deleteSpotifyPlaylist } from "../../services/spotifyApi";
 import { useEffect, useRef, useState } from "react";
 import { TracksNotFoundItem } from "../TracksNotFoundItem";
-import { getExistingTracksFromDeezer, getExistingTracksFromSpotify } from "../../utils/utils";
+import { getExistingTracksFromDeezer } from "../../utils/utils";
 import './styles/SpotifyTracksResultItem.scss';
 import { Link, useNavigate } from "react-router-dom";
 import { Title } from "../Title";
 import { SpotifyTrack } from "../../types/spotify/SpotifyTrack";
-import { addTracksToDeezerPlaylist, createDeezerPlaylist, deleteDeezerPlaylist, fetchAllDeezerTrackId } from "../../services/deezerApi";
+import { addTracksToDeezerPlaylist, createDeezerPlaylist, deleteDeezerPlaylist } from "../../services/deezerApi";
 
 export const SpotifyTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.spotify);
@@ -18,7 +17,7 @@ export const SpotifyTracksResultItem = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (!selectedPlaylist) navigate('/spotify-to-deezer/playlist');
+    if (!selectedPlaylist) navigate('/spotify-to-deezer/playlist');
   }, [])
 
   useEffect(() => {
@@ -43,9 +42,9 @@ export const SpotifyTracksResultItem = () => {
             setHasBeenAdded(true);
   
             // Delete playlist
-            setTimeout(async () => {
-              await deleteDeezerPlaylist(playlistId.toString());
-            }, 5000)
+            // setTimeout(async () => {
+            //   await deleteDeezerPlaylist(playlistId.toString());
+            // }, 5000)
           }
         }
       }
@@ -70,7 +69,7 @@ export const SpotifyTracksResultItem = () => {
           <div className="deezerTracksResultItem__not-found">
             <h4 className="deezerTracksResultItem__not-found-title">Tracks not found</h4>
             
-            <TracksNotFoundItem tracksNotFound={[...tracksNotFound, ...tracksNotFound]} />
+            <TracksNotFoundItem tracksNotFound={[...tracksNotFound]} />
           </div>
       }
     </>)
@@ -80,7 +79,7 @@ export const SpotifyTracksResultItem = () => {
 const LoadingPlaylistImport = () => {
   return (
     <div className="deezerTracksResultItem">
-      <Title>Importing your new playlist</Title>
+      <Title>Importing your playlist</Title>
       <div className="deezerTracksResultItem__loading-playlist">
         <p>please wait...</p>
       </div>
