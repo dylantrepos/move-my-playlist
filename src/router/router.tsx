@@ -15,6 +15,7 @@ import { DeezerTracksResultItem } from "../components/deezer/DeezerTracksResultI
 import { SpotifyPlaylistsItem } from "../components/spotify/SpotifyPlaylistsItem";
 import { SpotifyPlaylistsTracksItem } from "../components/spotify/SpotifyPlaylistsTracksItem";
 import { SpotifyTracksResultItem } from "../components/spotify/SpotifyTracksResultItem";
+import { NotFoundPage } from "../views/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
             element: <SpotifyTracksResultItem />
           },
         ]
+      },
+      {
+        path: '*', 
+        element: <NotFoundPage />
       },
     ]
   }
