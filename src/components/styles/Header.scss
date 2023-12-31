@@ -4,7 +4,7 @@
   align-items: center;
   background: var(--color-background-primary);
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr max-content;
   height: var(--height-header);
   padding: 0 2rem;
   position: fixed;
@@ -21,5 +21,32 @@
   
   @media (min-width: $l) {
     font-size: 1.2rem;
+  }
+}
+
+.header__dropdown {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+
+  button {
+    align-items: center;
+    background-color: black;
+    border: 1px solid var(--color-primary);
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  @media (min-width: $l) {
+    justify-content: flex-end;
+  }
+
+  &-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
   }
 }
