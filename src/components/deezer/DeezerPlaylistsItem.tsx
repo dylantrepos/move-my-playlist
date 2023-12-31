@@ -9,6 +9,7 @@ import { ListContainer } from "../ListContainer";
 import { useEffect } from "react";
 import { Title } from "../Title";
 import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
+import './styles/DeezerPlaylistsItem.scss';
 
 export const DeezerPlaylistsItem = () => {
   const [user] = useGetDeezerUserData(); 
@@ -35,7 +36,7 @@ export const DeezerPlaylistsItem = () => {
 
   return ( user && userDeezerPlaylist ) && 
     <>
-      <Title>Choose the playlist</Title>
+      <Title classNames="deezerPlaylistsItem__title">Choose the playlist</Title>
       <ListContainer 
         title={`${user?.firstname}'s playlists`}
         subtitle="Added recently"

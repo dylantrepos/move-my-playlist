@@ -1,10 +1,12 @@
 @import '../../assets/variables.scss';
 
 .title {
+  font-size: 1.8rem;
   margin-top: var(--height-header);
   text-align: center;
   
   @media (min-width: $xs) {
+    font-size: 2rem;
     margin-top: 15dvh;
   }
 }

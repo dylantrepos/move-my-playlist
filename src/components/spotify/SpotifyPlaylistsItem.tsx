@@ -10,6 +10,7 @@ import { useGetSpotifyPlaylist } from "../../hooks/spotify/useGetSpotifyPlaylist
 import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
 import { DeezerPlaylist } from '../../types/deezer/DeezerPlaylist';
 
+
 export const SpotifyPlaylistsItem = () => {
   const [user] = useGetSpotifyUserData(); 
   const [userSpotifyPlaylist] = useGetSpotifyPlaylist();
@@ -36,6 +37,7 @@ export const SpotifyPlaylistsItem = () => {
 
   return ( user && userSpotifyPlaylist ) && 
     <>
+      
       <Title>Choose the playlist</Title>
       <ListContainer 
         title={`${user?.display_name}'s library`}

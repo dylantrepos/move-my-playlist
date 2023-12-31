@@ -70,7 +70,7 @@ export const TrackInputItem = ({
 }: TrackInputItemProps) => {
   return (
     <label 
-      className="trackItem"
+      className="trackInputItem"
     >
       <input 
         type="checkbox" 
