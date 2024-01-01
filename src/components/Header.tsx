@@ -1,9 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './styles/Header.scss';
 import { useEffect, useRef, useState } from 'react';
-import DeezerIcon from '../assets/images/deezer-sm.png';
-import SpotifyIcon from '../assets/images/spotify-sm.png';
-import Arrow from '../assets/images/arrow.png';
 
 type Props = {
   withToggle?: boolean;
@@ -14,15 +11,25 @@ export const Header = ({
 }: Props = {
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const handleNavigation = (to: 'spotify' | 'deezer') => {
+    setDropdownOpen(false);
+    if (to === 'spotify') {
+      navigate('/spotify-to-deezer/playlist')
+    } else {
+      navigate('/deezer-to-spotify/playlist')
+    }
+  }
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
       }
     };
@@ -45,30 +52,34 @@ export const Header = ({
         Move My Playlist
       </Link>
       {withToggle && <div className='header__dropdown' ref={dropdownRef}>
-        <button 
-          className='header__dropdown-toggle'
+        <div 
+          className={`header__burger-menu ${dropdownOpen ? 'open' : ''}`}
           onClick={toggleDropdown}
         >
-          Options V
-        </button>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div 
+          className={`header__classic-menu ${dropdownOpen ? 'open' : ''}`}
+          onClick={toggleDropdown}
+        >
+          Transfert
+        </div>
         {dropdownOpen && (
           <div className='header__dropdown-menu'>
-            <Link 
-              to={'spotify-to-deezer/playlist'}
+            <div 
+              onClick={() => handleNavigation('spotify')}
               className='header__dropdown-item'
             >
-              <img src={SpotifyIcon}/>
-              <img src={Arrow}/>
-              <img src={DeezerIcon}/>
-            </Link>
-            <Link 
-              to={'deezer-to-spotify/playlist'}
+              Transfert Spotify playlist to Deezer
+            </div>
+            <div 
+              onClick={() => handleNavigation('deezer')}
               className='header__dropdown-item'
             >
-              <img src={DeezerIcon}/>
-              <img src={Arrow}/>
-              <img src={SpotifyIcon}/>
-            </Link>
+              Transfert Deezer playlist to Spotify
+            </div>
           </div>
         )}
       </div>}
