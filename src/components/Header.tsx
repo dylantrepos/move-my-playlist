@@ -5,7 +5,14 @@ import DeezerIcon from '../assets/images/deezer-sm.png';
 import SpotifyIcon from '../assets/images/spotify-sm.png';
 import Arrow from '../assets/images/arrow.png';
 
-export const Header = () => {
+type Props = {
+  withToggle?: boolean;
+}
+
+export const Header = ({
+  withToggle = false
+}: Props = {
+}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -37,19 +44,34 @@ export const Header = () => {
       >
         Move My Playlist
       </Link>
-      <div className='header__dropdown' ref={dropdownRef}>
-        <button onClick={toggleDropdown}>Options V</button>
+      {withToggle && <div className='header__dropdown' ref={dropdownRef}>
+        <button 
+          className='header__dropdown-toggle'
+          onClick={toggleDropdown}
+        >
+          Options V
+        </button>
         {dropdownOpen && (
           <div className='header__dropdown-menu'>
-            <button onClick={() => console.log('Option 1 clicked')}>
+            <Link 
+              to={'spotify-to-deezer/playlist'}
+              className='header__dropdown-item'
+            >
               <img src={SpotifyIcon}/>
               <img src={Arrow}/>
               <img src={DeezerIcon}/>
-            </button>
-            <button onClick={() => console.log('Option 2 clicked')}>Option 2</button>
+            </Link>
+            <Link 
+              to={'deezer-to-spotify/playlist'}
+              className='header__dropdown-item'
+            >
+              <img src={DeezerIcon}/>
+              <img src={Arrow}/>
+              <img src={SpotifyIcon}/>
+            </Link>
           </div>
         )}
-      </div>
+      </div>}
     </header>
   )
 }

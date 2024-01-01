@@ -31,15 +31,6 @@
   position: relative;
   width: 100%;
 
-  button {
-    align-items: center;
-    background-color: black;
-    border: 1px solid var(--color-primary);
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-  }
-  
   @media (min-width: $l) {
     justify-content: flex-end;
   }
@@ -48,5 +39,30 @@
     position: absolute;
     right: 0;
     top: 100%;
+  }
+}
+
+.header__dropdown-toggle {
+  align-items: center;
+  background-color: black;
+  border: 1px solid var(--color-primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.header__dropdown-item {
+  align-items: center;
+  background-color: black;
+  border: 1px solid var(--color-primary);
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  
+  &:hover {
+    background-color: var(--color-primary);
   }
 }

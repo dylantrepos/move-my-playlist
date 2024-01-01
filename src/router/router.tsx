@@ -46,6 +46,19 @@ export const router = createBrowserRouter([
         element: <Home />,
         loader: loginLoader,
       },
+    ]
+  },
+  {
+    element:  <>
+        <Header withToggle={true} />
+        <Outlet />
+    </>,
+    children: [
+      {
+        path: "home",
+        element: <Home />,
+        loader: loginLoader,
+      },
       {
         path: "deezer-to-spotify",
         element: <Outlet />,
@@ -84,10 +97,18 @@ export const router = createBrowserRouter([
           },
         ]
       },
+    ]
+  },
+  {
+    element:  <>
+        <Header />
+        <Outlet />
+    </>,
+    children: [
       {
         path: '*', 
         element: <NotFoundPage />
       },
     ]
-  }
+  },
 ]);
