@@ -10,7 +10,7 @@ type Props = {
 
 export const SpotifyDeezerArrow = ({ className, deezerToSpotify = true }: Props) => {
   return (
-    <div className={`SpotifyDeezerArrow__container ${className ?? ''}`}>
+    <div className={`spotifyDeezerArrow__container ${className ?? ''}`}>
       <img src={deezerToSpotify ? DeezerLogo : SpotifyLogo} />
       <img src={Arrow} />
       <img src={deezerToSpotify ? SpotifyLogo : DeezerLogo} />

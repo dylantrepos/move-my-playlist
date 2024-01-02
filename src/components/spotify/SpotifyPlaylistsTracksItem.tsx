@@ -52,8 +52,8 @@ export const SpotifyPlaylistsTracksItem = () => {
   }
 
   return selectedPlaylist && (
-    <>
-      <Title>Choose the tracks</Title>
+    <div className="spotifyPlaylistsTracksItem__container">
+      <Title classNames="spotifyPlaylistsTracksItem__title">Choose the tracks</Title>
       <div className='spotifyPlaylistsTracksItem__select-container'>
           <PlaylistSelectItem 
             playlists={playlists}
@@ -72,7 +72,7 @@ export const SpotifyPlaylistsTracksItem = () => {
       <ListContainer 
         title={selectedPlaylist.name}
         subtitle="Recently played"
-        classNames="-spotify"
+        classNames="spotifyPlaylistsTracksItem__list -spotify"
         toggleItem={
           <ToggleItem 
             selectedTracks={selectedTracks}
@@ -104,5 +104,5 @@ export const SpotifyPlaylistsTracksItem = () => {
             ))}
           </form> }
       </ListContainer>
-    </>)
+    </div>)
 }

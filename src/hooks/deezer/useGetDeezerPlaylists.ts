@@ -3,10 +3,10 @@ import { DeezerPlaylist } from "../../types/deezer/DeezerPlaylist";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDeezerUserPlaylists } from "../../services/deezerApi";
 
-export const useGetDeezerPlaylist = (): [DeezerPlaylist[]] => {
+export const useGetDeezerPlaylist = (): [DeezerPlaylist[], boolean] => {
   const [playlists, setPlaylists] = useState<DeezerPlaylist[]>([]);
 
-  const { isPending, data } = useQuery({ 
+  const { isPending, isFetching, data } = useQuery({ 
     queryKey: ['deezer-playlist'], 
     queryFn: () => fetchDeezerUserPlaylists(),
     refetchOnWindowFocus: false
@@ -18,5 +18,5 @@ export const useGetDeezerPlaylist = (): [DeezerPlaylist[]] => {
     }
   }, [isPending]);
 
-  return [playlists];
+  return [playlists, (!isPending && !isFetching)];
 }

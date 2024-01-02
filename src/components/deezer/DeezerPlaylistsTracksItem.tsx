@@ -49,8 +49,8 @@ export const DeezerPlaylistsTracksItem = () => {
   }
 
   return selectedPlaylist && (
-    <>
-      <Title>Choose the tracks</Title>
+    <div className="deezerPlaylistsTracksItem__container">
+      <Title classNames="deezerPlaylistsTracksItem__title">Choose the tracks</Title>
       <div className='deezerPlaylistsTracksItem__select-container'>
           <PlaylistSelectItem 
             playlists={playlists}
@@ -69,7 +69,7 @@ export const DeezerPlaylistsTracksItem = () => {
       <ListContainer 
         title={selectedPlaylist.title}
         subtitle="Added recently"
-        classNames="-deezer"
+        classNames="deezerPlaylistsTracksItem__list -deezer"
         toggleItem={
           <ToggleItem 
             selectedTracks={selectedTracks}
@@ -101,5 +101,5 @@ export const DeezerPlaylistsTracksItem = () => {
             ))}
           </form> }
       </ListContainer>
-    </>)
+    </div>)
 }
