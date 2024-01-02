@@ -9,7 +9,7 @@ import { useGetSpotifyUserData } from "../../hooks/spotify/useGetSpotifyUserData
 import { useGetSpotifyPlaylist } from "../../hooks/spotify/useGetSpotifyPlaylists";
 import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
 import { DeezerPlaylist } from '../../types/deezer/DeezerPlaylist';
-
+import './styles/SpotifyPlaylistsItem.scss'
 
 export const SpotifyPlaylistsItem = () => {
   const [user] = useGetSpotifyUserData(); 
@@ -36,13 +36,12 @@ export const SpotifyPlaylistsItem = () => {
 
 
   return ( user && userSpotifyPlaylist ) && 
-    <>
-      
-      <Title>Choose the playlist</Title>
+    <div className="spotifyPlaylistsItem__container">
+      <Title  classNames="spotifyPlaylistsItem__title">Choose the playlist</Title>
       <ListContainer 
         title={`${user?.display_name}'s library`}
         subtitle="Recently played"
-        classNames='-spotify'
+        classNames='spotifyPlaylistsItem__list -spotify'
       >
 
         {userSpotifyPlaylist?.map((playlist: SpotifyPlaylist) => (
@@ -59,5 +58,5 @@ export const SpotifyPlaylistsItem = () => {
           />
         ))}
       </ListContainer>
-    </>
+    </div>
 }

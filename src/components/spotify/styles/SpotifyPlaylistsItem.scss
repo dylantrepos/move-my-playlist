@@ -1,6 +1,6 @@
 @import '../../../assets/variables.scss';
 
-.deezerPlaylistsItem__container {
+.spotifyPlaylistsItem__container {
   display: grid;
   grid-template-areas: "title" "list";
   width: 100%;
@@ -14,7 +14,7 @@
   }
 }
 
-.deezerPlaylistsItem__title {
+.spotifyPlaylistsItem__title {
   @media (min-width: $xl) {
     align-self: center;
     grid-area: title;
@@ -23,7 +23,7 @@
   }
 }
 
-.deezerPlaylistsItem__list {
+.spotifyPlaylistsItem__list {
   @media (min-width: $xl) {
     align-self: end;
     grid-area: list;

@@ -35,12 +35,12 @@ export const DeezerPlaylistsItem = () => {
 
 
   return ( user && userDeezerPlaylist ) && 
-    <>
+    <div className="deezerPlaylistsItem__container">
       <Title classNames="deezerPlaylistsItem__title">Choose the playlist</Title>
       <ListContainer 
         title={`${user?.firstname}'s playlists`}
         subtitle="Added recently"
-        classNames='-deezer'
+        classNames='deezerPlaylistsItem__list -deezer'
       >
         {userDeezerPlaylist?.map((playlist: DeezerPlaylist) => (
           playlist.nb_tracks > 0 &&  <PlaylistItem
@@ -54,6 +54,6 @@ export const DeezerPlaylistsItem = () => {
             type="deezer"
           />
         ))}
-      </ListContainer>
-    </>
+      </ListContainer> 
+    </div>
 }

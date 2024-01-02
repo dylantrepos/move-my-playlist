@@ -32,12 +32,14 @@
     width: 90dvw;
   }
   
-  @media (min-width: $l) {
-    height: 70dvh;
+  @media (min-width: $xl) {
+    height: 80dvh;
+    left: unset;
     max-width: 40rem;
     min-width: 22rem;
     padding: 2rem 2rem 0;
-    
+    position: relative;
+    transform: translateX(0%);
   }
 
   &.-deezer {
