@@ -52,11 +52,6 @@ export const DeezerPlaylistsTracksItem = () => {
     <div className="deezerPlaylistsTracksItem__container">
       <Title classNames="deezerPlaylistsTracksItem__title">Choose the tracks</Title>
       <div className='deezerPlaylistsTracksItem__select-container'>
-          <PlaylistSelectItem 
-            playlists={playlists}
-            playlistId={selectedPlaylist.id}
-            handleChangePlaylist={handleChangePlaylist}
-          />
           <button 
             className='button-primary'  
             disabled={selectedTracks.length === 0}
@@ -69,6 +64,11 @@ export const DeezerPlaylistsTracksItem = () => {
       <ListContainer 
         title={selectedPlaylist.title}
         subtitle="Added recently"
+        select={<PlaylistSelectItem 
+          playlists={playlists}
+          playlistId={selectedPlaylist.id}
+          handleChangePlaylist={handleChangePlaylist}
+        />}
         classNames="deezerPlaylistsTracksItem__list -deezer"
         toggleItem={
           <ToggleItem 

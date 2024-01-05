@@ -6,17 +6,19 @@ import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
 type Props = {
   playlists: DeezerPlaylist[] | SpotifyPlaylist[];
   playlistId: number | string;
+  classNames?: string;
   handleChangePlaylist: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export const PlaylistSelectItem = ({
   playlists,
   playlistId,
+  classNames,
   handleChangePlaylist
 }: Props) => {
   return (
     <select 
-      className="playlistSelectItem"
+      className={`playlistSelectItem ${classNames}`}
       onChange={handleChangePlaylist}
       value={playlistId ?? "placeholder"}
     >
