@@ -58,7 +58,7 @@
    align-items: center;
   background: var(--color-background-secondary);
   display: grid;
-  gap: .5rem;
+  gap: 1rem .5rem;
   grid-template: 
   'title title title' 
   'arrow subtitle button' 1fr / auto auto 1fr;

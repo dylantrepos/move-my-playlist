@@ -1,23 +1,35 @@
 @import '../../assets/variables.scss';
 
 .playlistSelectItem {
-
   appearance: none;
   background: transparent;
+    background: transparent;
+  cursor: pointer;
   font-size: 1.2rem;
   font-weight: 600;
   grid-area: title;
-  padding-right: 30px; // Make room for the custom arrow
+  height: 2rem;
+  text-overflow: ellipsis;
 
-  &::before {
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid #fc0000; // Change this to the color of your arrow
-    content: '';
-    pointer-events: none;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+  @media (min-width: $xs) {
+    font-size: 1.5rem;
   }
+
+  option {
+    font-size: 1rem;
+  }
+}
+
+.playlistSelectItem__chevron {
+  background: #ffffff0f;
+  border-radius: 100px;
+  cursor: pointer;
+  height: auto;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  stroke: var(--color-primary);
+  stroke-width: 0.1rem;
+  top: 0.25rem;
+  width: 1.5rem;
 }

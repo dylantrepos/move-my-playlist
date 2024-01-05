@@ -2,6 +2,7 @@ import { ChangeEvent } from "react";
 import { DeezerPlaylist } from "../types/deezer/DeezerPlaylist";
 import './styles/PlaylistSelectItem.scss';
 import { SpotifyPlaylist } from "../types/spotify/SpotifyPlaylist";
+import { ChevronDown } from "../assets/icons/ChevronDown";
 
 type Props = {
   playlists: DeezerPlaylist[] | SpotifyPlaylist[];
@@ -16,7 +17,7 @@ export const PlaylistSelectItem = ({
   classNames,
   handleChangePlaylist
 }: Props) => {
-  return (
+  return (<>
     <select 
       className={`playlistSelectItem ${classNames}`}
       onChange={handleChangePlaylist}
@@ -30,5 +31,7 @@ export const PlaylistSelectItem = ({
         </option>
       ))}
     </select>
+    <ChevronDown classNames="playlistSelectItem__chevron"/>
+  </>
   )
 }
