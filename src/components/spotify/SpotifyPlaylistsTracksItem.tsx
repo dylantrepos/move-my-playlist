@@ -55,11 +55,6 @@ export const SpotifyPlaylistsTracksItem = () => {
     <div className="spotifyPlaylistsTracksItem__container">
       <Title classNames="spotifyPlaylistsTracksItem__title">Choose the tracks</Title>
       <div className='spotifyPlaylistsTracksItem__select-container'>
-          <PlaylistSelectItem 
-            playlists={playlists}
-            playlistId={selectedPlaylist.id}
-            handleChangePlaylist={handleChangePlaylist}
-          />
           <button 
             className='button-primary'  
             disabled={selectedTracks.length === 0}
@@ -72,6 +67,11 @@ export const SpotifyPlaylistsTracksItem = () => {
       <ListContainer 
         title={selectedPlaylist.name}
         subtitle="Recently played"
+        select={<PlaylistSelectItem 
+          playlists={playlists}
+          playlistId={selectedPlaylist.id}
+          handleChangePlaylist={handleChangePlaylist}
+        />}
         classNames="spotifyPlaylistsTracksItem__list -spotify"
         toggleItem={
           <ToggleItem 

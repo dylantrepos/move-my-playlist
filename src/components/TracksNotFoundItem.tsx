@@ -11,7 +11,7 @@ export const TracksNotFoundItem = ({
   tracksNotFound
 }: Props) => {
   return (
-    <div className='tracksNotFoundItem'>
+    <>
       {tracksNotFound.map(track => (
         <TrackItem
           key={`not-found-${track.id}`}
@@ -21,7 +21,7 @@ export const TracksNotFoundItem = ({
           artist={'isrc' in track ? track.artist.name : track.artists.map(artist => artist.name).join(', ')} 
         />
       ))}
-    </div>
+    </>
   )
 }
 

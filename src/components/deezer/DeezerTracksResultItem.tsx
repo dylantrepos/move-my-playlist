@@ -8,6 +8,8 @@ import { getExistingTracksFromSpotify } from "../../utils/utils";
 import './styles/DeezerTracksResultItem.scss';
 import { Link, useNavigate } from "react-router-dom";
 import { Title } from "../Title";
+import { ListContainer } from "../ListContainer";
+import { TrackItem } from "../TrackItem";
 
 export const DeezerTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.deezer);
@@ -57,19 +59,31 @@ export const DeezerTracksResultItem = () => {
   return hasBeenAdded ? (
     <>
       <div className="deezerTracksResultItem">
-        <Title>Your playlist has been added !</Title>
-        <p>Your playlist <span className="deezerTracksResultItem__playlist-title">{selectedPlaylist?.title}</span> has been successfully added to your Spotify playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Spotify, but you can check and add them manually if you'd like.`}</p>
-        <Link to={'/deezer-to-spotify/playlist'} className="button-primary">
+        <Title classNames="deezerTracksResultItem__title">
+          Your playlist has been added !
+        </Title>
+        <p className="deezerTracksResultItem__description">Your playlist <span className="deezerTracksResultItem__playlist-title">{selectedPlaylist?.title}</span> has been successfully added to your Spotify playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Spotify, but you can check and add them manually if you'd like.`}</p>
+        <Link to={'/deezer-to-spotify/playlist'} className="button-primary deezerTracksResultItem__button">
           Transfert another playlist
         </Link>
-      </div>
       { tracksNotFound.length > 0 && 
-          <div className="deezerTracksResultItem__not-found">
-            <h4 className="deezerTracksResultItem__not-found-title">Tracks not found</h4>
-            
-            <TracksNotFoundItem tracksNotFound={[...tracksNotFound, ...tracksNotFound]} />
-          </div>
+          <ListContainer
+            title="Tracks not found"
+            classNames="deezerTracksResultItem__not-found"
+          > {
+            tracksNotFound.map(track => (
+              <TrackItem
+                key={`not-found-${track.id}`}
+                cover={track.album.cover}
+                trackTitle={track.title}
+                albumTitle={track.album.title}
+                artist={track.artist.name} 
+              />
+            ))
+          }
+        </ListContainer>
       }
+      </div>
     </>)
     : <LoadingPlaylistImport /> 
 }
