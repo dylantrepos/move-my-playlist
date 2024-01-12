@@ -50,17 +50,19 @@ export const DeezerPlaylistsTracksItem = () => {
 
   return selectedPlaylist && (
     <div className="deezerPlaylistsTracksItem__container">
-      <Title classNames="deezerPlaylistsTracksItem__title">Choose the tracks</Title>
-      <div className='deezerPlaylistsTracksItem__select-container'>
-          <button 
-            className='button-primary'  
-            disabled={selectedTracks.length === 0}
-            onClick={handleSubmitPlaylist}
-          >
-            Confirm
-          </button>
-          
-        </div> 
+      <div className="deezerPlaylistsTracksItem__title-container">
+        <Title classNames="deezerPlaylistsTracksItem__title">Choose the tracks</Title>
+        <div className='deezerPlaylistsTracksItem__select-container'>
+            <button 
+              className='button-primary'  
+              disabled={selectedTracks.length === 0}
+              onClick={handleSubmitPlaylist}
+            >
+              Confirm
+            </button>
+            
+          </div> 
+      </div>
       <ListContainer 
         title={selectedPlaylist.title}
         subtitle="Added recently"

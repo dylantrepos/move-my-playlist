@@ -3,7 +3,6 @@ import { RootState } from "../../store/store";
 import { addTracksToSpotifyPlaylist, createSpotifyPlaylist, deleteSpotifyPlaylist } from "../../services/spotifyApi";
 import { useEffect, useRef, useState } from "react";
 import { DeezerTrack } from "../../types/deezer/DeezerPlaylistTracks";
-import { TracksNotFoundItem } from "../TracksNotFoundItem";
 import { getExistingTracksFromSpotify } from "../../utils/utils";
 import './styles/DeezerTracksResultItem.scss';
 import { Link, useNavigate } from "react-router-dom";
