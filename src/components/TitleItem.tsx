@@ -5,7 +5,7 @@ type Props = {
   classNames?: string;
 }
 
-export const Title = ({
+export const TitleItem = ({
   classNames,
   children
 }: PropsWithChildren<Props>) => {

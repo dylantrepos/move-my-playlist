@@ -1,4 +1,4 @@
-import { Title } from './Title';
+import { TitleItem } from './TitleItem';
 import './styles/LoadingItem.scss';
 
 type Props = {
@@ -12,7 +12,7 @@ export const LoadingItem = ({
 }: Props) => {
   return (
     <div className="loadingItem">
-      <Title>{title}</Title>
+      <TitleItem>{title}</TitleItem>
       <p>{message}</p>
     </div> 
   )

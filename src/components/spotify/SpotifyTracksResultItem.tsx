@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { getExistingTracksFromDeezer } from "../../utils/utils";
 import './styles/SpotifyTracksResultItem.scss';
 import { Link, useNavigate } from "react-router-dom";
-import { Title } from "../Title";
+import { TitleItem } from "../TitleItem";
 import { SpotifyTrack } from "../../types/spotify/SpotifyTrack";
 import { addTracksToDeezerPlaylist, createDeezerPlaylist } from "../../services/deezerApi";
 import { ListContainer } from "../ListContainer";
@@ -58,7 +58,7 @@ export const SpotifyTracksResultItem = () => {
       <div className={`spotifyTracksResultItem ${tracksNotFound.length > 0 ? '-not-found' : ''}`}>
         <div className="spotifyTracksResultItem__title-container">
 
-          <Title classNames="spotifyTracksResultItem__title">Your playlist has been added !</Title>
+          <TitleItem classNames="spotifyTracksResultItem__title">Your playlist has been added !</TitleItem>
           <p>Your playlist <span className="spotifyTracksResultItem__playlist-title">{selectedPlaylist?.name}</span> has been successfully added to your Deezer playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Deezer, but you can check and add them manually if you'd like.`}</p>
           <Link to={'/spotify-to-deezer/playlist'} className="button-primary">
             Transfert another playlist

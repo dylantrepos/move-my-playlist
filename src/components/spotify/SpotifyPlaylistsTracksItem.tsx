@@ -8,7 +8,7 @@ import { ListContainer } from "../ListContainer";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect } from "react";
 import { PlaylistSelectItem } from "../PlaylistSelectItem";
-import { Title } from "../Title";
+import { TitleItem } from "../TitleItem";
 import { useGetSpotifyTracks } from "../../hooks/spotify/useGetSpotifyTracks";
 import { SpotifyTrack } from "../../types/spotify/SpotifyTrack";
 import { ToggleItem } from "../ToggleItem";
@@ -54,7 +54,7 @@ export const SpotifyPlaylistsTracksItem = () => {
   return selectedPlaylist && (
     <div className="spotifyPlaylistsTracksItem__container">
       <div className="spotifyPlaylistsTracksItem__title-container">
-        <Title classNames="spotifyPlaylistsTracksItem__title">Choose the tracks</Title>
+        <TitleItem classNames="spotifyPlaylistsTracksItem__title">Choose the tracks</TitleItem>
         <div className='spotifyPlaylistsTracksItem__select-container'>
             <button 
               className='button-primary'  

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { PlaylistItem } from "../PlaylistItem";
 import { ListContainer } from "../ListContainer";
 import { useEffect } from "react";
-import { Title } from "../Title";
+import { TitleItem } from "../TitleItem";
 import { useGetSpotifyUserData } from "../../hooks/spotify/useGetSpotifyUserData";
 import { useGetSpotifyPlaylist } from "../../hooks/spotify/useGetSpotifyPlaylists";
 import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
@@ -37,7 +37,7 @@ export const SpotifyPlaylistsItem = () => {
 
   return ( user && userSpotifyPlaylist ) && 
     <div className="spotifyPlaylistsItem__container">
-      <Title  classNames="spotifyPlaylistsItem__title">Choose the playlist</Title>
+      <TitleItem  classNames="spotifyPlaylistsItem__title">Choose the playlist</TitleItem>
       <ListContainer 
         title={`${user?.display_name}'s library`}
         subtitle="Recently played"

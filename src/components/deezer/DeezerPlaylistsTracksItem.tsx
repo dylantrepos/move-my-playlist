@@ -10,7 +10,7 @@ import { ListContainer } from "../ListContainer";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect } from "react";
 import { PlaylistSelectItem } from "../PlaylistSelectItem";
-import { Title } from "../Title";
+import { TitleItem } from "../TitleItem";
 import { ToggleItem } from "../ToggleItem";
 
 export const DeezerPlaylistsTracksItem = () => {
@@ -51,7 +51,7 @@ export const DeezerPlaylistsTracksItem = () => {
   return selectedPlaylist && (
     <div className="deezerPlaylistsTracksItem__container">
       <div className="deezerPlaylistsTracksItem__title-container">
-        <Title classNames="deezerPlaylistsTracksItem__title">Choose the tracks</Title>
+        <TitleItem classNames="deezerPlaylistsTracksItem__title">Choose the tracks</TitleItem>
         <div className='deezerPlaylistsTracksItem__select-container'>
             <button 
               className='button-primary'  

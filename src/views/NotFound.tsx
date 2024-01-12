@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Title } from "../components/Title";
+import { TitleItem } from "../components/TitleItem";
 import './styles/NotFound.scss';
 
 export const NotFoundPage = () => {
@@ -7,7 +7,7 @@ export const NotFoundPage = () => {
   
   return (
     <div className="notFound__main-container">
-      <Title>404</Title>
+      <TitleItem>404</TitleItem>
       <p className="notFound__text">Page not found</p>
       <button 
         className="button-primary notFound__button"
