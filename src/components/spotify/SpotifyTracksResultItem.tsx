@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { useEffect, useRef, useState } from "react";
-import { TracksNotFoundItem } from "../TracksNotFoundItem";
 import { getExistingTracksFromDeezer } from "../../utils/utils";
 import './styles/SpotifyTracksResultItem.scss';
 import { Link, useNavigate } from "react-router-dom";
 import { Title } from "../Title";
 import { SpotifyTrack } from "../../types/spotify/SpotifyTrack";
-import { addTracksToDeezerPlaylist, createDeezerPlaylist, deleteDeezerPlaylist } from "../../services/deezerApi";
+import { addTracksToDeezerPlaylist, createDeezerPlaylist } from "../../services/deezerApi";
+import { ListContainer } from "../ListContainer";
+import { TrackItem } from "../TrackItem";
 
 export const SpotifyTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.spotify);
@@ -40,11 +41,6 @@ export const SpotifyTracksResultItem = () => {
             await addTracksToDeezerPlaylist(playlistId.toString(), tracksFound);
 
             setHasBeenAdded(true);
-  
-            // Delete playlist
-            // setTimeout(async () => {
-            //   await deleteDeezerPlaylist(playlistId.toString());
-            // }, 5000)
           }
         }
       }
@@ -58,31 +54,42 @@ export const SpotifyTracksResultItem = () => {
 
   return hasBeenAdded ? (
     <>
-      <div className="deezerTracksResultItem">
-        <Title>Your playlist has been added !</Title>
-        <p>Your playlist <span className="deezerTracksResultItem__playlist-title">{selectedPlaylist?.name}</span> has been successfully added to your Spotify playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Spotify, but you can check and add them manually if you'd like.`}</p>
-        <Link to={'/spotify-to-deezer/playlist'} className="button-primary">
-          Transfert another playlist
-        </Link>
+      <div className={`spotifyTracksResultItem ${tracksNotFound.length > 0 ? '-not-found' : ''}`}>
+        <div className="spotifyTracksResultItem__title-container">
+
+          <Title classNames="spotifyTracksResultItem__title">Your playlist has been added !</Title>
+          <p>Your playlist <span className="spotifyTracksResultItem__playlist-title">{selectedPlaylist?.name}</span> has been successfully added to your Deezer playlists. {tracksNotFound.length > 0 &&`Unfortunately, some tracks couldn't be found on Deezer, but you can check and add them manually if you'd like.`}</p>
+          <Link to={'/spotify-to-deezer/playlist'} className="button-primary">
+            Transfert another playlist
+          </Link>
+        </div>
+        { tracksNotFound.length > 0 && 
+            <ListContainer
+              title="Tracks not found"
+              classNames="spotifyTracksResultItem__not-found"
+            > {
+              tracksNotFound.map(track => (
+                <TrackItem
+                  key={`not-found-${track.id}`}
+                  cover={track.album.images[0].url}
+                  trackTitle={track.name}
+                  albumTitle={track.album.name}
+                  artist={track.artists.map(artist => artist.name).join(', ')} 
+                />
+              ))
+            }
+          </ListContainer>
+        }
       </div>
-      { tracksNotFound.length > 0 && 
-          <div className="deezerTracksResultItem__not-found">
-            <h4 className="deezerTracksResultItem__not-found-title">Tracks not found</h4>
-            
-            <TracksNotFoundItem tracksNotFound={[...tracksNotFound]} />
-          </div>
-      }
     </>)
     : <LoadingPlaylistImport /> 
 }
 
 const LoadingPlaylistImport = () => {
   return (
-    <div className="deezerTracksResultItem">
+    <div className="spotifyTracksResultItem__loading">
       <Title>Importing your playlist</Title>
-      <div className="deezerTracksResultItem__loading-playlist">
-        <p>please wait...</p>
-      </div>
+      <p className="spotifyTracksResultItem__loading-text">please wait...</p>
     </div> 
   )
 }
