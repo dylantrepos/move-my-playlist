@@ -9,6 +9,7 @@ import { SpotifyTrack } from "../../types/spotify/SpotifyTrack";
 import { addTracksToDeezerPlaylist, createDeezerPlaylist } from "../../services/deezerApi";
 import { ListContainer } from "../ListContainer";
 import { TrackItem } from "../TrackItem";
+import { LoadingItem } from "../LoadingItem";
 
 export const SpotifyTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.spotify);
@@ -82,14 +83,5 @@ export const SpotifyTracksResultItem = () => {
         }
       </div>
     </>)
-    : <LoadingPlaylistImport /> 
-}
-
-const LoadingPlaylistImport = () => {
-  return (
-    <div className="spotifyTracksResultItem__loading">
-      <Title>Importing your playlist</Title>
-      <p className="spotifyTracksResultItem__loading-text">please wait...</p>
-    </div> 
-  )
+    : <LoadingItem title="Importing your new playlist" /> 
 }

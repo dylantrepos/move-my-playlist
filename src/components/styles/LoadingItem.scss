@@ -1,0 +1,12 @@
+.loadingItem {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100dvh;
+  justify-content: center;
+
+  .title {
+    margin-top: 0;
+  }
+}

@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Title } from "../Title";
 import { ListContainer } from "../ListContainer";
 import { TrackItem } from "../TrackItem";
+import { LoadingItem } from "../LoadingItem";
 
 export const DeezerTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.deezer);
@@ -50,7 +51,7 @@ export const DeezerTracksResultItem = () => {
   }, [])
 
 
-  return hasBeenAdded ? (
+  return !hasBeenAdded ? (
     <>
       <div className={`deezerTracksResultItem ${tracksNotFound.length > 0 ? '-not-found' : ''}`}>
         <div className="deezerTracksResultItem__title-container">
@@ -81,14 +82,5 @@ export const DeezerTracksResultItem = () => {
       }
       </div>
     </>)
-    : <LoadingPlaylistImport /> 
-}
-
-const LoadingPlaylistImport = () => {
-  return (
-    <div className="deezerTracksResultItem__loading">
-      <Title>Importing your new playlist</Title>
-      <p className="deezerTracksResultItem__loading-text">please wait...</p>
-    </div> 
-  )
+    : <LoadingItem title="Importing your new playlist" /> 
 }
