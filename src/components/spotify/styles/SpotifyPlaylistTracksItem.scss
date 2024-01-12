@@ -1,59 +1,67 @@
 @import '../../../assets/variables.scss';
 
 .spotifyPlaylistsTracksItem__container {
-  display: grid;
-  grid-template-areas: "title" "control" "list";
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-
+  
   @media (min-width: $xl) {
-    gap: 0 10rem;
-    grid-template-areas: 
-      "title list"
-      "control list";
+    flex-direction: row;
+    gap: 8rem;
     height: calc(100% - var(--height-header));
+    justify-content: center;
     margin-top: var(--height-header);
   }
 }
 
 .spotifyPlaylistsTracksItem__title {
   @media (min-width: $xl) {
-    align-self: flex-end;
-    grid-area: title;
     margin-top: 0;
-    text-align: right;
   }
 }
 
 .spotifyPlaylistsTracksItem__list {
-  grid-area: list;
-  
   @media (min-width: $xl) {
     align-self: flex-end;
-    
   }
 }
 
 
 .spotifyPlaylistsTracksItem__select-container {
   align-items: center;
+  bottom: 0;
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  grid-area: control;
   justify-content: center;
+  left: 50%;
   margin-top: 1rem;
-  width: 100%;
+  padding: 1rem;
+
+  position: absolute;
+  transform: translateX(-50%);
+  width: fit-content;
+  z-index: 3;
 
   button {
+    background-color: black;
     border: var(--color-primary) 1px solid;
+    box-shadow: #d1007145 0px 20px 75px 15px;
     color: white;
     cursor: pointer;
+    opacity: 1;
     pointer-events: all;
+    transform: translateY(0%);
+    transition: all ease-in-out .15s;
     
     &:disabled {
-      border: #ffffff30 1px solid;
-      color: #ffffff30;
+      border: #ffffff00 1px solid;
+      box-shadow: #d1007000 0px 20px 75px 15px;
+      color: rgba(255, 255, 255, 0);
+      opacity: 0;
       pointer-events: none;
+      transform: translateY(200%);
     }
   }
 
@@ -61,7 +69,12 @@
     align-self: flex-start;
     justify-self: flex-end;
     margin-right: 4rem;
-    width: fit-content;
+    position: relative;
+
+    button {
+      box-shadow: none;
+      transform: translateY(0%);
+    }
   }
 }
 

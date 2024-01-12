@@ -53,17 +53,19 @@ export const SpotifyPlaylistsTracksItem = () => {
 
   return selectedPlaylist && (
     <div className="spotifyPlaylistsTracksItem__container">
-      <Title classNames="spotifyPlaylistsTracksItem__title">Choose the tracks</Title>
-      <div className='spotifyPlaylistsTracksItem__select-container'>
-          <button 
-            className='button-primary'  
-            disabled={selectedTracks.length === 0}
-            onClick={handleSubmitPlaylist}
-          >
-            Confirm
-          </button>
-          
+      <div className="spotifyPlaylistsTracksItem__title-container">
+        <Title classNames="spotifyPlaylistsTracksItem__title">Choose the tracks</Title>
+        <div className='spotifyPlaylistsTracksItem__select-container'>
+            <button 
+              className='button-primary'  
+              disabled={selectedTracks.length === 0}
+              onClick={handleSubmitPlaylist}
+            >
+              Confirm
+            </button>
+            
         </div> 
+      </div>
       <ListContainer 
         title={selectedPlaylist.name}
         subtitle="Recently played"
