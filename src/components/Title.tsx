@@ -10,7 +10,7 @@ export const Title = ({
   children
 }: PropsWithChildren<Props>) => {
   return (
-    <h1 className={`title ${classNames}`}>
+    <h1 className={`title ${classNames ?? ''}`}>
       { children }
     </h1>
   )
