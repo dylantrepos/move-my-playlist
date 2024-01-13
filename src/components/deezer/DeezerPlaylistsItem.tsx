@@ -5,11 +5,10 @@ import { resetPlaylistAndTracks, setDeezerPlaylists, setSelectedPlaylist } from 
 import { useNavigate } from "react-router-dom";
 import { PlaylistItem } from "../PlaylistItem";
 import { useGetDeezerUserData } from "../../hooks/deezer/useGetDeezerUserData";
-import { ListContainer } from "../ListContainer";
 import { useEffect } from "react";
-import { TitleItem } from "../TitleItem";
 import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
 import './styles/DeezerPlaylistsItem.scss';
+import { PlaylistLayout } from "../../layouts/PlaylistLayout";
 
 export const DeezerPlaylistsItem = () => {
   const [user] = useGetDeezerUserData(); 
@@ -35,25 +34,23 @@ export const DeezerPlaylistsItem = () => {
 
 
   return ( user && userDeezerPlaylist ) && 
-    <div className="deezerPlaylistsItem__container">
-      <TitleItem classNames="deezerPlaylistsItem__title">Choose the playlist</TitleItem>
-      <ListContainer 
-        title={`${user?.firstname}'s playlists`}
-        subtitle="Added recently"
-        classNames='deezerPlaylistsItem__list -deezer'
+      <PlaylistLayout
+        title="Choose the playlist"
+        listTitle={`${user?.firstname}'s playlists`}
+        listSubtitle="Added recently"
+        listClassNames='-deezer'
       >
         {userDeezerPlaylist?.map((playlist: DeezerPlaylist) => (
-          playlist.nb_tracks > 0 &&  <PlaylistItem
-            key={playlist.id}
-            playlist={playlist}
-            cover={playlist.picture}
-            title={playlist.title}
-            nbTracks={playlist.nb_tracks}
-            author={playlist.creator.name}
-            handleClick={handleSelectPlaylist}
-            type="deezer"
-          />
-        ))}
-      </ListContainer> 
-    </div>
+            playlist.nb_tracks > 0 &&  <PlaylistItem
+              key={playlist.id}
+              playlist={playlist}
+              cover={playlist.picture}
+              title={playlist.title}
+              nbTracks={playlist.nb_tracks}
+              author={playlist.creator.name}
+              handleClick={handleSelectPlaylist}
+              type="deezer"
+            />
+          ))}
+      </PlaylistLayout>
 }

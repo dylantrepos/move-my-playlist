@@ -2,14 +2,13 @@ import { useDispatch } from 'react-redux';
 import { resetPlaylistAndTracks, setSpotifyPlaylists, setSelectedPlaylist } from "../../reducers/spotifyReducer";
 import { useNavigate } from "react-router-dom";
 import { PlaylistItem } from "../PlaylistItem";
-import { ListContainer } from "../ListContainer";
 import { useEffect } from "react";
-import { TitleItem } from "../TitleItem";
 import { useGetSpotifyUserData } from "../../hooks/spotify/useGetSpotifyUserData";
 import { useGetSpotifyPlaylist } from "../../hooks/spotify/useGetSpotifyPlaylists";
 import { SpotifyPlaylist } from "../../types/spotify/SpotifyPlaylist";
 import { DeezerPlaylist } from '../../types/deezer/DeezerPlaylist';
 import './styles/SpotifyPlaylistsItem.scss'
+import { PlaylistLayout } from '../../layouts/PlaylistLayout';
 
 export const SpotifyPlaylistsItem = () => {
   const [user] = useGetSpotifyUserData(); 
@@ -36,15 +35,13 @@ export const SpotifyPlaylistsItem = () => {
 
 
   return ( user && userSpotifyPlaylist ) && 
-    <div className="spotifyPlaylistsItem__container">
-      <TitleItem  classNames="spotifyPlaylistsItem__title">Choose the playlist</TitleItem>
-      <ListContainer 
-        title={`${user?.display_name}'s library`}
-        subtitle="Recently played"
-        classNames='spotifyPlaylistsItem__list -spotify'
-      >
-
-        {userSpotifyPlaylist?.map((playlist: SpotifyPlaylist) => (
+    <PlaylistLayout
+      title='Choose the playlist'
+      listTitle={`${user?.display_name}'s library`}
+      listSubtitle='Recently played'
+      listClassNames='-spotify'
+    >
+      {userSpotifyPlaylist?.map((playlist: SpotifyPlaylist) => (
           playlist.tracks.total > 0 && <PlaylistItem
             key={playlist.id}
             playlist={playlist}
@@ -57,6 +54,5 @@ export const SpotifyPlaylistsItem = () => {
             isLovedTracks={playlist.id === 'Liked Songs'}
           />
         ))}
-      </ListContainer>
-    </div>
+    </PlaylistLayout>
 }
