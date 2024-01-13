@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './styles/Header.scss';
 import { useEffect, useRef, useState } from 'react';
+import Logo from '../assets/images/logo.png';
 
 type Props = {
   withToggle?: boolean;
@@ -47,9 +48,10 @@ export const Header = ({
     <header className='header__container'>
       <Link 
         to={'/'}
-        className='header__title'
+        className='header__logo'
       >
-        Move My Playlist
+        <img className='header__logo-image' src={Logo} alt="logo" />
+        <p  className='header__logo-title'>Move My Playlist</p>
       </Link>
       {withToggle && <div className='header__dropdown' ref={dropdownRef}>
         <div 

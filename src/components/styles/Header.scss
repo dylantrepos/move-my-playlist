@@ -17,15 +17,28 @@
   }
 }
 
-.header__title {
-  color: var(--color-primary);
-  font-size: 1rem;
-  font-weight: 600;
+.header__logo {
+  align-items: center;
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
   text-decoration: none;
   width: fit-content;
   
+  &-image {
+    max-width: 2rem;
+  }
+  
+  &-title {
+    color: var(--color-primary);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
   @media (min-width: $l) {
-    font-size: 1.2rem;
+    &-title {
+      font-size: 1.2rem;
+    }
   }
 }
 
