@@ -1,31 +1,41 @@
 @import '../../../assets/variables.scss';
 
 .deezerPlaylistsItem__container {
-  display: grid;
-  grid-template-areas: "title" "list";
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: calc(100dvh - var(--height-header));
+  margin-top: var(--height-header);
+  overflow: hidden;
   width: 100%;
   
-  
   @media (min-width: $xl) {
-    gap: 0 10rem;
-    grid-template-areas: "title list";
-    height: calc(100% - var(--height-header));
-    margin-top: var(--height-header);
+    flex-direction: row;
+    gap: 10rem;
+    justify-content: center;
   }
 }
 
 .deezerPlaylistsItem__title {
+  margin-top: 0;
+
   @media (min-width: $xl) {
     align-self: center;
-    grid-area: title;
-    margin-top: 0;
     text-align: right;
   }
 }
 
 .deezerPlaylistsItem__list {
+  height: 100%;
+  left: 0;
+  position: relative;
+  transform: none;
+
+
   @media (min-width: $xl) {
     align-self: end;
-    grid-area: list;
+    height: 90%;
+    justify-self: flex-end;
   }
 }
