@@ -51,7 +51,7 @@ export const DeezerTracksResultItem = () => {
   }, [])
 
 
-  return !hasBeenAdded ? (
+  return hasBeenAdded ? (
     <>
       <div className={`deezerTracksResultItem ${tracksNotFound.length > 0 ? '-not-found' : ''}`}>
         <div className="deezerTracksResultItem__title-container">

@@ -36,9 +36,7 @@ export const SpotifyPlaylistsItem = () => {
 
   return ( user && userSpotifyPlaylist ) && 
     <PlaylistLayout
-      title='Choose the playlist'
-      listTitle={`${user?.display_name}'s library`}
-      listSubtitle='Recently played'
+      name={user?.display_name ?? ''}
       listClassNames='-spotify'
     >
       {userSpotifyPlaylist?.map((playlist: SpotifyPlaylist) => (

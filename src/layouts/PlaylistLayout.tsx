@@ -3,27 +3,25 @@ import { TitleItem } from "../components/TitleItem";
 import { ListContainer } from "../components/ListContainer";
 import './style/PlaylistLayout.scss';
 
+
 type Props = {
-  title: string;
-  listTitle: string;
-  listSubtitle: string;
+  name: string;
   listClassNames?: string;
 }
 
 export const PlaylistLayout = ({
-  title,
-  listTitle,
-  listSubtitle,
+  name,
   listClassNames,
   children
 }: PropsWithChildren<Props>) => {
+
   return (
-    <div className="playlistsItem__container">
-      <TitleItem  classNames="playlistsItem__title">{title}</TitleItem>
+    <div className="playlistsLayout__container">
+      <TitleItem  classNames="playlistsLayout__title">Choose the playlist</TitleItem>
       <ListContainer 
-        title={listTitle}
-        subtitle={listSubtitle}
-        classNames={`playlistsItem__list ${listClassNames}`}
+        title={`${name}'s playlists`}
+        subtitle={'Added recently'}
+        classNames={`playlistsLayout__list ${listClassNames}`}
       >
         { children }
       </ListContainer>

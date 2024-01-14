@@ -35,9 +35,7 @@ export const DeezerPlaylistsItem = () => {
 
   return ( user && userDeezerPlaylist ) && 
       <PlaylistLayout
-        title="Choose the playlist"
-        listTitle={`${user?.firstname}'s playlists`}
-        listSubtitle="Added recently"
+        name={user?.firstname ?? ''}
         listClassNames='-deezer'
       >
         {userDeezerPlaylist?.map((playlist: DeezerPlaylist) => (

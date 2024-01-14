@@ -4,14 +4,11 @@ import { setSelectedPlaylist, setSelectedTracks, updateAllTrack } from "../../re
 import { TrackInputItem } from "../TrackItem";
 
 import './styles/SpotifyPlaylistTracksItem.scss';
-import { ListContainer } from "../ListContainer";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect } from "react";
-import { PlaylistSelectItem } from "../PlaylistSelectItem";
-import { TitleItem } from "../TitleItem";
 import { useGetSpotifyTracks } from "../../hooks/spotify/useGetSpotifyTracks";
 import { SpotifyTrack } from "../../types/spotify/SpotifyTrack";
-import { ToggleItem } from "../ToggleItem";
+import { PlaylistTracksLayout } from "../../layouts/PlaylistTracksLayout";
 
 export const SpotifyPlaylistsTracksItem = () => {
   const {selectedTracks, selectedPlaylist, playlists} = useSelector((state: RootState) => state.spotify);
@@ -51,60 +48,33 @@ export const SpotifyPlaylistsTracksItem = () => {
     }
   }
 
-  return selectedPlaylist && (
-    <div className="spotifyPlaylistsTracksItem__container">
-      <div className="spotifyPlaylistsTracksItem__title-container">
-        <TitleItem classNames="spotifyPlaylistsTracksItem__title">Choose the tracks</TitleItem>
-        <div className='spotifyPlaylistsTracksItem__select-container'>
-            <button 
-              className='button-primary'  
-              disabled={selectedTracks.length === 0}
-              onClick={handleSubmitPlaylist}
-            >
-              Confirm
-            </button>
-            
-        </div> 
-      </div>
-      <ListContainer 
-        title={selectedPlaylist.name}
-        subtitle="Recently played"
-        select={<PlaylistSelectItem 
-          playlists={playlists}
-          playlistId={selectedPlaylist.id}
-          handleChangePlaylist={handleChangePlaylist}
-        />}
-        classNames="spotifyPlaylistsTracksItem__list -spotify"
-        toggleItem={
-          <ToggleItem 
-            selectedTracks={selectedTracks}
-            selectedPlaylist={selectedPlaylist}
-            updateAllTrack={(checkAllTracks: 'checkAll' | 'uncheckAll') => dispatch(updateAllTrack(checkAllTracks))}
-          />
-        }
-      >
-        { !hasLoaded || !trackListData
-          ? <p>Loading tracks ...</p>
-          : trackListData?.length === 0 
-            ? <p>No tracks in this playlist.</p> 
-            :
-          <form
-            className="spotifyPlaylistsTracksItem__playlist-form"
-            onSubmit={handleSubmitPlaylist}
-          >
-            {trackListData?.map((track: SpotifyTrack) => (
-              <TrackInputItem
-                key={track.id} 
-                id={track.id}
-                cover={track.album.images[0].url ?? ''}
-                trackTitle={track.name}
-                albumTitle={track.album.name}
-                artist={track.artists.map(artist => artist.name).join(', ')}
-                checked={selectedTracks.includes(track.id)}
-                handleChange={handleCheckboxChange}
-              />
-            ))}
-          </form> }
-      </ListContainer>
-    </div>)
+  return selectedPlaylist && 
+    <PlaylistTracksLayout
+      title="Choose the tracks"
+      listTitle={selectedPlaylist.name}
+      listSubtitle="Recently played"
+      playlists={playlists}
+      hasLoaded={hasLoaded}
+      selectedTracks={selectedTracks}
+      selectedPlaylist={selectedPlaylist}
+      trackListData={trackListData || []}
+      handleSubmitPlaylist={handleSubmitPlaylist}
+      handleChangePlaylist={handleChangePlaylist}
+      updateAllTracks={(checkAllTracks: 'checkAll' | 'uncheckAll') => dispatch(updateAllTrack(checkAllTracks))}
+      listClassNames="-spotify"
+    >
+      {trackListData?.map((track: SpotifyTrack) => (
+        <TrackInputItem
+          key={track.id} 
+          id={track.id}
+          cover={track.album.images[0].url ?? ''}
+          trackTitle={track.name}
+          albumTitle={track.album.name}
+          artist={track.artists.map(artist => artist.name).join(', ')}
+          checked={selectedTracks.includes(track.id)}
+          handleChange={handleCheckboxChange}
+        />
+      ))}
+    </PlaylistTracksLayout>
+  
 }

@@ -51,7 +51,7 @@
     cursor: pointer;
     opacity: 1;
     pointer-events: all;
-    transform: translateY(0%);
+    transform: translateY(-50%);
     transition: all ease-in-out .15s;
     
     &:disabled {

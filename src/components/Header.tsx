@@ -2,6 +2,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import './styles/Header.scss';
 import { useEffect, useRef, useState } from 'react';
 import Logo from '../assets/images/logo.png';
+import { useDispatch } from 'react-redux';
+import { setContext } from '../reducers/generalReducer';
 
 type Props = {
   withToggle?: boolean;
@@ -14,18 +16,18 @@ export const Header = ({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
-  const handleNavigation = (to: 'spotify' | 'deezer') => {
+  const handleNavigation = (direction: string) => {
     setDropdownOpen(false);
-    if (to === 'spotify') {
-      navigate('/spotify-to-deezer/playlist')
-    } else {
-      navigate('/deezer-to-spotify/playlist')
-    }
+
+    const {from, to} = JSON.parse(direction);
+    dispatch(setContext({from, to}));
+    navigate(`/${from}-to-${to}/playlist`);
   }
 
   useEffect(() => {
@@ -71,13 +73,13 @@ export const Header = ({
         {dropdownOpen && (
           <div className='header__dropdown-menu'>
             <div 
-              onClick={() => handleNavigation('spotify')}
+              onClick={() => handleNavigation(JSON.stringify({from: 'spotify', to: 'deezer'}))}
               className='header__dropdown-item'
             >
               Transfert Spotify playlist to Deezer
             </div>
             <div 
-              onClick={() => handleNavigation('deezer')}
+              onClick={() => handleNavigation(JSON.stringify({from: 'deezer', to: 'spotify'}))}
               className='header__dropdown-item'
             >
               Transfert Deezer playlist to Spotify

@@ -4,19 +4,27 @@ import DeezerIcon from '../assets/images/deezer-sm.png';
 import SpotifyIcon from '../assets/images/spotify-sm.png';
 import Arrow from '../assets/images/arrow.png';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setContext } from '../reducers/generalReducer';
+import { ContextTransfert } from '../types/general';
 
 export default function Home() {
-  const [choice, setChoice] = useState<string>();
+  const [choice, setChoice] = useState<ContextTransfert>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChangeHomeRadio = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('radio : ', e.target.value);
-    setChoice(e.target.value);
+    setChoice(JSON.parse(e.target.value));
   }
 
   const handlePostHomeForm = (e: FormEvent) => {
     e.preventDefault();
-    navigate(choice === 'deezerToSpotify' ? '/deezer-to-spotify/playlist' : '/spotify-to-deezer/playlist');
+    if (choice) {
+      const {from, to} = choice;
+      dispatch(setContext({from, to}));
+  
+      navigate(`/${from}-to-${to}/playlist`);
+    }
   }
 
   return (
@@ -33,9 +41,8 @@ export default function Home() {
             type="radio" 
             name="homeradio" 
             id="deezerToSpotify" 
-            value="deezerToSpotify" 
+            value={JSON.stringify({from: 'deezer', to: 'spotify'})}
             onChange={handleChangeHomeRadio}
-            checked={choice === 'deezerToSpotify'}
           />
           <span className='home__deezer-spotify-arrow'>  
             <img src={DeezerIcon}/>
@@ -49,10 +56,9 @@ export default function Home() {
           <input 
             type="radio" 
             name="homeradio" 
-            value="spotifyToDeezer" 
+            value={JSON.stringify({from: 'spotify', to: 'deezer'})}
             id="spotifyToDeezer" 
             onChange={handleChangeHomeRadio}
-            checked={choice === 'spotifyToDeezer'}
             />
          <span className='home__deezer-spotify-arrow'>  
             <img src={SpotifyIcon}/>
