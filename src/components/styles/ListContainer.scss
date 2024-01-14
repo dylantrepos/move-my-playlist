@@ -12,20 +12,16 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  height: 75dvh;
   left: 50%;
-  max-height: 45rem;
   max-width: 90dvw;
   min-width: 22rem;
   padding: 1.5rem 1.5rem 0;
-  position: absolute;
   transform: translateX(-50%);
   width: 100%;
   z-index: 0;
   
   @media (min-width: $xs) {
     gap: 2rem;
-    height: 70dvh;
     max-width: 35rem;
     min-width: 30rem;
     padding: 2rem 2rem 0;
@@ -33,12 +29,10 @@
   }
   
   @media (min-width: $xl) {
-    height: 80dvh;
     left: unset;
     max-width: 40rem;
     min-width: 22rem;
     padding: 2rem 2rem 0;
-    position: relative;
     transform: translateX(0%);
   }
 
@@ -118,7 +112,7 @@
   height: auto;
   overflow: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
-  padding-bottom: 7rem;
+  padding-bottom: 12rem;
   scrollbar-width: none;
   
   &::-webkit-scrollbar {

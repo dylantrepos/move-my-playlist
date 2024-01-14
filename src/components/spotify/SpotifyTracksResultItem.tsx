@@ -10,6 +10,7 @@ import { addTracksToDeezerPlaylist, createDeezerPlaylist } from "../../services/
 import { ListContainer } from "../ListContainer";
 import { TrackItem } from "../TrackItem";
 import { LoadingItem } from "../LoadingItem";
+import { ResultLayout } from "../../layouts/ResultLayout";
 
 export const SpotifyTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.spotify);
@@ -33,9 +34,7 @@ export const SpotifyTracksResultItem = () => {
             // Check existing tracks
             const tracksChoiced = playlistTracks.filter(playlist => selectedTracks.includes(playlist.id));
             const {tracksFound, tracksNotFound} = await getExistingTracksFromDeezer(tracksChoiced);
-            // const tracksId = await fetchAllDeezerTrackId(tracksChoiced);
-            // console.log({tracksId});
-            console.log({tracksFound, tracksNotFound});
+            
             setTracksNotFound(tracksNotFound);
 
             // Implement tracks
@@ -53,7 +52,33 @@ export const SpotifyTracksResultItem = () => {
   }, [])
 
 
-  return hasBeenAdded ? (
+  return (
+    <ResultLayout 
+      hasBeenAdded={hasBeenAdded}
+      tracksNotFound={tracksNotFound}
+      playlistTitle={selectedPlaylist?.name ?? ''}
+    >
+      { tracksNotFound.length > 0 && 
+            <ListContainer
+              title="Tracks not found"
+              classNames="spotifyTracksResultItem__not-found"
+            > {
+              tracksNotFound.map(track => (
+                <TrackItem
+                  key={`not-found-${track.id}`}
+                  cover={track.album.images[0].url}
+                  trackTitle={track.name}
+                  albumTitle={track.album.name}
+                  artist={track.artists.map(artist => artist.name).join(', ')} 
+                />
+              ))
+            }
+          </ListContainer>
+        }
+    </ResultLayout>
+  )
+  
+  hasBeenAdded ? (
     <>
       <div className={`spotifyTracksResultItem ${tracksNotFound.length > 0 ? '-not-found' : ''}`}>
         <div className="spotifyTracksResultItem__title-container">
