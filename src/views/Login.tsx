@@ -1,6 +1,6 @@
 import { SpotifyLoginItem } from "../components/spotify/SpotifyLoginItem";
 import { DeezerLoginItem } from "../components/deezer/DeezerLoginItem";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './styles/Login.scss';
 import { getCookieDeezerToken, getCookieSpotifyToken } from "../utils/cookie";
