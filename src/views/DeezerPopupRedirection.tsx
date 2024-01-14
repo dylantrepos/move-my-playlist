@@ -20,11 +20,13 @@ export default function DeezerRedirection() {
         setDeezerCookieToken(JSON.stringify(token), token.expires);
         dispatch(setDeezerToken(token));
 
+        console.log({token});
+
         window.opener.postMessage({
           title: 'deezer-popup',
           data: error ?? token,
         }, '*');
-        window.close();
+        // window.close();
       }
   }, [isPending, token]);
 
