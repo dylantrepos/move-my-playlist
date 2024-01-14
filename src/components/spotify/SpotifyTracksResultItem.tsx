@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getExistingTracksFromDeezer } from "../../utils/utils";
 import './styles/SpotifyTracksResultItem.scss';
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +16,6 @@ export const SpotifyTracksResultItem = () => {
   const { selectedPlaylist, selectedTracks, playlistTracks } = useSelector((state: RootState) => state.spotify);
   const [tracksNotFound, setTracksNotFound] = useState<SpotifyTrack[]>([]);
   const [hasBeenAdded, setHasBeenAdded] = useState(false);
-  const hasLoaded = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +23,6 @@ export const SpotifyTracksResultItem = () => {
   }, [])
 
   useEffect(() => {
-    if (!hasLoaded.current) {
       const implementedtrack = async () => {
         // Create playlist
         if (selectedPlaylist?.name) {
@@ -46,9 +44,6 @@ export const SpotifyTracksResultItem = () => {
       }
 
       implementedtrack();
-    }
-
-    return () => {hasLoaded.current = true};
   }, [])
 
 

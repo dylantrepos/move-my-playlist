@@ -11,14 +11,13 @@ export default function Login() {
     deezer: false,
     spotify: false,
   })
-  // const hasLoaded = useRef(false);
+
   const [isCookieCheckLoaded, setIsCookieCheckLoaded] = useState(false);
 
   const updateDeezerConnection = () => setCurrentConnection((old) => ({ ...old, deezer: true }));
   const updateSpotifyConnection = () => setCurrentConnection((old) => ({...old, spotify: true}));
 
   useEffect(() => {
-    // if(hasLoaded.current) {
       const checkExistingTokens = async () => {
         const deezerCookieToken = await getCookieDeezerToken();
         const spotifyCookieToken = await getCookieSpotifyToken();
@@ -34,11 +33,6 @@ export default function Login() {
       if (currentConnection.deezer && currentConnection.spotify) {
         setTimeout(() => navigate('/home'), 500);
       }
-    // }
-
-    return () => {
-      // hasLoaded.current = true;
-    }
   }, [currentConnection, navigate])
 
   return isCookieCheckLoaded && (
