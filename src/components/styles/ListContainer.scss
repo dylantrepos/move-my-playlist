@@ -118,10 +118,14 @@
   height: auto;
   overflow: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
-  padding-bottom: 2rem;
+  padding-bottom: 7rem;
   scrollbar-width: none;
   
   &::-webkit-scrollbar {
     display: none;
   } 
+
+  @media (min-width: $xl) {
+    padding-bottom: 2rem;
+  }
 }

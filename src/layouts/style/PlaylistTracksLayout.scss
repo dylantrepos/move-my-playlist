@@ -33,6 +33,30 @@
     }
   }
 
+  .playlistTracksLayout__header-button {
+    background-color: black;
+    border: var(--color-primary) 1px solid;
+    bottom: 2rem;
+    box-shadow: #d1007145 0px 20px 75px 15px;
+    color: white;
+    cursor: pointer;
+    position: fixed;
+    z-index: 3;
+
+    &:disabled {
+      border: #ffffff00 1px solid;
+      box-shadow: #d1007000 0px 20px 75px 15px;
+      color: rgba(255, 255, 255, 0);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(200%);
+    }
+
+    @media (min-width: $xl) {
+      position: initial;
+    }
+  }
+
   &-select {
     align-items: center;
     bottom: 0;
@@ -61,12 +85,12 @@
       transition: all ease-in-out .15s;
       
       &:disabled {
-        border: #ffffff00 1px solid;
-        box-shadow: #d1007000 0px 20px 75px 15px;
-        color: rgba(255, 255, 255, 0);
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(200%);
+        // border: #ffffff00 1px solid;
+        // box-shadow: #d1007000 0px 20px 75px 15px;
+        // color: rgba(255, 255, 255, 0);
+        // opacity: 0;
+        // pointer-events: none;
+        // transform: translateY(200%);
       }
     }
     

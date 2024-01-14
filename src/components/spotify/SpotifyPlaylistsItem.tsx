@@ -37,7 +37,6 @@ export const SpotifyPlaylistsItem = () => {
   return ( user && userSpotifyPlaylist ) && 
     <PlaylistLayout
       name={user?.display_name ?? ''}
-      listClassNames='-spotify'
     >
       {userSpotifyPlaylist?.map((playlist: SpotifyPlaylist) => (
           playlist.tracks.total > 0 && <PlaylistItem

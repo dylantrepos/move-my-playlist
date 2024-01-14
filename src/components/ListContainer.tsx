@@ -1,6 +1,8 @@
 import { PropsWithChildren } from 'react';
 import Chevron from '../assets/images/chevrons.png';
 import './styles/ListContainer.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 type Props = {
   title: string;
@@ -18,9 +20,10 @@ export const ListContainer = ({
   toggleItem,
   children
 }: PropsWithChildren<Props>) => {
+  const { from } = useSelector((state: RootState) => state.general);
 
   return (
-    <div className={`listContainer ${classNames}`}>
+    <div className={`listContainer ${classNames} -${from}`}>
       <div className={`listContainer__header`}>
         { select 
           ? select 

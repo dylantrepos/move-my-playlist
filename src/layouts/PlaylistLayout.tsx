@@ -6,12 +6,10 @@ import './style/PlaylistLayout.scss';
 
 type Props = {
   name: string;
-  listClassNames?: string;
 }
 
 export const PlaylistLayout = ({
   name,
-  listClassNames,
   children
 }: PropsWithChildren<Props>) => {
 
@@ -21,7 +19,7 @@ export const PlaylistLayout = ({
       <ListContainer 
         title={`${name}'s playlists`}
         subtitle={'Added recently'}
-        classNames={`playlistsLayout__list ${listClassNames}`}
+        classNames={`playlistsLayout__list`}
       >
         { children }
       </ListContainer>

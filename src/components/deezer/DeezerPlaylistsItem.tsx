@@ -36,7 +36,6 @@ export const DeezerPlaylistsItem = () => {
   return ( user && userDeezerPlaylist ) && 
       <PlaylistLayout
         name={user?.firstname ?? ''}
-        listClassNames='-deezer'
       >
         {userDeezerPlaylist?.map((playlist: DeezerPlaylist) => (
             playlist.nb_tracks > 0 &&  <PlaylistItem

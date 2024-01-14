@@ -48,16 +48,13 @@ export const PlaylistTracksLayout = ({
     <div className="playlistTracksLayout__container">
       <div className="playlistTracksLayout__header">
         <TitleItem classNames="playlistTracksLayout__header-title">{title}</TitleItem>
-        <div className='playlistTracksLayout__header-select'>
-            <button 
-              className='button-primary'  
-              disabled={selectedTracks.length === 0}
-              onClick={handleSubmitPlaylist}
-            >
-              Confirm
-            </button>
-            
-        </div> 
+        <button 
+          className='button-primary playlistTracksLayout__header-button'  
+          disabled={selectedTracks.length === 0}
+          onClick={handleSubmitPlaylist}
+        >
+          Confirm
+        </button>
       </div>
       <ListContainer 
         title={listTitle}
