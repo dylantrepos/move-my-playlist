@@ -1,30 +1,57 @@
-# React + TypeScript + Vite
+# Move My Playlist
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+Move My Playlist is a service that allows users to transfer their music playlists between different streaming platforms. This tool aims to make the process of switching between music services seamless, without losing your favorite playlists.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Supported Platforms
 
-## Expanding the ESLint configuration
+Currently, the service supports the following music streaming platforms:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Deezer
+- Spotify
 
-- Configure the top-level `parserOptions` property like this:
+(Add or remove platforms based on your application's capabilities)
+
+## Features
+
+- Transfer playlists from Deezer to Spotify and vice versa.
+- User-friendly interface for easy navigation and operation.
+- Secure handling of user data.
+
+## Installation
+
+To install the project locally, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/yourusername/move-my-playlist.git`
+2. Navigate into the project directory: `cd move-my-playlist`
+3. Install the dependencies: `npm install`
+4. Start the development server: `npm start`
+
+## Usage
+
+To use Move My Playlist, you need to log in to both your Deezer and Spotify accounts. Then, select the playlist you want to transfer and the destination platform. Click on the "Transfer" button to start the process.
+
+## Development
+
+This project uses Vite with the official plugins `@vitejs/plugin-react` and `@vitejs/plugin-react-swc` for Fast Refresh during development.
+
+## Required Tokens
+
+To use Move My Playlist, users must have active accounts on both the source and destination platforms. This is necessary to access the platform-specific tokens, which are required for authenticating and interacting with the respective platform's API.
+
+## ESLint Configuration
+
+For production applications, we recommend enabling type aware lint rules. Configure the top-level `parserOptions` property like this:
 
 ```js
 export default {
   // other rules...
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
