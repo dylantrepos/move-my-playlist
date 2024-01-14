@@ -62,7 +62,6 @@ const spotifySlice = createSlice({
       state.selectedTracks = [];
     },
     updateAllTrack: (state, action: PayloadAction<'checkAll' | 'uncheckAll'>) => {
-      console.log({state: state.playlistTracks, action});
       state.selectedTracks = 
       action.payload === 'checkAll' 
         ? state.playlistTracks.map(playlist => playlist.id)

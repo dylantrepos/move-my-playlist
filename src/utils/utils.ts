@@ -26,7 +26,6 @@ export const openPopup = (url: string) => {
   const currHeight = window.innerHeight
   const currWidth = window.innerWidth
 
-  console.log({url});
   const windowOpener = open(url, '_blank', `width=${currWidth},height=${currHeight},left=0,top=0`);
 
   return windowOpener;
@@ -58,8 +57,6 @@ type HandleCheckDeezerTracksFoundProps = {
 export const getExistingTracksFromDeezer = async (tracks: SpotifyTrack[]): Promise<HandleCheckDeezerTracksFoundProps> => {
   const deezerTracksResults = await fetchAllDeezerTrackId(tracks);
   let [tracksFound, tracksNotFound]: [string[], SpotifyTrack[]] = [[], []];
-
-  console.log({ deezerTracksResults });
   
   if (deezerTracksResults) {
     tracksFound = deezerTracksResults

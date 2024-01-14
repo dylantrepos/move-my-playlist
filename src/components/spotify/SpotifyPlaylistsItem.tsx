@@ -29,7 +29,6 @@ export const SpotifyPlaylistsItem = () => {
     
     if (userSpotifyPlaylist) {
       dispatch(setSpotifyPlaylists(userSpotifyPlaylist));
-      console.log({userSpotifyPlaylist});
     }
   }, [userSpotifyPlaylist])
 

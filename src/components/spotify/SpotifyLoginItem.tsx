@@ -25,7 +25,7 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) =
 
   const spotifyPopupListener = useCallback((event: MessageEvent<SpotifyMessageEvent>) => {
     const {title, data} = event.data;
-    console.log(event.data);
+    
     if (title && title === 'spotify-popup') {
       setIsPopupOpen(false);
       window.removeEventListener('message', spotifyPopupListener);

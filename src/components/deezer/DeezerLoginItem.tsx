@@ -25,7 +25,7 @@ export const DeezerLoginItem = ({ updateDeezerConnection, isLogged }: Props) => 
 
   const deezerPopupListener = useCallback((event: MessageEvent<DeezerMessageEvent>) => {
     const {title, data} = event.data;
-    console.log(event.data);
+
     if (title && title === 'deezer-popup') {
       setIsPopupOpen(false);
       window.removeEventListener('message', deezerPopupListener);

@@ -30,9 +30,6 @@ export const fetchDeezerUserProfil = async () => {
   const token = store.getState().deezer.token['access_token'];
   const user = store.getState().deezer.user;
 
-  console.log({token});
-  console.log(store.getState().deezer);
-
   if (user) return user;
 
   const params: Record<string, string | null> = {
@@ -91,8 +88,6 @@ export const fetchDeezerTrackId = async (track: SpotifyTrack): Promise<SpotifyTr
   try {
       const response = await axios.get(track.deezerUrl, { params });
 
-      console.log({track, response});
-
       return {
         ...track,
         deezerId: response.data.id,
@@ -144,8 +139,6 @@ export const createDeezerPlaylist = async (playlistTitle: string): Promise<{id: 
 
   const data = await axios.get(url, { params })
 
-  console.log('add :', data);
-
   return data.data
 }
 
@@ -165,8 +158,6 @@ export const addTracksToDeezerPlaylist = async (playlistId: string, tracksId: st
   };
 
   const data = await axios.get(url, { params })
-
-  console.log({ data, tracksId, playlistId });
 
   return data
 }
@@ -205,8 +196,6 @@ export const deleteDeezerPlaylist = async (playlistId: string): Promise<AxiosRes
   };
 
   const data = await axios.delete(url, { params })
-
-  console.log('remove: ', { data });
 
   return data
 }

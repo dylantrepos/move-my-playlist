@@ -188,11 +188,9 @@ export const fetchSpotifyPlaylistTracks = async ({ pageParam }: FetchSpotifyTrac
   const headers: Record<string, string | null> = {
     "Authorization": `Bearer ${ token }`,
   }
-  console.log({ token });
 
   const { data } = await axios.get(pageParam, { headers })
   
-  console.log({ data });
   return data
 }
 

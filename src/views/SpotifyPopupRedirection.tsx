@@ -41,8 +41,6 @@ export default function SpotifyRedirection() {
   params.append("code", code);
   params.append("redirect_uri", import.meta.env.VITE_SPOTIFY_REDIRECT_URL);
   params.append("code_verifier", verifier!);
-
-  console.log({params});
   
   const { isPending, data, error } = useQuery({ 
     queryKey: ['spotify-user-token'], 
