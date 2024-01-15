@@ -1,5 +1,9 @@
 # Move My Playlist
 
+## [Try it here !](https://move-my-playlist.netlify.app/)
+
+Deezer & Spotify accounts needed in order to test the app.
+
 ## Overview
 
 Move My Playlist is a service that allows users to transfer their music playlists between different streaming platforms. This tool aims to make the process of switching between music services seamless, without losing your favorite playlists.
