@@ -4,13 +4,13 @@
   status = 200
 
 [[redirects]]
-  from = "/deezer-token/*"
+  from = "/deezer-token/"
   to = "https://connect.deezer.com/oauth/access_token.php/"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/spotify-token/*"
+  from = "/spotify-token/"
   to = "https://accounts.spotify.com/api/token/"
   status = 200
   force = true
