@@ -30,7 +30,7 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) =
       setIsPopupOpen(false);
       window.removeEventListener('message', spotifyPopupListener);
 
-      if (data) {
+      if (data && data?.access_token) {
         dispatch(setSpotifyToken(data));
         setSpotifyCookieToken(JSON.stringify(data), data['expires_in']);
         setIsLoggedInSpotify(true);
