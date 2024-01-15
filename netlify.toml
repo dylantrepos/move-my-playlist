@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/deezer-token"
+  to = "https://connect.deezer.com/oauth/access_token.php"
+  status = 200
+  force = true
