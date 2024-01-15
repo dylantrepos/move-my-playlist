@@ -5,13 +5,13 @@
 
 [[redirects]]
   from = "/deezer-token/*"
-  to = "https://connect.deezer.com/oauth/access_token.php/:splat"
+  to = "https://connect.deezer.com/oauth/access_token.php/"
   status = 200
   force = true
 
 [[redirects]]
   from = "/spotify-token/*"
-  to = "https://accounts.spotify.com/api/token/:splat"
+  to = "https://accounts.spotify.com/api/token/"
   status = 200
   force = true
 
