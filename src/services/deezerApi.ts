@@ -14,14 +14,14 @@ export const fetchDeezerToken = async (code: string): Promise<DeezerAccessToken>
     "output": "json",
     code
   };
- 
+
   console.log({ params });
   
   const { data } = await axios.get(
     '/deezer-token', 
     { params }
     );
-  console.log({ data });
+    console.log({ data });
     
   return data;
 };
