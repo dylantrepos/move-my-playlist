@@ -14,7 +14,7 @@ export const fetchDeezerToken = async (code: string): Promise<DeezerAccessToken>
     "output": "json",
     code
   };
-
+ 
   console.log({ params });
   
   const { data } = await axios.get(

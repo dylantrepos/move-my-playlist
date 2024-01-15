@@ -30,7 +30,8 @@ export const DeezerLoginItem = ({ updateDeezerConnection, isLogged }: Props) => 
       setIsPopupOpen(false);
       window.removeEventListener('message', deezerPopupListener);
 
-      if (data) {
+      console.log({data});
+      if (data && data?.access_token) {
         dispatch(setDeezerToken(data));
         setDeezerCookieToken(JSON.stringify(data), data.expires);
         setIsLoggedInDeezer(true);
