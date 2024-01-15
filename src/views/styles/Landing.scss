@@ -51,13 +51,9 @@
   text-align: center;
   
   @media (min-width: $l) {
-    margin-top: 10rem;
+    margin-top: calc(25dvh - var(--height-header)); 
     text-align: start;
   }
-
-  // @media (min-width: $xxl) {
-  //   margin-top: 10rem;
-  // }
 }
 
 .landing__description-container {

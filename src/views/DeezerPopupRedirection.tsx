@@ -26,7 +26,7 @@ export default function DeezerRedirection() {
           title: 'deezer-popup',
           data: error ?? token,
         }, '*');
-        // window.close();
+        window.close();
       }
   }, [isPending, token]);
 
