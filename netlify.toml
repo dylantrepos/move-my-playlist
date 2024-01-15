@@ -1,10 +1,28 @@
 [[redirects]]
-  from = "/deezer-token"
-  to = "https://connect.deezer.com/oauth/access_token.php"
-  status = 200
-  force = true
-
-[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+  [[redirects]]
+    from = "/deezer-token/*"
+    to = "https://connect.deezer.com/oauth/access_token.php/"
+    status = 200
+    force = true
+
+  [[redirects]]
+    from = "/spotify-token/*"
+    to = "https://accounts.spotify.com/api/token/"
+    status = 200
+    force = true
+
+  [[redirects]]
+    from = "/deezer-api/*"
+    to = "https://api.deezer.com/"
+    status = 200
+    force = true
+
+  [[redirects]]
+    from = "/spotify-api/*"
+    to = "https://api.spotify.com/v1/me/"
+    status = 200
+    force = true
