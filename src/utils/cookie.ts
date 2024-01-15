@@ -49,6 +49,7 @@ export const getCookieDeezerToken = async (): Promise<DeezerAccessToken | undefi
   } catch (err) {
       removeCookie('deezer-token');
       console.error(err);
+      return undefined;
   }
 }
 
