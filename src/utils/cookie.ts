@@ -38,32 +38,33 @@ document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
 };
 
 export const getCookieDeezerToken = async (): Promise<DeezerAccessToken | undefined> => {
-  const cookie = JSON.parse(getCookieString('deezer-token') || '{}');
-  
-  if (cookie['access_token']) {
-    try {
+  try {
+    const cookie = JSON.parse(getCookieString('deezer-token') || '{}');
+    if (cookie['access_token']) {
       const checkTokenDeezer = await checkValidDeezerToken(cookie['access_token']);
 
       if (checkTokenDeezer) return cookie;
       else removeCookie('deezer-token');
-    } catch (err) {
+    } 
+  } catch (err) {
+      removeCookie('deezer-token');
       console.error(err);
-    }
   }
 }
 
 export const getCookieSpotifyToken = async (): Promise<SpotifyAccessToken | undefined> => {
-  const cookie = JSON.parse(getCookieString('spotify-token') || '{}');
-  
-  if (cookie['access_token']) {
-    try {
-      const checkTokenSpotify = await checkValidSpotifyToken(cookie['access_token']);
+  try {
+      const cookie = JSON.parse(getCookieString('spotify-token') || '{}');
+      
+      if (cookie['access_token']) {
+        const checkTokenSpotify = await checkValidSpotifyToken(cookie['access_token']);
 
-      if (checkTokenSpotify) return cookie;
-      else removeCookie('spotify-token');
-    } catch (err) {
+        if (checkTokenSpotify) return cookie;
+        else removeCookie('spotify-token');
+      }
+  } catch (err) {
+      removeCookie('spotify-token');
       console.error(err);
-    }
   }
 }
 
