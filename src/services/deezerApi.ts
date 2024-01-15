@@ -18,7 +18,7 @@ export const fetchDeezerToken = async (code: string): Promise<DeezerAccessToken>
   console.log({ params });
   
   const { data } = await axios.get(
-    'https://connect.deezer.com/oauth/access_token.php', 
+    '/.netlify/functsions/deezer-token', 
     { params }
     );
     console.log({ data });
