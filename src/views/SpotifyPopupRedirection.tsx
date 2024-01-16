@@ -55,14 +55,13 @@ export default function SpotifyRedirection() {
           title: 'spotify-popup',
           data: data,
         }, '*');
-        window.close();
       } else {
         opener.postMessage({
           title: 'spotify-popup',
           data: error
         }, '*');
-        window.close();
       }
+      window.close();
     }
   }, [isPending, data])
 

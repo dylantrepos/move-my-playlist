@@ -22,6 +22,8 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) =
   const [isLoggedInSpotify, setIsLoggedInSpotify] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const dispatch = useDispatch();
+  const verifier = generateCodeVerifier(128);
+  const [challenge, setChallenge] = useState<string>();
 
   const spotifyPopupListener = useCallback((event: MessageEvent<SpotifyMessageEvent>) => {
     const {title, data} = event.data;
@@ -29,7 +31,6 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) =
     if (title && title === 'spotify-popup') {
       setIsPopupOpen(false);
       window.removeEventListener('message', spotifyPopupListener);
-
       if (data && data?.access_token) {
         dispatch(setSpotifyToken(data));
         setSpotifyCookieToken(JSON.stringify(data), data['expires_in']);
@@ -41,13 +42,11 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) =
   }, [])
 
   const connectToSpotifyAPI = async () => {
-    if (!isPopupOpen && !isLoggedInSpotify && !isLogged) {
-      const verifier = generateCodeVerifier(128);
-      const challenge = await generateCodeChallenge(verifier);
+    if (!isPopupOpen && !isLoggedInSpotify && !isLogged && challenge) {
 
       setIsPopupOpen(true);
   
-      localStorage.setItem("verifier", verifier);
+      
       
       const scope = [
         'playlist-read-private',
@@ -65,8 +64,11 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) =
       spotifyUserURL.searchParams.append("scope", scope.join(' '));
       spotifyUserURL.searchParams.append("code_challenge_method", "S256");
       spotifyUserURL.searchParams.append("code_challenge", challenge);
+
+      console.log('popup open spotify', spotifyUserURL.toString());
   
       const popup = openPopup(spotifyUserURL.toString());
+      setIsPopupOpen(true);
 
       const checkPopupClosed = setInterval(() => {
         if (!popup || popup.closed) {
@@ -81,8 +83,16 @@ export const SpotifyLoginItem = ({ updateSpotifyConnection, isLogged }: Props) =
     }
   }
 
-  useEffect(() => 
-    () => { window.removeEventListener('message', spotifyPopupListener) }
+  useEffect(() => {
+    const getVerifier = async () => {
+      const challengeCode = await generateCodeChallenge(verifier);
+      setChallenge(challengeCode);
+      localStorage.setItem("verifier", verifier);
+    }
+
+    getVerifier();
+    return window.removeEventListener('message', spotifyPopupListener);
+  }
   , [])
 
   return (

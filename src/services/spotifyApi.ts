@@ -204,7 +204,7 @@ export const checkValidSpotifyToken = async (token: string): Promise<boolean> =>
 
   try {
     await axios.get(
-      '/spotify-api', 
+      'https://api.spotify.com/v1/me/', 
       { headers }
     );
   
