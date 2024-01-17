@@ -8,6 +8,10 @@ Deezer & Spotify accounts needed in order to test the app.
 
 Move My Playlist is a service that allows users to transfer their music playlists between different streaming platforms. This tool aims to make the process of switching between music services seamless, without losing your favorite playlists.
 
+## Warning
+
+⚠️ Please note that the Move My Playlist app is **currently restricted to specific manually added accounts on the Spotify API Dashboard**, unless a quota extension request is accepted by the Spotify API Team. This extension enables connection for any user. To test the app, you'll need to fork the project and create a project on platforms like Spotify to access the necessary keys.
+
 ## Supported Platforms
 
 Currently, the service supports the following music streaming platforms:
