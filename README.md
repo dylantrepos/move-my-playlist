@@ -48,6 +48,9 @@ This project uses Vite with the official plugins `@vitejs/plugin-react` and `@vi
 
 To use Move My Playlist, users must have active accounts on both the source and destination platforms. This is necessary to access the platform-specific tokens, which are required for authenticating and interacting with the respective platform's API.
 
+[Spotify API Dashboard](https://developer.spotify.com/dashboard/create)
+[Deezer API Dashboard](https://developers.deezer.com/myapps/create)
+
 ## ESLint Configuration
 
 For production applications, we recommend enabling type aware lint rules. Configure the top-level `parserOptions` property like this:
